@@ -15,3 +15,14 @@ In addition, buyers often face the issue that stores lack suitable cosmetics for
 * user registration and login
 * product search
 * sorting products by choosen category in selected section
+
+*****************************************************
+
+### Technologies used in the project:
+* Angular
+* TypeScript
+* ESLint
+* Prettier
+* Husky
+* Jest
+* SCSS
