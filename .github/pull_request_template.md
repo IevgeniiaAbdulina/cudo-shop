@@ -15,3 +15,9 @@
 - [ ] Test Case
 - [ ] Documentation update
 - [ ] Other
+
+##### Self Check before Merge
+
+- [ ] Database migration is added or not needed
+- [ ] Documentation is updated/provided or not needed
+- [ ] Changes are tested locally3
