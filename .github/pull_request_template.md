@@ -2,7 +2,7 @@
 
 ### Sprint N
 
-#### 🟢 Pull Request Title According Naming Convention
+#### 🟢 Pull Request Title According Naming Convention (points +25/50)
 - Title should follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
 - Do not put WIP in title. Use [Draft PR](https://github.blog/2019-02-14-introducing-draft-pull-requests)
 - Consider to add `area:*` label(s)
@@ -36,6 +36,6 @@ _Describe the big picture of your changes here_
 
 ⚠️ _Please check all items below before review_ ⚠️
 
-- [x] Database migration is added or not needed
-- [x] Documentation is updated/provided or not needed
-- [ ] Changes are tested locally
+- [x] [+15/15] Database migration is added or not needed
+- [x] [+10/10] Documentation is updated/provided or not needed
+- [ ] [+0/25] Changes are tested locally
