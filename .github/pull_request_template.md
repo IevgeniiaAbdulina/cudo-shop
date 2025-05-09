@@ -26,7 +26,9 @@
 
 ##### 🔗 Related issue link
 
-_Describe the source of requirements, like related issue_ [link](https://github.com/)
+_Describe the source of requirements, like related issue links_
+- [x] (+25/25) [link_1](https://github.com/)
+- [ ] (+0/25) [link_2](https://github.com/)
 
 ##### 💡 Background and solution
 
@@ -36,6 +38,6 @@ _Describe the big picture of your changes here_
 
 ⚠️ _Please check all items below before review_ ⚠️
 
-- [x] [+15/15] Database migration is added or not needed
-- [x] [+10/10] Documentation is updated/provided or not needed
-- [ ] [+0/25] Changes are tested locally
+- [x] Database migration is added or not needed
+- [x] Documentation is updated/provided or not needed
+- [ ] Changes are tested locally
