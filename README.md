@@ -58,3 +58,8 @@ Creates the final build: places all prepared files into a separate folder (dist 
 
 **npm run test** <br>
 Used to automatically execute a set of tests written with the Jest test framefork.
+
+### Start the project
+**npm start** <br>
+Runs application in the development mode. <br>
+Page will reload when you will make a changes.
