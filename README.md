@@ -45,3 +45,16 @@ This command is usually a custom script designed to automatically fix code error
 
 **npm run format** <br>
 It is used for automatically applying formatting rules to the project's source code and ensuring a consistent coding style throughout the project.
+
+### Create a build directory
+
+**npm run build** <br>
+It is a command to create an optimized version of your project, ready for publication or deployment.<br>
+Compiles the source code by transforming source files into optimized and production-ready files. <br> 
+Reduces file size by removing unnecessary spaces, comments, and applying other optimization techniques to improve website loading speed. <br>
+Creates the final build: places all prepared files into a separate folder (dist or build), ready for deployment on a server or hosting environment. <br>
+
+### Run tests
+
+**npm run test** <br>
+Used to automatically execute a set of tests written with the Jest test framefork.
