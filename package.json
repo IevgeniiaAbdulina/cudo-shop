@@ -1,6 +1,6 @@
 {
   "name": "cudo-shop",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cudo Shop eCommerce Angular application",
   "contributors": [
     "Olga Rekun",
@@ -12,7 +12,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:prod": "ng build --configuration=production",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "jest",
     "test-coverage": "jest --coverage",
