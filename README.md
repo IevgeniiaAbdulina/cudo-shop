@@ -26,3 +26,22 @@ In addition, buyers often face the issue that stores lack suitable cosmetics for
 * Husky
 * Jest
 * SCSS
+
+******************************************************
+
+### Use prettier
+
+**npm run prettier** <br>
+This command is used to bring the code to a unified style standard, which improves readability and simplifies project maintenance.
+
+### Use ESLint
+
+**npm run lint** <br>
+The script is used to test TypeScript code.
+Used to run a linter on your project's codebase, ensuring code quality and adherence to coding standards.
+
+**npm run lint:fix** <br>
+This command is usually a custom script designed to automatically fix code errors using a linter.
+
+**npm run format** <br>
+It is used for automatically applying formatting rules to the project's source code and ensuring a consistent coding style throughout the project.
