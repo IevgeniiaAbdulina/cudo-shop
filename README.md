@@ -61,5 +61,5 @@ Creates the final build: places all prepared files into a separate folder (dist 
 
 ### Run tests
 
-```npm run test*``` <br>
+```npm run test``` <br>
 Used to automatically execute a set of tests written with the Jest test framefork.
