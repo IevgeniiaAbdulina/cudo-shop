@@ -28,27 +28,32 @@ In addition, buyers often face the issue that stores lack suitable cosmetics for
 * SCSS
 
 ******************************************************
+### Start the project
+```npm start``` <br>
+Runs application in the development mode. <br>
+Page will reload when you will make a changes.
+
 
 ### Use prettier
 
-**npm run prettier** <br>
+```npm run format``` <br>
 This command is used to bring the code to a unified style standard, which improves readability and simplifies project maintenance.
 
 ### Use ESLint
 
-**npm run lint** <br>
+```npm run lint``` <br>
 The script is used to test TypeScript code.
 Used to run a linter on your project's codebase, ensuring code quality and adherence to coding standards.
 
-**npm run lint:fix** <br>
+```npm run lint:fix``` <br>
 This command is usually a custom script designed to automatically fix code errors using a linter.
 
-**npm run format** <br>
+```npm run prepare``` <br>
 It is used for automatically applying formatting rules to the project's source code and ensuring a consistent coding style throughout the project.
 
 ### Create a build directory
 
-**npm run build** <br>
+```npm run build``` <br>
 It is a command to create an optimized version of your project, ready for publication or deployment.<br>
 Compiles the source code by transforming source files into optimized and production-ready files. <br> 
 Reduces file size by removing unnecessary spaces, comments, and applying other optimization techniques to improve website loading speed. <br>
@@ -56,10 +61,5 @@ Creates the final build: places all prepared files into a separate folder (dist 
 
 ### Run tests
 
-**npm run test** <br>
+```npm run test*``` <br>
 Used to automatically execute a set of tests written with the Jest test framefork.
-
-### Start the project
-**npm start** <br>
-Runs application in the development mode. <br>
-Page will reload when you will make a changes.
