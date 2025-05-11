@@ -48,8 +48,6 @@ Used to run a linter on your project's codebase, ensuring code quality and adher
 ```npm run lint:fix``` <br>
 This command is usually a custom script designed to automatically fix code errors using a linter.
 
-```npm run prepare``` <br>
-It is used for automatically applying formatting rules to the project's source code and ensuring a consistent coding style throughout the project.
 
 ### Create a build directory
 
