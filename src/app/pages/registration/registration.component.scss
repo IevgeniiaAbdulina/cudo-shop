@@ -1,0 +1,28 @@
+.field {
+  display: flex;
+  justify-content: space-between;
+  max-width: 350px;
+  min-height: 2.5rem;
+}
+
+.input-container {
+  max-width: 10rem;
+}
+
+input {
+  outline: 1px solid #ccc;
+  border: 0;
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid indianred;
+  }
+
+  &:focus {
+    outline: 1px solid #007bff;
+  }
+}
+
+.errorLine {
+  color: indianred;
+}
