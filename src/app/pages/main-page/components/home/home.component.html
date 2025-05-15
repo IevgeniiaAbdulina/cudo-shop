@@ -1,0 +1,38 @@
+<main class="main">
+  <div class="content">
+    <h1>Hello, {{ title }}</h1>
+    <p>Congratulations! Your app is running. 🎉</p>
+    <article class="content__hero">
+      <button (click)="selectCatalog('books')">Books</button>
+      <button (click)="selectCatalog('cosmetics')">Cosmetics</button>
+    </article>
+    <article class="content__categories">
+      <header>
+        <h2>Books</h2>
+      </header>
+      <section>
+        <ul>
+          @for (book of books; track book.id) {
+            <li>
+              {{ book.title }}
+            </li>
+          }
+        </ul>
+      </section>
+    </article>
+    <article class="content__categories">
+      <header>
+        <h2>Cosmetics</h2>
+      </header>
+      <section>
+        <ul>
+          @for (cosmetic of cosmetics; track cosmetic.id) {
+            <li>
+              {{ cosmetic.title }}
+            </li>
+          }
+        </ul>
+      </section>
+    </article>
+  </div>
+</main>
