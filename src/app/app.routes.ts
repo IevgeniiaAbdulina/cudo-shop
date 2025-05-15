@@ -16,8 +16,4 @@ export const routes: Routes = [
     path: "sign-up",
     component: SignUpPageComponent,
   },
-  {
-    path: "**",
-    component: PageNotFoundComponent,
-  },
 ];
