@@ -1,6 +1,10 @@
+@import "../../../abstract/constant";
+@import "../../../abstract/mixins";
+@import "../../../abstract/placeholders";
+
 header{
-    background-color: #1A256C;
-    color: #F07800;
+    background-color: $color-primary;
+    color: $color-additional;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -8,25 +12,33 @@ header{
     font-size: 1.6rem;
 }
 
-header a{
-    color: #F07800;
+.header__name, .header__name a{
+    color: $color-additional;
     text-decoration: none;
     font-weight: bold;
+    font-size: 2.6rem;
+    line-height: 2.2rem;
+    @extend %transition;
+}
+
+.header__name:hover, .header__name a:hover{
+  color: $color-button-hover;
 }
 
 .header__search{
   display: flex;
   align-items: center;
-  border: 2px solid #F07800;
+  border: 2px solid $color-additional;
   width: 50%;
   border-radius: 1.0rem;
   padding: 0.5rem 1rem 0.5rem 0.5rem; 
-  background-color: white;
+  background-color: $color-input-search;
 }
 
 input[type=search] {
   padding: 5px;
-  width: 50%;
+  width: 100%;
+  background-color: $color-input-search;
   border: none;
   border-radius: 1.0rem;
   outline: none;
@@ -40,4 +52,19 @@ input[type=search] {
   width: 1.5rem;
   padding: 1rem 1rem 0 0;
   cursor: pointer;
+}
+
+.header__buttons{
+  display: flex;
+  column-gap: 10px;
+}
+
+.header__button{
+  background: $color-additional;
+  border-radius: 10px;
+  @extend %transition;
+  &:hover{
+    background: $color-button-hover;
+    box-shadow: 0 1px 3px $color-input-search;
+  }
 }
