@@ -1,14 +1,43 @@
-.header{
+header{
     background-color: #1A256C;
     color: #F07800;
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 20px 30px;
     font-size: 1.6rem;
 }
 
-.header a{
+header a{
     color: #F07800;
     text-decoration: none;
     font-weight: bold;
+}
+
+.header__search{
+  display: flex;
+  align-items: center;
+  border: 2px solid #F07800;
+  width: 50%;
+  border-radius: 1.0rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem; 
+  background-color: white;
+}
+
+input[type=search] {
+  padding: 5px;
+  width: 50%;
+  border: none;
+  border-radius: 1.0rem;
+  outline: none;
+
+}
+
+.header-search{
+  background: url('../../../../../res/search.svg');
+  background-size: cover;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 1rem 1rem 0 0;
+  cursor: pointer;
 }

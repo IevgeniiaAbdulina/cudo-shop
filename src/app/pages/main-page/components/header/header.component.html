@@ -1,1 +1,13 @@
-<p class="header">header works!</p>
+<header>
+  <div class="header__name">
+    <a href="#"> Cudo-shop </a>
+  </div>
+  <div class="header__search">
+    <svg class="header-search"></svg>
+    <input type="search" name="search" id="search" placeholder="Search..." />
+  </div>
+  <div class="header__buttons">
+    <app-button label="Sign In" (buttonClicked)="buttonClickedSignIn()" />
+    <app-button label="Sign Up" (buttonClicked)="buttonClickedSignUp()" />
+  </div>
+</header>

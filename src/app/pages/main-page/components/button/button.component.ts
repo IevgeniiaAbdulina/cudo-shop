@@ -1,12 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output } from "@angular/core";
 
 @Component({
   selector: "app-button",
   imports: [],
-  template: `
-  <button (click)="buttonClicked.emit()">
-    {{label() }}
-  </button>`,
+  templateUrl: "./button.component.html",
   styleUrl: "./button.component.scss"
 })
 export class ButtonComponent {
