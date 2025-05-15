@@ -1,0 +1,8 @@
+<h2>Cosmetics Catalog</h2>
+<ul>
+  @for (cosmetic of cosmetics; track cosmetic.id) {
+    <li>
+      {{ cosmetic.title }}
+    </li>
+  }
+</ul>
