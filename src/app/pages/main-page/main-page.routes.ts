@@ -1,35 +1,35 @@
-import { Routes } from "@angular/router";
-import { MainPageComponent } from "./main-page.component";
-import { HomeComponent } from "./components/home/home.component";
-import { CatalogBooksComponent } from "./components/catalog-books/catalog-books.component";
-import { CatalogCosmeticsComponent } from "./components/catalog-cosmetics/catalog-cosmetics.component";
-import { PageNotFoundComponent } from "../page-not-found/page-not-found.component";
+import { Routes } from '@angular/router';
+import { MainPageComponent } from './main-page.component';
+import { HomeComponent } from './components/home/home.component';
+import { CatalogBooksComponent } from './components/catalog-books/catalog-books.component';
+import { CatalogCosmeticsComponent } from './components/catalog-cosmetics/catalog-cosmetics.component';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 
 export const mainRoutes: Routes = [
   {
-    path: "",
-    redirectTo: "/home",
-    pathMatch: "full",
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
   },
   {
-    path: "",
-    title: "Cudo Shop",
+    path: '',
+    title: 'Cudo Shop',
     component: MainPageComponent,
     children: [
       {
-        path: "home",
+        path: 'home',
         component: HomeComponent,
       },
       {
-        path: "books",
+        path: 'books',
         component: CatalogBooksComponent,
       },
       {
-        path: "cosmetics",
+        path: 'cosmetics',
         component: CatalogCosmeticsComponent,
       },
       {
-        path: "**",
+        path: '**',
         component: PageNotFoundComponent,
       },
     ],
