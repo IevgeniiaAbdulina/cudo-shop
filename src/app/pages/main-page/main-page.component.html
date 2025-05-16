@@ -1,8 +1,8 @@
 <app-header (btnSignInClicked)="goToSignInPage()" (btnSignUpClicked)="goToSignUpPage()" />
 
 <button (click)="navigateToRoute('home')">Home</button>
-<button (click)="navigateToRoute('.')">Go Back</button>
 
-<router-outlet [routerOutletData]="{ books: books(), cosmetics: cosmetics() }" />
-
+<main class="main">
+  <router-outlet [routerOutletData]="{ books: books(), cosmetics: cosmetics() }" />
+</main>
 <app-footer />

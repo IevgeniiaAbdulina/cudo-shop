@@ -2,6 +2,7 @@ import { Component, inject, Signal } from '@angular/core';
 import { ROUTER_OUTLET_DATA } from '@angular/router';
 import { Book } from '../../../../shared/interfaces/book';
 import { Cosmetics } from '../../../../shared/interfaces/cosmetics';
+import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 
 @Component({
   selector: 'app-catalog-cosmetics',
@@ -10,10 +11,15 @@ import { Cosmetics } from '../../../../shared/interfaces/cosmetics';
   styleUrl: './catalog-cosmetics.component.scss',
 })
 export class CatalogCosmeticsComponent {
+  private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
   private data = inject(ROUTER_OUTLET_DATA) as Signal<{
     books: Book[];
     cosmetics: Cosmetics[];
   }>;
 
   public cosmetics = this.data().cosmetics;
+
+  public goBack(): void {
+    this.navigateToSpecificRouteService.setRoute('.');
+  }
 }
