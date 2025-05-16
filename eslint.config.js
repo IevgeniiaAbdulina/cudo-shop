@@ -78,7 +78,7 @@ export default tseslint.config(
       "prettier/prettier": ["error", {}, { "usePrettierrc": true }],
       "quotes": [
         "error",
-        "double",
+        "single",
         { avoidEscape: true }
       ],
       "semi": ["error", "always"],
