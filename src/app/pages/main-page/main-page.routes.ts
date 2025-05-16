@@ -3,7 +3,7 @@ import { MainPageComponent } from './main-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { CatalogBooksComponent } from './components/catalog-books/catalog-books.component';
 import { CatalogCosmeticsComponent } from './components/catalog-cosmetics/catalog-cosmetics.component';
-import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const mainRoutes: Routes = [
   {
