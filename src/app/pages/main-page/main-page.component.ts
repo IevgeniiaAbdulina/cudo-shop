@@ -37,6 +37,15 @@ export class MainPageComponent implements OnInit {
     this.router.navigate(['/sign-up'], { relativeTo: this.route });
   }
 
+  public userLoggedOut(): void {
+    console.log('user logged out');
+    this.router.navigate(['/home'], { relativeTo: this.route });
+  }
+
+  public goToCart(): void {
+    this.router.navigate(['/cart'], { relativeTo: this.route });
+  }
+
   public books = signal<Book[]>([
     {
       id: 1,

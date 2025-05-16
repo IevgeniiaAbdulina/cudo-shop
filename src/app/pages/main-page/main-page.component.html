@@ -1,4 +1,9 @@
-<app-header (btnSignInClicked)="goToSignInPage()" (btnSignUpClicked)="goToSignUpPage()" />
+<app-header
+  (buttonClickedLogIn)="goToSignInPage()"
+  (buttonClickedRegister)="goToSignUpPage()"
+  (buttonClickedLogOut)="userLoggedOut()"
+  (buttonClickedCart)="goToCart()"
+/>
 
 <button (click)="navigateToRoute('home')">Home</button>
 
