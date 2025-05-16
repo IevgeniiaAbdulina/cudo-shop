@@ -9,10 +9,16 @@ export const routes: Routes = [
   },
   {
     path: 'sign-in',
+    pathMatch: 'full',
     component: SignInPageComponent,
   },
   {
     path: 'sign-up',
+    pathMatch: 'full',
     component: SignUpPageComponent,
+  },
+  {
+    path: '**',
+    redirectTo: '/404',
   },
 ];

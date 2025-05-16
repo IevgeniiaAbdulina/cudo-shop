@@ -29,7 +29,7 @@ export const mainRoutes: Routes = [
         component: CatalogCosmeticsComponent,
       },
       {
-        path: '**',
+        path: '404',
         component: PageNotFoundComponent,
       },
     ],
