@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NavigateToSpecificRouteService } from '../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 
 @Component({
   selector: 'app-page-not-found',
