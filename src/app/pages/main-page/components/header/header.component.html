@@ -7,7 +7,16 @@
     <input type="search" name="search" id="search" placeholder="Search..." />
   </div>
   <div class="header__buttons">
-    <app-button label="Login" (buttonClicked)="buttonClickedSignIn()" class="header__button" />
-    <app-button label="Register" (buttonClicked)="buttonClickedSignUp()" class="header__button" />
+    @if (!isLogin) {
+      <app-button
+        label="Register"
+        (buttonClicked)="buttonClickedRegister()"
+        class="header__button"
+      />
+      <app-button label="Login" (buttonClicked)="buttonClickedLogIn()" class="header__button" />
+    } @else {
+      <app-button label="Cart" (buttonClicked)="buttonClickedCart()" class="header__button" />
+      <app-button label="Logout" (buttonClicked)="buttonClickedLogOut()" class="header__button" />
+    }
   </div>
 </header>

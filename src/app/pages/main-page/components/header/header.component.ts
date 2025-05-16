@@ -8,11 +8,17 @@ import { ButtonComponent } from '../button/button.component';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  protected buttonClickedSignIn() {
-    console.log('click Sign In');
-  }
-  protected buttonClickedSignUp() {
-    console.log('click Sign Up');
-  }
   public isLogin = false;
+  protected buttonClickedLogIn() {
+    console.log('click Login');
+  }
+  protected buttonClickedLogOut() {
+    console.log('click Logout');
+  }
+  protected buttonClickedRegister() {
+    console.log('click Register');
+  }
+  protected buttonClickedCart() {
+    console.log('click Cart');
+  }
 }
