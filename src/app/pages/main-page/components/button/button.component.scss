@@ -1,5 +1,5 @@
-@import "../../../abstract/constant";
-@import "../../../abstract/placeholders";
+@import '../../../../../style/abstract/constant';
+@import '../../../../../style/abstract/placeholders';
 
 button {
   padding: 0.5rem 1.5rem;
@@ -14,7 +14,7 @@ button {
   cursor: pointer;
   background: transparent;
   @extend %transition;
-  &:hover{
+  &:hover {
     color: $color-primary;
   }
 }

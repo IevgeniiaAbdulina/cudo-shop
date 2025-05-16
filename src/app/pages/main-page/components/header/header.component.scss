@@ -1,51 +1,52 @@
-@import "../../../abstract/constant";
-@import "../../../abstract/mixins";
-@import "../../../abstract/placeholders";
+@import '../../../../../style/abstract/constant';
+@import '../../../../../style/abstract/mixins';
+@import '../../../../../style/abstract/placeholders';
 
-header{
-    background-color: $color-primary;
-    color: $color-additional;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 30px;
-    font-size: 1.6rem;
+header {
+  background-color: $color-primary;
+  color: $color-additional;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  font-size: 1.6rem;
 }
 
-.header__name, .header__name a{
-    color: $color-additional;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 2.6rem;
-    line-height: 2.2rem;
-    @extend %transition;
+.header__name,
+.header__name a {
+  color: $color-additional;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 2.6rem;
+  line-height: 2.2rem;
+  @extend %transition;
 }
 
-.header__name:hover, .header__name a:hover{
+.header__name:hover,
+.header__name a:hover {
   color: $color-button-hover;
 }
 
-.header__search{
+.header__search {
   display: flex;
   align-items: center;
   border: 2px solid $color-additional;
   width: 50%;
-  border-radius: 1.0rem;
-  padding: 0.5rem 1rem 0.5rem 0.5rem; 
+  border-radius: 1rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
   background-color: $color-input-search;
 }
 
-input[type=search] {
+input[type='search'] {
   padding: 5px;
   width: 100%;
   background-color: $color-input-search;
   border: none;
-  border-radius: 1.0rem;
+  border-radius: 1rem;
   outline: none;
-
 }
 
-.header-search{
+.header-search {
   background: url('../../../../../res/search.svg');
   background-size: cover;
   height: 1.5rem;
@@ -54,16 +55,16 @@ input[type=search] {
   cursor: pointer;
 }
 
-.header__buttons{
+.header__buttons {
   display: flex;
   column-gap: 10px;
 }
 
-.header__button{
+.header__button {
   background: $color-additional;
   border-radius: 10px;
   @extend %transition;
-  &:hover{
+  &:hover {
     background: $color-button-hover;
     box-shadow: 0 1px 3px $color-input-search;
   }
