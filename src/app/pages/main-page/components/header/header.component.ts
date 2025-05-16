@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 
 @Component({
@@ -9,16 +9,8 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class HeaderComponent {
   public isLogin = false;
-  protected buttonClickedLogIn() {
-    console.log('click Login');
-  }
-  protected buttonClickedLogOut() {
-    console.log('click Logout');
-  }
-  protected buttonClickedRegister() {
-    console.log('click Register');
-  }
-  protected buttonClickedCart() {
-    console.log('click Cart');
-  }
+  public buttonClickedLogIn = output();
+  public buttonClickedLogOut = output();
+  protected buttonClickedRegister = output();
+  protected buttonClickedCart = output();
 }
