@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CatalogCosmeticsComponent } from "./catalog-cosmetics.component";
+import { CatalogCosmeticsComponent } from './catalog-cosmetics.component';
 
-describe("CatalogCosmeticsComponent", () => {
+describe('CatalogCosmeticsComponent', () => {
   let component: CatalogCosmeticsComponent;
   let fixture: ComponentFixture<CatalogCosmeticsComponent>;
 
@@ -16,7 +16,7 @@ describe("CatalogCosmeticsComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

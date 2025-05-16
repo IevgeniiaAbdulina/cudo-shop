@@ -1,8 +1,8 @@
-import { TestBed } from "@angular/core/testing";
+import { TestBed } from '@angular/core/testing';
 
-import { NavigateToSpecificRouteService } from "./navigate-to-specific-route.service";
+import { NavigateToSpecificRouteService } from './navigate-to-specific-route.service';
 
-describe("NavigateToSpecificRouteService", () => {
+describe('NavigateToSpecificRouteService', () => {
   let service: NavigateToSpecificRouteService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe("NavigateToSpecificRouteService", () => {
     service = TestBed.inject(NavigateToSpecificRouteService);
   });
 
-  it("should be created", () => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
   });
 });
