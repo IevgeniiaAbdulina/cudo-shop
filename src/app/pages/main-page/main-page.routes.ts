@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainPageComponent } from './main-page.component';
 import { HomeComponent } from './components/home/home.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const mainRoutes: Routes = [
   {
@@ -27,7 +26,7 @@ export const mainRoutes: Routes = [
       },
       {
         path: '404',
-        component: PageNotFoundComponent,
+        loadComponent: () => import('../page-not-found/page-not-found.component').then((c) => c.PageNotFoundComponent),
       },
     ],
   },
