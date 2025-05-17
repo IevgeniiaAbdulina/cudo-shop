@@ -1,6 +1,10 @@
 <header>
   <div class="header__name">
-    <a href="#"> Cudo-shop </a>
+    <app-button
+      label="Cudo-shop"
+      (buttonClicked)="buttonClickedLogOut.emit()"
+      class="header__name"
+    />
   </div>
   <div class="header__search">
     <svg class="header-search"></svg>
@@ -14,7 +18,7 @@
         class="header__button"
       />
       <app-button
-        label="Login"
+        label="Log in"
         (buttonClicked)="buttonClickedLogIn.emit()"
         class="header__button"
       />

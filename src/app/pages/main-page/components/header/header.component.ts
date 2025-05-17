@@ -13,4 +13,5 @@ export class HeaderComponent {
   public buttonClickedLogOut = output();
   protected buttonClickedRegister = output();
   protected buttonClickedCart = output();
+  public buttonClickedGoToHome = output();
 }

@@ -12,19 +12,14 @@ header {
   font-size: 1.6rem;
 }
 
-.header__name,
-.header__name a {
+.header__name {
   color: $color-additional;
-  text-decoration: none;
   font-weight: bold;
   font-size: 2.6rem;
-  line-height: 2.2rem;
   @extend %transition;
-}
-
-.header__name:hover,
-.header__name a:hover {
-  color: $color-button-hover;
+  &:hover {
+    color: $color-button-hover;
+  }
 }
 
 .header__search {
@@ -61,8 +56,10 @@ input[type='search'] {
 }
 
 .header__button {
+  color: $color-input-search;
   background: $color-additional;
   border-radius: 10px;
+  font-weight: 600;
   @extend %transition;
   &:hover {
     background: $color-button-hover;

@@ -4,14 +4,12 @@
 button {
   padding: 0.5rem 1.5rem;
   border-radius: 10px;
-  font-weight: 600;
-  font-size: 1.6rem;
+  font-weight: inherit;
+  font-size: inherit;
   line-height: 2.2rem;
-}
-.button {
-  color: $color-input-search;
   border: solid 1px transparent;
   cursor: pointer;
   background: transparent;
   @extend %transition;
+  color: currentColor;
 }
