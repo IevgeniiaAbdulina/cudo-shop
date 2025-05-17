@@ -30,20 +30,20 @@ export class MainPageComponent implements OnInit {
   }
 
   public goToSignInPage() {
-    this.router.navigate(['/sign-in'], { relativeTo: this.route });
+    this.navigateToRoute('/sign-in');
   }
 
   public goToSignUpPage() {
-    this.router.navigate(['/sign-up'], { relativeTo: this.route });
+    this.navigateToRoute('/registration');
   }
 
   public userLoggedOut(): void {
     console.log('user logged out');
-    this.router.navigate(['/home'], { relativeTo: this.route });
+    this.navigateToRoute('/home');
   }
 
   public goToCart(): void {
-    this.router.navigate(['/cart'], { relativeTo: this.route });
+    this.navigateToRoute('/cart');
   }
 
   public books = signal<Book[]>([
