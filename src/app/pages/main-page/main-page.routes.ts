@@ -19,7 +19,7 @@ export const mainRoutes: Routes = [
       },
       {
         path: 'cosmetics',
-        loadComponent: () => import('./components/catalog-cosmetics/catalog-cosmetics.component').then((c) => c.CatalogCosmeticsComponent),
+        loadChildren: () => import('../cosmetics/cosmetics-page.routes').then((c) => c.cosmeticsRoutes),
       },
       {
         path: 'cart',
