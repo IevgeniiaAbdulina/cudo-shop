@@ -1,16 +1,9 @@
 import { Routes } from '@angular/router';
 import { MainPageComponent } from './main-page.component';
 import { HomeComponent } from './components/home/home.component';
-import { CatalogBooksComponent } from './components/catalog-books/catalog-books.component';
-import { CatalogCosmeticsComponent } from './components/catalog-cosmetics/catalog-cosmetics.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const mainRoutes: Routes = [
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
   {
     path: '',
     title: 'Cudo Shop',
@@ -22,11 +15,15 @@ export const mainRoutes: Routes = [
       },
       {
         path: 'books',
-        component: CatalogBooksComponent,
+        loadChildren: () => import('../books/books-page.routes').then((c) => c.booksRoutes),
       },
       {
         path: 'cosmetics',
-        component: CatalogCosmeticsComponent,
+        loadComponent: () => import('./components/catalog-cosmetics/catalog-cosmetics.component').then((c) => c.CatalogCosmeticsComponent),
+      },
+      {
+        path: 'cart',
+        loadComponent: () => import('./components/cart/cart.component').then((c) => c.CartComponent),
       },
       {
         path: '404',

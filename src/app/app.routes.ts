@@ -5,6 +5,11 @@ import { RegistrationComponent } from './pages/registration/registration.compone
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     loadChildren: () => import('./pages/main-page/main-page.routes').then((m) => m.mainRoutes),
   },
   {
