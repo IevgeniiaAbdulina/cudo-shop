@@ -23,7 +23,7 @@ export const mainRoutes: Routes = [
       },
       {
         path: 'cart',
-        loadComponent: () => import('./components/cart/cart.component').then((c) => c.CartComponent),
+        loadComponent: () => import('../cart-page/cart-page.component').then((c) => c.CartPageComponent),
       },
       {
         path: '404',
