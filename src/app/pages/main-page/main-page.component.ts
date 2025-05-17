@@ -29,11 +29,11 @@ export class MainPageComponent implements OnInit {
     this.router.navigate([route], { relativeTo: this.route });
   }
 
-  public goToSignInPage() {
+  public goToLogInPage() {
     this.navigateToRoute('/sign-in');
   }
 
-  public goToSignUpPage() {
+  public goToRegisterPage() {
     this.navigateToRoute('/registration');
   }
 
