@@ -1,11 +1,10 @@
 <header>
-  <div class="header__name">
-    <app-button
-      label="Cudo-shop"
-      (buttonClicked)="buttonClickedLogOut.emit()"
-      class="header__name"
-    />
-  </div>
+  <app-button
+    label="Cudo-shop"
+    (buttonClicked)="buttonClickedGoToHome.emit()"
+    class="header__name"
+  />
+
   <div class="header__search">
     <svg class="header-search"></svg>
     <input type="search" name="search" id="search" placeholder="Search..." />
