@@ -30,7 +30,7 @@ export class MainPageComponent implements OnInit {
   }
 
   public goToLogInPage() {
-    this.navigateToRoute('/sign-in');
+    this.navigateToRoute('/login');
   }
 
   public goToRegisterPage() {

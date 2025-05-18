@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { SignInPageComponent } from './pages/sign-in-page/sign-in-page.component';
 import { RegistrationComponent } from './pages/registration/registration.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 export const routes: Routes = [
   {
@@ -13,9 +13,9 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/main-page/main-page.routes').then((m) => m.mainRoutes),
   },
   {
-    path: 'sign-in',
+    path: 'login',
     pathMatch: 'full',
-    component: SignInPageComponent,
+    component: LoginPageComponent,
   },
   {
     path: 'registration',
