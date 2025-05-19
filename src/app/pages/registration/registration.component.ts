@@ -14,6 +14,7 @@ import ERROR_MSG from '../../shared/constants/error-message';
 export class RegistrationComponent implements OnInit {
   public errMsg = ERROR_MSG;
   public registrationForm!: FormGroup;
+  public passwordFieldType: string = 'password';
 
   constructor(private fb: FormBuilder) {}
 
@@ -51,5 +52,9 @@ export class RegistrationComponent implements OnInit {
     }
 
     return error;
+  }
+
+  public togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 }

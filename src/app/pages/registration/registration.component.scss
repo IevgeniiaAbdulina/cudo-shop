@@ -27,11 +27,13 @@ label {
   display: flex;
   flex-direction: column;
   max-width: 12.5rem;
+  position: relative;
 }
 
 input {
   outline: 1px solid #ccc;
   border: 0;
+  padding-right: 2rem;
 
   &.ng-invalid.ng-touched,
   &.ng-invalid.ng-touched {
@@ -41,6 +43,16 @@ input {
   &:focus {
     outline: 1px solid #007bff;
   }
+}
+
+button {
+  position: absolute;
+  right: 0.5rem;
+  top: -0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .error-line {
