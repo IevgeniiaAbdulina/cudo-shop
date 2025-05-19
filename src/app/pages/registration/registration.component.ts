@@ -12,12 +12,12 @@ import ERROR_MSG from '../../shared/constants/error-message';
   styleUrl: './registration.component.scss',
 })
 export class RegistrationComponent implements OnInit {
-  errMsg = ERROR_MSG;
-  registrationForm!: FormGroup;
+  public errMsg = ERROR_MSG;
+  public registrationForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.registrationForm = this.fb.group({
       email: ['', [Validators.required, Validators.pattern(EMAIL_REGEX)]],
       password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
@@ -33,14 +33,14 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.registrationForm.valid) {
       // Handle form submission
       console.log(this.registrationForm.value);
     }
   }
 
-  getFieldError(fieldName: string) {
+  public getFieldError(fieldName: string) {
     let error = '';
     let field = this.registrationForm.get(fieldName);
     if (!field) {
