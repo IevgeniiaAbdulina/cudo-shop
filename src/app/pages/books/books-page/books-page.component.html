@@ -1,0 +1,9 @@
+<h2>Books Catalog</h2>
+<button (click)="goBack()">Go Back</button>
+<ul>
+  @for (book of books; track book.id) {
+    <li>
+      {{ book.title }}
+    </li>
+  }
+</ul>
