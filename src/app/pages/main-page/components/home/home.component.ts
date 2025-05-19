@@ -1,0 +1,27 @@
+import { Component, inject, Signal } from '@angular/core';
+import { ROUTER_OUTLET_DATA } from '@angular/router';
+import { Book } from '../../../../shared/interfaces/book';
+import { Cosmetics } from '../../../../shared/interfaces/cosmetics';
+import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+
+@Component({
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
+})
+export class HomeComponent {
+  private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
+  private data = inject(ROUTER_OUTLET_DATA) as Signal<{
+    books: Book[];
+    cosmetics: Cosmetics[];
+  }>;
+
+  public title: string = 'Home page';
+  public books = this.data().books;
+  public cosmetics = this.data().cosmetics;
+
+  public selectCatalog(catalogName: string) {
+    this.navigateToSpecificRouteService.setRoute(catalogName);
+  }
+}
