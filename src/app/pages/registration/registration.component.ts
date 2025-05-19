@@ -16,6 +16,7 @@ export class RegistrationComponent implements OnInit {
   public errMsg = ERROR_MSG;
   public registrationForm!: FormGroup;
   public passwordFieldType: string = 'password';
+  public isPasswordVisible: boolean = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -56,6 +57,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   public togglePasswordVisibility(): void {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.isPasswordVisible = !this.isPasswordVisible;
+    this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
   }
 }
