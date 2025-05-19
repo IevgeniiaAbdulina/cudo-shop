@@ -11,6 +11,6 @@ export class PageNotFoundComponent {
   private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
 
   public backToHomepage(): void {
-    this.navigateToSpecificRouteService.setRoute('home');
+    this.navigateToSpecificRouteService.setRoute('main');
   }
 }

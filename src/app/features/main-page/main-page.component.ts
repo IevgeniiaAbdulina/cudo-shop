@@ -39,7 +39,7 @@ export class MainPageComponent implements OnInit {
 
   public userLoggedOut(): void {
     console.log('user logged out');
-    this.navigateToRoute('/home');
+    this.navigateToRoute('/main');
   }
 
   public goToCart(): void {

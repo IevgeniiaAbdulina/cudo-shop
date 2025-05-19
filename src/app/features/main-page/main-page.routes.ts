@@ -9,7 +9,7 @@ export const mainRoutes: Routes = [
     component: MainPageComponent,
     children: [
       {
-        path: 'home',
+        path: 'main',
         component: HomeComponent,
       },
       {
