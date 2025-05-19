@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { RegistrationComponent } from './pages/registration/registration.component';
-import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { RegistrationComponent } from './features/auth/registration/registration.component';
+import { LoginPageComponent } from './features/auth/login-page/login-page.component';
 
 export const routes: Routes = [
   {
@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    loadChildren: () => import('./pages/main-page/main-page.routes').then((m) => m.mainRoutes),
+    loadChildren: () => import('./features/main-page/main-page.routes').then((m) => m.mainRoutes),
   },
   {
     path: 'login',
