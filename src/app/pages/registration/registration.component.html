@@ -50,8 +50,8 @@
     <div class="input-container input-container_bod">
       <input id="dob" type="date" formControlName="dob" />
       <div *ngIf="registrationForm.get('dob')?.invalid && registrationForm.get('dob')?.touched">
-        <span class="error-line" *ngIf="getFieldError('dob') === 'required'">{{ `last name ${errMsg.REQUIRED}` }}</span>
-        <!-- TODO -->
+        <span class="error-line" *ngIf="getFieldError('dob') === 'required'">{{ `date of birth ${errMsg.REQUIRED}` }}</span>
+        <span class="error-line" *ngIf="getFieldError('dob') === 'dob'">{{ registrationForm.get('dob')?.errors?.['dob'].message }}</span>
       </div>
     </div>
   </div>

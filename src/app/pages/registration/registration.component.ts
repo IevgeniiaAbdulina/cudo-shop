@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../shared/constants/regex';
 import ERROR_MSG from '../../shared/constants/error-message';
+import { minimumAgeValidator } from '../../shared/validator/validate.dob';
 
 @Component({
   selector: 'app-registration',
@@ -24,7 +25,7 @@ export class RegistrationComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
       firstName: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
-      dob: ['', Validators.required], // TODO
+      dob: ['', [Validators.required, minimumAgeValidator(18)]],
       address: this.fb.group({
         street: ['', Validators.required],
         city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
