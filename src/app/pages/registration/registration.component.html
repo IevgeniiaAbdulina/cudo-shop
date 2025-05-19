@@ -5,8 +5,8 @@
     <div class="input-container">
       <input id="email" formControlName="email" />
       <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-        <span class="errorLine" *ngIf="getFieldError('email') === 'required'">{{ `email ${errMsg.REQUIRED}` }}</span>
-        <span class="errorLine" *ngIf="getFieldError('email') === 'pattern'">{{ `${errMsg.INVALID} email format`
+        <span class="error-line" *ngIf="getFieldError('email') === 'required'">{{ `email ${errMsg.REQUIRED}` }}</span>
+        <span class="error-line" *ngIf="getFieldError('email') === 'pattern'">{{ `${errMsg.INVALID} email format`
         }}</span>
       </div>
     </div>
@@ -17,9 +17,9 @@
     <div class="input-container">
       <input id="password" type="password" formControlName="password" />
       <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-        <span class="errorLine" *ngIf="getFieldError('password') === 'required'">{{ `password ${errMsg.REQUIRED}`
+        <span class="error-line" *ngIf="getFieldError('password') === 'required'">{{ `password ${errMsg.REQUIRED}`
         }}</span>
-        <span class="errorLine" *ngIf="getFieldError('password') === 'pattern'">{{ `password ${errMsg.PASSWORD}`
+        <span class="error-line" *ngIf="getFieldError('password') === 'pattern'">{{ `password ${errMsg.PASSWORD}`
         }}</span>
       </div>
     </div>
@@ -30,9 +30,9 @@
     <div class="input-container">
       <input id="firstName" formControlName="firstName" />
       <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched">
-        <span class="errorLine" *ngIf="getFieldError('firstName') === 'required'">{{ `first name ${errMsg.REQUIRED}`
+        <span class="error-line" *ngIf="getFieldError('firstName') === 'required'">{{ `first name ${errMsg.REQUIRED}`
         }}</span>
-        <span class="errorLine" *ngIf="getFieldError('firstName') === 'pattern'">{{ `first name ${errMsg.NAME}`
+        <span class="error-line" *ngIf="getFieldError('firstName') === 'pattern'">{{ `first name ${errMsg.NAME}`
         }}</span>
       </div>
     </div>
@@ -43,9 +43,9 @@
     <div class="input-container">
       <input id="lastName" formControlName="lastName" />
       <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched">
-        <span class="errorLine" *ngIf="getFieldError('lastName') === 'required'">{{ `last name ${errMsg.REQUIRED}`
+        <span class="error-line" *ngIf="getFieldError('lastName') === 'required'">{{ `last name ${errMsg.REQUIRED}`
         }}</span>
-        <span class="errorLine" *ngIf="getFieldError('lastName') === 'pattern'">{{ `last name ${errMsg.NAME}` }}</span>
+        <span class="error-line" *ngIf="getFieldError('lastName') === 'pattern'">{{ `last name ${errMsg.NAME}` }}</span>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
     <div class="input-container input-container_bod">
       <input id="dob" type="date" formControlName="dob" />
       <div *ngIf="registrationForm.get('dob')?.invalid && registrationForm.get('dob')?.touched">
-        <span class="errorLine" *ngIf="getFieldError('dob') === 'required'">{{ `last name ${errMsg.REQUIRED}` }}</span>
+        <span class="error-line" *ngIf="getFieldError('dob') === 'required'">{{ `last name ${errMsg.REQUIRED}` }}</span>
         <!-- TODO -->
       </div>
     </div>
@@ -70,7 +70,7 @@
         <div
           *ngIf="registrationForm.controls['address'].get('street')?.invalid && registrationForm.controls['address'].get('street')?.touched"
         >
-          <span class="errorLine" *ngIf="getFieldError('street') === 'required'">{{ `street ${errMsg.REQUIRED}`
+          <span class="error-line" *ngIf="getFieldError('street') === 'required'">{{ `street ${errMsg.REQUIRED}`
           }}</span>
         </div>
       </div>
@@ -81,8 +81,8 @@
       <div class="input-container">
         <input id="city" formControlName="city" />
         <div *ngIf="registrationForm.controls['address'].get('city')?.invalid && registrationForm.controls['address'].get('city')?.touched">
-          <span class="errorLine" *ngIf="getFieldError('city') === 'required'">{{ `city ${errMsg.REQUIRED}` }}</span>
-          <span class="errorLine" *ngIf="getFieldError('city') === 'pattern'">{{ `city ${errMsg.NAME}` }}</span>
+          <span class="error-line" *ngIf="getFieldError('city') === 'required'">{{ `city ${errMsg.REQUIRED}` }}</span>
+          <span class="error-line" *ngIf="getFieldError('city') === 'pattern'">{{ `city ${errMsg.NAME}` }}</span>
         </div>
       </div>
     </div>
@@ -97,7 +97,7 @@
             registrationForm.controls['address'].get('postalCode')?.touched
           "
         >
-          <span class="errorLine" *ngIf="getFieldError('postalCode') === 'required'">{{ `postal code ${errMsg.REQUIRED}`
+          <span class="error-line" *ngIf="getFieldError('postalCode') === 'required'">{{ `postal code ${errMsg.REQUIRED}`
           }}</span>
           <!-- TODO -->
         </div>
@@ -113,7 +113,7 @@
             registrationForm.controls['address'].get('country')?.invalid && registrationForm.controls['address'].get('country')?.touched
           "
         >
-          <span class="errorLine" *ngIf="getFieldError('country') === 'required'">{{ `country ${errMsg.REQUIRED}`
+          <span class="error-line" *ngIf="getFieldError('country') === 'required'">{{ `country ${errMsg.REQUIRED}`
           }}</span>
           <!-- TODO -->
         </div>
