@@ -1,0 +1,68 @@
+@import '../../../../../style/abstract/constant';
+@import '../../../../../style/abstract/mixins';
+@import '../../../../../style/abstract/placeholders';
+
+header {
+  background-color: $color-primary;
+  color: $color-additional;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 30px;
+  font-size: 1.6rem;
+}
+
+.header__name {
+  color: $color-additional;
+  font-weight: bold;
+  font-size: 2.6rem;
+  @extend %transition;
+  &:hover {
+    color: $color-button-hover;
+  }
+}
+
+.header__search {
+  display: flex;
+  align-items: center;
+  border: 2px solid $color-additional;
+  width: 50%;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  background-color: $color-input-search;
+}
+
+input[type='search'] {
+  padding: 5px;
+  width: 100%;
+  background-color: $color-input-search;
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+}
+
+.header-search {
+  background: url('../../../../../res/search.svg');
+  background-size: cover;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 1rem 1rem 0 0;
+  cursor: pointer;
+}
+
+.header__buttons {
+  display: flex;
+  column-gap: 10px;
+}
+
+.header__button {
+  color: $color-input-search;
+  background: $color-additional;
+  border-radius: 10px;
+  font-weight: 600;
+  @extend %transition;
+  &:hover {
+    background: $color-button-hover;
+    box-shadow: 0 1px 3px $color-input-search;
+  }
+}
