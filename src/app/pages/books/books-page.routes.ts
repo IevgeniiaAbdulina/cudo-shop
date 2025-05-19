@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { BooksPageComponent } from './books-page/books-page.component';
-import { BookDetailsComponent } from './book-details/book-details/book-details.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 export const booksRoutes: Routes = [
   {
