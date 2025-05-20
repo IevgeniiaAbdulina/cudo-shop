@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrl: '../registration/registration.component.scss',
 })
 export class LoginComponent implements OnInit {
   public errMsg = ERROR_MSG;

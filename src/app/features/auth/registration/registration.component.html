@@ -15,7 +15,7 @@
     <label for="password">Password</label>
     <div class="input-container">
       <input id="password" [type]="passwordFieldType" formControlName="password" />
-      <button type="button" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
       <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
         <span class="error-line" *ngIf="getFieldError('password') === 'required'">{{ `password ${errMsg.REQUIRED}` }}</span>
         <span class="error-line" *ngIf="getFieldError('password') === 'pattern'">{{ `password ${errMsg.PASSWORD}` }}</span>
