@@ -1,0 +1,20 @@
+<p>product-list works!</p>
+<button (click)="goBack()">Go Back</button>
+@if (currentRoute === '/books') {
+  <ul>
+    @for (book of books; track book.id) {
+      <li>
+        {{ book.title }}
+      </li>
+    }
+  </ul>
+}
+@if (currentRoute === '/cosmetics') {
+  <ul>
+    @for (book of cosmetics; track book.id) {
+      <li>
+        {{ book.title }}
+      </li>
+    }
+  </ul>
+}
