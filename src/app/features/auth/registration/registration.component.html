@@ -1,1 +1,115 @@
-<p>registration works!</p>
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <div class="field">
+    <label for="email">Email</label>
+    <div class="input-container">
+      <input id="email" formControlName="email" />
+      <div *ngIf="isFieldInvalid('email')">
+        <span class="error-line">
+          {{ `${getFieldError('email') === 'pattern' ? `${errMsg.INVALID} email format` : `email ${errMsg.REQUIRED}`}` }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <div class="input-container">
+      <input id="password" [type]="passwordFieldType" formControlName="password" />
+      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+      <div *ngIf="isFieldInvalid('password')">
+        <span class="error-line">
+          {{ `password ${getFieldError('password') === 'pattern' ? `${errMsg.PASSWORD}` : `${errMsg.REQUIRED}`}` }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="firstName">First Name</label>
+    <div class="input-container">
+      <input id="firstName" formControlName="firstName" />
+      <div *ngIf="isFieldInvalid('firstName')">
+        <span class="error-line">
+          {{ `first name ${getFieldError('firstName') === 'pattern' ? `${errMsg.NAME}` : `${errMsg.REQUIRED}`}` }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="lastName">Last Name</label>
+    <div class="input-container">
+      <input id="lastName" formControlName="lastName" />
+      <div *ngIf="isFieldInvalid('lastName')">
+        <span class="error-line">
+          {{ `last name ${getFieldError('lastName') === 'pattern' ? `${errMsg.NAME}` : `${errMsg.REQUIRED}`}` }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="dob">Date of Birth</label>
+    <div class="input-container input-container_bod">
+      <input id="dob" type="date" formControlName="dob" />
+      <div *ngIf="isFieldInvalid('dob')">
+        <span class="error-line">
+          {{ `${getFieldError('dob') === 'dob' ? registrationForm.get('dob')?.errors?.['dob'].message : `date of birth ${errMsg.REQUIRED}`}` }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div formGroupName="address">
+    <h3>Address</h3>
+    <div class="field">
+      <label for="street">Street</label>
+      <div class="input-container">
+        <input id="street" formControlName="street" />
+        <div *ngIf="isFieldInvalid('address.street')">
+          <span class="error-line">{{ `street ${errMsg.REQUIRED}` }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="city">City</label>
+      <div class="input-container">
+        <input id="city" formControlName="city" />
+        <div *ngIf="isFieldInvalid('address.city')">
+          <span class="error-line">
+            {{ `city ${getFieldError('city') === 'pattern' ? `${errMsg.NAME}` : `${errMsg.REQUIRED}`}` }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="postalCode">Postal Code</label>
+      <div class="input-container">
+        <input id="postalCode" formControlName="postalCode" />
+        <div *ngIf="isFieldInvalid('address.postalCode')">
+          <span class="error-line">
+            {{ `${getFieldError('postalCode') === 'message' ? getPostalCodeErrorMessage() : `postal code ${errMsg.REQUIRED}`}` }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="country">Country</label>
+      <div class="input-container">
+        <select id="country" formControlName="country">
+          <option value="" disabled>Select a country</option>
+          <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
+        </select>
+        <div *ngIf="isFieldInvalid('address.country')">
+          <span class="error-line">{{ `country ${errMsg.REQUIRED}` }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+</form>
