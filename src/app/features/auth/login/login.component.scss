@@ -1,0 +1,56 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  max-width: 35rem;
+  min-height: 2.5rem;
+}
+
+label {
+  margin-right: 1rem;
+  min-width: 80px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 12.5rem;
+  position: relative;
+}
+
+input {
+  outline: 1px solid #ccc;
+  border: 0;
+  padding-right: 2rem;
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid indianred;
+  }
+
+  &:focus {
+    outline: 1px solid #007bff;
+  }
+}
+
+.toggler {
+  position: absolute;
+  right: 0.5rem;
+  top: -0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: indianred;
+}
