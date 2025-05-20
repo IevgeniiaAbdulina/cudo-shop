@@ -1,12 +1,12 @@
-<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <div class="field">
     <label for="email">Email</label>
     <div class="input-container">
       <input id="email" formControlName="email" />
-      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        <span class="error-line" *ngIf="getFieldError('email') === 'required'">{{ `email ${errMsg.REQUIRED}` }}</span>
-        <span class="error-line" *ngIf="getFieldError('email') === 'pattern'">{{ `${errMsg.INVALID} email format` }}</span>
+      <div *ngIf="isFieldInvalid('email')">
+        <span class="error-line">
+          {{ `${getFieldError('email') === 'pattern' ?`${errMsg.INVALID} email format` : `email ${errMsg.REQUIRED}`}` }}
+        </span>
       </div>
     </div>
   </div>
@@ -16,9 +16,10 @@
     <div class="input-container">
       <input id="password" [type]="passwordFieldType" formControlName="password" />
       <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        <span class="error-line" *ngIf="getFieldError('password') === 'required'">{{ `password ${errMsg.REQUIRED}` }}</span>
-        <span class="error-line" *ngIf="getFieldError('password') === 'pattern'">{{ `password ${errMsg.PASSWORD}` }}</span>
+      <div *ngIf="isFieldInvalid('password')">
+        <span class="error-line">
+          {{ `password ${getFieldError('password') === 'pattern' ? `${errMsg.PASSWORD}` : `${errMsg.REQUIRED}`}` }}
+        </span>
       </div>
     </div>
   </div>

@@ -71,6 +71,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return error;
   }
 
+  public isFieldInvalid(fieldName: string): boolean | undefined {
+    const field = this.registrationForm.get(fieldName);
+
+    return field?.invalid && field?.touched;
+  }
+
   public togglePasswordVisibility(): void {
     this.isPasswordVisible = !this.isPasswordVisible;
     this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
