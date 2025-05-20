@@ -1,5 +1,8 @@
+@use '../../../../style/abstract/constant' as *;
+
 :host {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -58,4 +61,12 @@ input {
 .error-line {
   font-size: 1rem;
   color: indianred;
+}
+
+.login-redirection {
+  margin-top: 3.6rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid $color-primary;
+  background-color: $color-input-search;
 }
