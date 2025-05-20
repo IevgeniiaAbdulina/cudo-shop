@@ -92,9 +92,8 @@
             registrationForm.controls['address'].get('postalCode')?.touched
           "
         >
-          <span class="error-line" *ngIf="getFieldError('postalCode') === 'required'">{{ `postal code ${errMsg.REQUIRED}`
-          }}</span>
-          <!-- TODO -->
+          <span class="error-line" *ngIf="getFieldError('postalCode') === 'required'">{{ `postal code ${errMsg.REQUIRED}` }}</span>
+          <span class="error-line" *ngIf="getFieldError('postalCode') === 'message'">{{ getPostalCodeErrorMessage() }}</span>
         </div>
       </div>
     </div>
@@ -102,15 +101,16 @@
     <div class="field">
       <label for="country">Country</label>
       <div class="input-container">
-        <input id="country" formControlName="country" />
+        <select id="country" formControlName="country">
+          <option value="" disabled>Select a country</option>
+          <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
+        </select>
         <div
           *ngIf="
             registrationForm.controls['address'].get('country')?.invalid && registrationForm.controls['address'].get('country')?.touched
           "
         >
-          <span class="error-line" *ngIf="getFieldError('country') === 'required'">{{ `country ${errMsg.REQUIRED}`
-          }}</span>
-          <!-- TODO -->
+          <span class="error-line" *ngIf="getFieldError('country') === 'required'">{{ `country ${errMsg.REQUIRED}` }}</span>
         </div>
       </div>
     </div>
