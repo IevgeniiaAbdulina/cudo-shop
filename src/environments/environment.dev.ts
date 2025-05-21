@@ -1,5 +1,9 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4200',
   enableDebug: true,
+  projectKey: '',
+  clientSecret: '',
+  clientId: '',
+  authUrl: '',
+  apiUrl: '',
 };

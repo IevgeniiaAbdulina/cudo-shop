@@ -1,5 +1,9 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.example.com',
   enableDebug: false,
+  projectKey: '',
+  clientSecret: '',
+  clientId: '',
+  authUrl: '',
+  apiUrl: '',
 };

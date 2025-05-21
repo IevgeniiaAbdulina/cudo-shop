@@ -41,3 +41,6 @@ test-report.html
 # System files
 .DS_Store
 Thumbs.db
+
+# Environments
+/src/environments/
