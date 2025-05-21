@@ -43,4 +43,4 @@ test-report.html
 Thumbs.db
 
 # Environments
-/src/environments/
+/src/environments/*
