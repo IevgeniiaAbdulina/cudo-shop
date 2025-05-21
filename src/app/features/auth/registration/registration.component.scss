@@ -118,6 +118,15 @@ select option:active{
   background-color: $color-input-search;
 }
 
+.login-redirection a{
+  color: $color-additional;
+  text-decoration: none;
+  @extend %transition;
+  &:hover {
+    color: $color-primary;
+  }
+}
+
 .form__button{
   align-self: center;
   border-radius: 10px;
