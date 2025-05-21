@@ -7,10 +7,11 @@ import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../shared/constan
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
+import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
   selector: 'app-registration',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ButtonComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
 })

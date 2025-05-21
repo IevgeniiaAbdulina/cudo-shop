@@ -1,3 +1,3 @@
-<button type="submit" (click)="buttonClicked.emit()">
-  {{ label() }}
+<button type="submit" [disabled]="disabled" (click)="buttonClicked.emit()">
+  {{ label }}
 </button>
