@@ -1,8 +1,12 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
-  <h2>Please, enter your email and password for login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h2>
+    Welcome back! <br />
+    Glad to see you again!
+  </h2>
   <div class="field">
-    <label for="email">Email</label>
+    <label for="email"></label>
     <div class="input-container">
+      <input id="email" formControlName="email" placeholder="Adres e-mail *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('email')">
           <span class="error-line">
@@ -10,13 +14,14 @@
           </span>
         </div>
       </div>
-      <input id="email" formControlName="email" placeholder="Adres e-mail *" />
     </div>
   </div>
 
   <div class="field">
-    <label for="password">Password</label>
+    <label for="password"></label>
     <div class="input-container">
+      <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
+      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
       <div class="error__container">
         <div *ngIf="isFieldInvalid('password')">
           <span class="error-line">
@@ -24,8 +29,6 @@
           </span>
         </div>
       </div>
-      <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
-      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
     </div>
   </div>
   <app-button

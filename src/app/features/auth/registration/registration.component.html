@@ -1,8 +1,10 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <h2>Hello! Register to get started</h2>
   <div class="field">
-    <label for="email">Email</label>
+    <label for="email"></label>
     <div class="input-container">
+      <input id="email" formControlName="email" placeholder="Email *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('email')">
           <span class="error-line">
@@ -10,13 +12,14 @@
           </span>
         </div>
       </div>
-      <input id="email" formControlName="email" placeholder="Adres e-mail *" />
     </div>
   </div>
 
   <div class="field">
-    <label for="password">Password</label>
+    <label for="password"></label>
     <div class="input-container">
+      <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
+      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
       <div class="error__container">
         <div *ngIf="isFieldInvalid('password')">
           <span class="error-line">
@@ -24,14 +27,13 @@
           </span>
         </div>
       </div>
-      <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
-      <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
     </div>
   </div>
 
   <div class="field">
-    <label for="firstName">First Name</label>
+    <label for="firstName"></label>
     <div class="input-container">
+      <input id="firstName" formControlName="firstName" placeholder="First nsme *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('firstName')">
           <span class="error-line">
@@ -39,13 +41,13 @@
           </span>
         </div>
       </div>
-      <input id="firstName" formControlName="firstName" placeholder="First name *" />
     </div>
   </div>
 
   <div class="field">
-    <label for="lastName">Last Name</label>
+    <label for="lastName"></label>
     <div class="input-container">
+      <input id="lastName" formControlName="lastName" placeholder="Last Name *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('lastName')">
           <span class="error-line">
@@ -53,13 +55,13 @@
           </span>
         </div>
       </div>
-      <input id="lastName" formControlName="lastName" placeholder="Last name *" />
     </div>
   </div>
 
   <div class="field">
-    <label for="dob">Date of Birth</label>
+    <label for="dob"></label>
     <div class="input-container input-container_bod">
+      <input id="dob" type="date" formControlName="dob" placeholder="mm/dd/yyyy" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('dob')">
           <span class="error-line">
@@ -67,27 +69,27 @@
           </span>
         </div>
       </div>
-      <input id="dob" type="date" formControlName="dob" />
     </div>
   </div>
 
   <div formGroupName="address">
     <h3>Address</h3>
     <div class="field">
-      <label for="street">Street</label>
+      <label for="street"></label>
       <div class="input-container">
+        <input id="street" formControlName="street" placeholder="Address *" />
         <div class="error__container">
           <div *ngIf="isFieldInvalid('address.street')">
             <span class="error-line">{{ `street ${errMsg.REQUIRED}` }}</span>
           </div>
         </div>
-        <input id="street" formControlName="street" placeholder="Address *" />
       </div>
     </div>
 
     <div class="field">
-      <label for="city">City</label>
+      <label for="city"></label>
       <div class="input-container">
+        <input id="city" formControlName="city" placeholder="City *" />
         <div class="error__container">
           <div *ngIf="isFieldInvalid('address.city')">
             <span class="error-line">
@@ -95,13 +97,13 @@
             </span>
           </div>
         </div>
-        <input id="city" formControlName="city" placeholder="City *" />
       </div>
     </div>
 
     <div class="field">
-      <label for="postalCode">Postal Code</label>
+      <label for="postalCode"></label>
       <div class="input-container">
+        <input id="postalCode" formControlName="postalCode" placeholder="Postal Code *" />
         <div class="error__container">
           <div *ngIf="isFieldInvalid('address.postalCode')">
             <span class="error-line">
@@ -109,12 +111,11 @@
             </span>
           </div>
         </div>
-        <input id="postalCode" formControlName="postalCode" placeholder="Postal code *" />
       </div>
     </div>
 
     <div class="field">
-      <label for="country">Country</label>
+      <label for="country"></label>
       <div class="input-container">
         <div class="error__container">
           <div *ngIf="isFieldInvalid('address.country')">
