@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../shared/constants/regex';
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -21,9 +22,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public passwordFieldType: string = 'password';
   public isPasswordVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
+  public registrationError: string = '';
+  public loginError: string = '';
   private subscription: Subscription = new Subscription();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   public ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -37,6 +44,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
         postalCode: ['', [Validators.required, postalCodeValidator()]],
         country: ['', Validators.required],
+        useBillingAddress: [false],
+        useShippingAddress: [false],
       }),
     });
 
@@ -55,9 +64,55 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (this.registrationForm.valid) {
-      // Handle form submission
-      console.log(this.registrationForm.value);
+      const address = {
+        streetName: this.registrationForm.value.address.street,
+        city: this.registrationForm.value.address.city,
+        postalCode: this.registrationForm.value.address.postalCode,
+        country: this.registrationForm.value.address.country,
+      };
+      const userData = {
+        email: this.registrationForm.value.email,
+        password: this.registrationForm.value.password,
+        firstName: this.registrationForm.value.firstName,
+        lastName: this.registrationForm.value.lastName,
+        dateOfBirth: this.registrationForm.value.dob,
+        addresses: [
+          {
+            ...address,
+            isDefaultBillingAddress: this.registrationForm.value.address.useBillingAddress,
+            isDefaultShippingAddress: this.registrationForm.value.address.useShippingAddress,
+          },
+        ],
+      };
+
+      this.authService.register(userData).subscribe({
+        next: (response) => {
+          // Handle successful registration
+          this.authService.login({ email: userData.email, password: userData.password }).subscribe({
+            next: () => {
+              this.router.navigate(['/main']);
+            },
+            error: (error) => {
+              this.handleLoginError(error);
+            },
+          });
+        },
+        error: (error) => {
+          // Handle registration error
+          this.handleRegistrationError(error);
+        },
+      });
     }
+  }
+
+  private handleLoginError(error: any): void {
+    // Display user-friendly error messages
+    this.loginError = 'Login failed. Please try again.';
+  }
+
+  private handleRegistrationError(error: any): void {
+    // Display user-friendly error messages
+    this.registrationError = 'Registration failed. Please try again.';
   }
 
   public getFieldError(fieldName: string) {

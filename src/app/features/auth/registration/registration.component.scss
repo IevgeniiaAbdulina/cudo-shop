@@ -24,7 +24,7 @@ h2 {
 }
 
 
-form input {
+input:not(input[type="checkbox"]) {
   width: 100%;
   padding: 8px 10px;
   border: none;

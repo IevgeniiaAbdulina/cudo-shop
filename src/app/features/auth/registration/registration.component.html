@@ -130,7 +130,18 @@
         </div>
       </div>
     </div>
+
+    <div class="field field_checkbox">
+      <input type="checkbox" id="billingAddressCheckbox" formControlName="useBillingAddress" />
+      <label for="billingAddressCheckbox">Set as default billing address</label>
+    </div>
+
+    <div class="field field_checkbox">
+      <input type="checkbox" id="shippingAddressCheckbox" formControlName="useShippingAddress" />
+      <label class="label_checkbox" for="shippingAddressCheckbox">Set as default shipping address</label>
+    </div>
   </div>
+
   <app-button
     label="Register"
     [disabled]="registrationForm.invalid"
