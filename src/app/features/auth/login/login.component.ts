@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../../shared/constants/regex';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../../shared/ui/button/button.component';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ButtonComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: '../registration/registration.component.scss',
 })

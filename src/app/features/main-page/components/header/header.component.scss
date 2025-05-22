@@ -1,6 +1,6 @@
-@import '../../../../../style/abstract/constant';
-@import '../../../../../style/abstract/mixins';
-@import '../../../../../style/abstract/placeholders';
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/mixins' as *;
+@use '../../../../../style/abstract/placeholders' as *;
 
 header {
   background-color: $color-primary;
@@ -16,6 +16,7 @@ header {
   color: $color-additional;
   font-weight: bold;
   font-size: 2.6rem;
+  cursor: pointer;
   @extend %transition;
   &:hover {
     color: $color-button-hover;
@@ -60,6 +61,7 @@ input[type='search'] {
   background: $color-additional;
   border-radius: 10px;
   font-weight: 600;
+  cursor: pointer;
   @extend %transition;
   &:hover {
     background: $color-button-hover;

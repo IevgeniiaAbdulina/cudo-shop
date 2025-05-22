@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { MainPageComponent } from './main-page.component';
 import { HomeComponent } from './components/home/home.component';
+import { RegistrationComponent } from '../auth/registration/registration.component';
+import { LoginComponent } from '../auth/login/login.component';
 
 export const mainRoutes: Routes = [
   {
@@ -11,6 +13,14 @@ export const mainRoutes: Routes = [
       {
         path: 'main',
         component: HomeComponent,
+      },
+      {
+        path: 'registration',
+        component: RegistrationComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
       },
       {
         path: 'books',
