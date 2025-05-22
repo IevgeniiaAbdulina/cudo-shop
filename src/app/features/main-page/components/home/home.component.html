@@ -1,14 +1,22 @@
 <div class="content">
-  <h1>Hello, {{ title }}</h1>
-  <p>Congratulations! Your app is running. 🎉</p>
   <article class="content__hero">
-    <button (click)="selectCatalog('books')">Books</button>
-    <button (click)="selectCatalog('cosmetics')">Cosmetics</button>
+    <app-button (buttonClicked)="selectCatalog('books')" class="category category__button">
+      <div class="category">
+        <div class="category__image category__image-books"></div>
+        <p class="category__name">books</p>
+      </div>
+    </app-button>
+    <app-button (buttonClicked)="selectCatalog('cosmetics')" class="category category__button">
+      <div class="category">
+        <p class="category__name">Cosmetics</p>
+        <div class="category__image category__image-category"></div>
+      </div>
+    </app-button>
   </article>
   <article class="content__categories">
-    <header>
+    <div class="content__categories-name">
       <h2>Books</h2>
-    </header>
+    </div>
     <section>
       <ul>
         @for (book of books; track book.id) {
@@ -20,9 +28,9 @@
     </section>
   </article>
   <article class="content__categories">
-    <header>
+    <div class="content__categories-name">
       <h2>Cosmetics</h2>
-    </header>
+    </div>
     <section>
       <ul>
         @for (cosmetic of cosmetics; track cosmetic.id) {

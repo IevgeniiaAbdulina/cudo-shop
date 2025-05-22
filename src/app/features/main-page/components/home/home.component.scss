@@ -1,3 +1,5 @@
+@use '../../../../../style/abstract/constant' as *;
+
 .content {
   display: flex;
   flex-direction: column;
@@ -8,32 +10,32 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-
-    button:hover {
-      background-color: lightgray;
-    }
+    padding: 2.0rem 0;
   }
 
   &__hero > * {
-    width: 35vw;
-    padding: 2vh;
+    width: 45vw;
     text-align: center;
-    border: 1px solid black;
     cursor: pointer;
+  }
+  
+  .content__categories-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $color-input-search;
+    padding: 1.0rem 0;
+    color: $color-additional;
+    h2{
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
   }
 
   &__categories {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    border: 1px solid black;
-
-    header {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #7f7f7f56;
-    }
 
     ul {
       display: flex;
@@ -43,5 +45,30 @@
         border: 1px solid black;
       }
     }
+  }
+}
+
+.category{
+  background-color: $color-input-search;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  font-size: 4.5rem;
+  color: $color-primary;
+  &__image{
+    width: 300px;
+    height: 200px;
+    background-repeat: round;
+    &-books{
+      background-image: url('../../../../assets/images/books.jpg');
+    }
+    &-category{
+      background-image: url('../../../../assets/images/cosmetics.jpg');
+    }
+  }
+  &__name{
+    width: 30.0rem;
   }
 }
