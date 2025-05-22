@@ -1,4 +1,5 @@
 @use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/mixins' as *;
 
 .content {
   display: flex;
@@ -8,17 +9,15 @@
 
   &__hero {
     display: flex;
-    justify-content: space-evenly;
+    column-gap: 2.0rem;
+    justify-content: center;
     align-items: center;
     padding: 2.0rem 0;
+    @include media-tablet {
+      display: block;
+    }
   }
 
-  &__hero > * {
-    width: 45vw;
-    text-align: center;
-    cursor: pointer;
-  }
-  
   .content__categories-name {
     display: flex;
     justify-content: center;
@@ -26,7 +25,7 @@
     background-color: $color-input-search;
     padding: 1.0rem 0;
     color: $color-additional;
-    h2{
+    h2 {
       font-size: 2.2rem;
       font-weight: 600;
     }
@@ -40,6 +39,7 @@
     ul {
       display: flex;
       gap: 2rem;
+      margin-left: 2.5rem;
 
       li {
         border: 1px solid black;
@@ -48,27 +48,42 @@
   }
 }
 
-.category{
+.category {
   background-color: $color-input-search;
   text-transform: uppercase;
+  padding: 0 1.0rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
-  font-size: 4.5rem;
+  column-gap: 1.0rem;
+  font-size: 4.0rem;
   color: $color-primary;
-  &__image{
-    width: 300px;
-    height: 200px;
+  &__button {
+    width: 50%;
+    cursor: pointer;
+  }
+  &__image {
+    width: 13vw;
+    height: 9vw;
     background-repeat: round;
-    &-books{
+    &-books {
       background-image: url('../../../../assets/images/books.jpg');
+      object-fit: cover;
     }
-    &-category{
+    &-category {
       background-image: url('../../../../assets/images/cosmetics.jpg');
+      object-fit: cover;
+    }
+    @include media-tablet {
+      display: none;
     }
   }
-  &__name{
-    width: 30.0rem;
+  @include media-tablet {
+    justify-content: center;
+    font-size: 2.5rem;
+    &__name{
+      padding: 1.5rem;
+    }
   }
+
 }

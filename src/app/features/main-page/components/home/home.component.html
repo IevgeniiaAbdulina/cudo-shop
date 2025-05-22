@@ -1,44 +1,46 @@
-<div class="content">
-  <article class="content__hero">
-    <app-button (buttonClicked)="selectCatalog('books')" class="category category__button">
-      <div class="category">
-        <div class="category__image category__image-books"></div>
-        <p class="category__name">books</p>
+<div class="wrapper">
+  <div class="content">
+    <article class="content__hero">
+      <app-button (buttonClicked)="selectCatalog('books')" class="category__button">
+        <div class="category">
+          <div class="category__image category__image-books"></div>
+          <p class="category__name">books</p>
+        </div>
+      </app-button>
+      <app-button (buttonClicked)="selectCatalog('cosmetics')" class="category__button">
+        <div class="category">
+          <p class="category__name">Cosmetics</p>
+          <div class="category__image category__image-category"></div>
+        </div>
+      </app-button>
+    </article>
+    <article class="content__categories">
+      <div class="content__categories-name">
+        <h2>Books</h2>
       </div>
-    </app-button>
-    <app-button (buttonClicked)="selectCatalog('cosmetics')" class="category category__button">
-      <div class="category">
-        <p class="category__name">Cosmetics</p>
-        <div class="category__image category__image-category"></div>
+      <section>
+        <ul>
+          @for (book of books; track book.id) {
+            <li>
+              {{ book.title }}
+            </li>
+          }
+        </ul>
+      </section>
+    </article>
+    <article class="content__categories">
+      <div class="content__categories-name">
+        <h2>Cosmetics</h2>
       </div>
-    </app-button>
-  </article>
-  <article class="content__categories">
-    <div class="content__categories-name">
-      <h2>Books</h2>
-    </div>
-    <section>
-      <ul>
-        @for (book of books; track book.id) {
-          <li>
-            {{ book.title }}
-          </li>
-        }
-      </ul>
-    </section>
-  </article>
-  <article class="content__categories">
-    <div class="content__categories-name">
-      <h2>Cosmetics</h2>
-    </div>
-    <section>
-      <ul>
-        @for (cosmetic of cosmetics; track cosmetic.id) {
-          <li>
-            {{ cosmetic.title }}
-          </li>
-        }
-      </ul>
-    </section>
-  </article>
+      <section>
+        <ul>
+          @for (cosmetic of cosmetics; track cosmetic.id) {
+            <li>
+              {{ cosmetic.title }}
+            </li>
+          }
+        </ul>
+      </section>
+    </article>
+  </div>
 </div>
