@@ -2,8 +2,9 @@ export const environment = {
   production: true,
   enableDebug: false,
   projectKey: '',
-  clientSecret: '',
   clientId: '',
+  clientSecret: '',
   authUrl: '',
   apiUrl: '',
+  scopes: [],
 };
