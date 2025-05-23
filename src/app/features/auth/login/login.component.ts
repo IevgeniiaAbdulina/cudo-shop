@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public passwordFieldType: string = 'password';
   public isPasswordVisible: boolean = false;
-  public errorUserMessage: string = '';
+  public errorLoginMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         },
         error: () => {
           if (!this.authService.isUserValid) {
-            this.errorUserMessage = this.errMsg.ERROR_USER_MESSAGE;
+            this.errorLoginMessage = this.errMsg.ERROR_USER_MESSAGE;
           }
         },
       });
