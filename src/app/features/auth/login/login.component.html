@@ -3,6 +3,9 @@
     Welcome back! <br />
     Glad to see you again!
   </h2>
+  <div *ngIf="errorUserMessage">
+    <span class="error__message">{{ errorUserMessage }}</span>
+  </div>
   <div class="field">
     <label for="email"></label>
     <div class="input-container">

@@ -83,6 +83,9 @@ h3 {
   font-size: 1rem;
   color: $color-error;
 }
+.error__message{
+  color: $color-error;
+}
 
 .select__wrapper {
   position: relative;

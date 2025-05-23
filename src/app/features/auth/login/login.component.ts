@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public passwordFieldType: string = 'password';
   public isPasswordVisible: boolean = false;
+  public errorUserMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -39,9 +40,10 @@ export class LoginComponent implements OnInit {
         next: () => {
           this.router.navigate(['/main'], { relativeTo: this.route });
         },
-        error: (err) => {
-          // Show error message: 'Invalid username or password'
-          console.error('Login error:', err);
+        error: () => {
+          if (!this.authService.isUserValid) {
+            this.errorUserMessage = this.errMsg.ERROR_USER_MESSAGE;
+          }
         },
       });
     }
