@@ -1,3 +1,4 @@
 <button type="submit" [disabled]="disabled" (click)="buttonClicked.emit()">
   {{ label }}
+  <ng-content></ng-content>
 </button>

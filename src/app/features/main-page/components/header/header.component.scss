@@ -8,8 +8,20 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 30px;
+  padding: 2.0rem 1.5rem 2.0rem 0;
+  column-gap: 1.0rem;
   font-size: 1.6rem;
+  @include media-tablet {
+    display: grid;
+    gap: 1.0rem;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    font-size: 1.3rem;
+    padding: 1.0rem 1.5rem 1.0rem 0;
+  }
+  @include media-mobile {
+    padding-left: 0.5rem;
+  }
 }
 
 .header__name {
@@ -21,6 +33,11 @@ header {
   &:hover {
     color: $color-button-hover;
   }
+  @include media-tablet {
+    font-size: 1.9rem;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+  }
 }
 
 .header__search {
@@ -31,6 +48,16 @@ header {
   border-radius: 1rem;
   padding: 0.5rem 1rem 0.5rem 0.5rem;
   background-color: $color-input-search;
+  @include media-tablet {
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
+    width: auto;
+    margin: 0 0 0 1.5rem;
+    padding: 0 1rem 0 0.5rem;
+  }
+  @include media-mobile {
+    margin: 0 0 0 1.0rem;
+  }
 }
 
 input[type='search'] {
@@ -54,6 +81,10 @@ input[type='search'] {
 .header__buttons {
   display: flex;
   column-gap: 10px;
+  @include media-tablet {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
+  }
 }
 
 .header__button {
@@ -66,5 +97,8 @@ input[type='search'] {
   &:hover {
     background: $color-button-hover;
     box-shadow: 0 1px 3px $color-input-search;
+  }
+  @include media-mobile {
+    font-weight: 400;
   }
 }
