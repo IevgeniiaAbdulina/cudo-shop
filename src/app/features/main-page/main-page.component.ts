@@ -5,6 +5,7 @@ import { Cosmetics } from '../../shared/interfaces/cosmetics';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavigateToSpecificRouteService } from '../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -16,6 +17,7 @@ export class MainPageComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
+  private authService = inject(AuthService);
 
   public title = 'cudo-shop';
 
@@ -38,8 +40,7 @@ export class MainPageComponent implements OnInit {
   }
 
   public userLoggedOut(): void {
-    console.log('user logged out');
-    this.navigateToRoute('/main');
+    this.authService.logout();
   }
 
   public goToCart(): void {

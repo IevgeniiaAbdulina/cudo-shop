@@ -28,6 +28,16 @@ In addition, buyers often face the issue that stores lack suitable cosmetics for
 * SCSS
 
 ******************************************************
+
+### Configure Environment
+
+To use Environment development mode you need:
+
+1. Make sure you have `environment.dev.ts` and `environment.prod.ts` in `/environments` folder.
+2. The next step is to fill in your CommerceTools client credentials in the appropriate fields in the `environment.dev.ts` file.
+3. Keep files `environment.dev.ts` and `environment.prod.ts` in `.gitignore` file.
+4. Your client credentials shouldn't be brought into GitHub history!
+
 ### Start the project
 ```npm start``` <br>
 Runs application in the development mode. <br>

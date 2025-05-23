@@ -3,6 +3,9 @@ import { MainPageComponent } from './main-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { LoginComponent } from '../auth/login/login.component';
+import { authGuard } from '../../core/auth/auth.guard';
+import { ProfileComponent } from '../user/profile/profile.component';
+import { isLoggedGuard } from '../../core/auth/is-logged.guard';
 
 export const mainRoutes: Routes = [
   {
@@ -17,10 +20,12 @@ export const mainRoutes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent,
+        canActivate: [isLoggedGuard],
       },
       {
         path: 'login',
         component: LoginComponent,
+        canActivate: [isLoggedGuard],
       },
       {
         path: 'books',
@@ -31,8 +36,14 @@ export const mainRoutes: Routes = [
         loadChildren: () => import('../product/product.routes').then((c) => c.productRoutes),
       },
       {
+        path: 'profile',
+        component: ProfileComponent,
+        canActivate: [authGuard],
+      },
+      {
         path: 'cart',
         loadComponent: () => import('../cart/cart-page/cart-page.component').then((c) => c.CartPageComponent),
+        canActivate: [authGuard],
       },
       {
         path: '404',

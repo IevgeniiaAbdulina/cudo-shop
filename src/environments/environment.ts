@@ -1,5 +1,10 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.example.com',
   enableDebug: false,
+  projectKey: '',
+  clientId: '',
+  clientSecret: '',
+  authUrl: '',
+  apiUrl: '',
+  scopes: [],
 };
