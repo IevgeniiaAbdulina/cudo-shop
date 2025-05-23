@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { EMAIL_REGEX, PASSWORD_REGEX } from '../../../shared/constants/regex';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,12 @@ export class LoginComponent implements OnInit {
   public passwordFieldType: string = 'password';
   public isPasswordVisible: boolean = false;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   public ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -29,8 +35,15 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.loginForm.valid) {
-      // Handle form submission
-      console.log(this.loginForm.value);
+      this.authService.login(this.loginForm.value).subscribe({
+        next: () => {
+          this.router.navigate(['/main'], { relativeTo: this.route });
+        },
+        error: (err) => {
+          // Show error message: 'Invalid username or password'
+          console.error('Login error:', err);
+        },
+      });
     }
   }
 
