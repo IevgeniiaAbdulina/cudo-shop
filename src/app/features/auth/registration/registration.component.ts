@@ -3,13 +3,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+
+import { AuthService } from '../../../core/auth/auth.service';
+import { CustomerResponse } from '../../../core/auth/interfaces/customer-response';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../shared/constants/regex';
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
-import { AuthService } from '../service/auth.service';
-import { CustomerResponse } from '../../../core/auth/interfaces/customer-response';
 
 @Component({
   selector: 'app-registration',
