@@ -9,6 +9,7 @@ import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { AuthService } from '../service/auth.service';
+import { CustomerResponse } from '../../../shared/interfaces/auth';
 
 @Component({
   selector: 'app-registration',
@@ -64,11 +65,26 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (this.registrationForm.valid) {
+      let country = '';
+      switch (this.registrationForm.value.address.country) {
+        case 'Poland':
+          country = 'PL';
+          break;
+        case 'Germany':
+          country = 'GE';
+          break;
+        case 'USA':
+          country = 'US';
+          break;
+        default:
+          country = 'UNDEFINED';
+          break;
+      }
       const address = {
         streetName: this.registrationForm.value.address.street,
         city: this.registrationForm.value.address.city,
         postalCode: this.registrationForm.value.address.postalCode,
-        country: this.registrationForm.value.address.country,
+        country,
       };
       const userData = {
         email: this.registrationForm.value.email,
@@ -87,15 +103,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
       this.authService.register(userData).subscribe({
         next: (response) => {
+          const str = JSON.stringify(response);
+          const userResponse: CustomerResponse = JSON.parse(str);
+          alert(
+            `Nice to meet you, ${userResponse.customer.firstName} ${userResponse.customer.lastName}! You have been successful registered!`,
+          );
+          console.log(userResponse);
           // Handle successful registration
-          this.authService.login({ email: userData.email, password: userData.password }).subscribe({
-            next: () => {
-              this.router.navigate(['/main']);
-            },
-            error: (error) => {
-              this.handleLoginError(error);
-            },
-          });
+          this.router.navigate(['/main']);
         },
         error: (error) => {
           // Handle registration error
@@ -105,12 +120,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handleLoginError(error: any): void {
-    // Display user-friendly error messages
-    this.loginError = 'Login failed. Please try again.';
-  }
-
-  private handleRegistrationError(error: any): void {
+  private handleRegistrationError(error?: unknown): void {
     // Display user-friendly error messages
     this.registrationError = 'Registration failed. Please try again.';
   }
