@@ -1,32 +1,46 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
-import { CUSTOMERS, HOST, PROJECT_KEY } from '../auth.constants';
-import User from '../../../shared/model/user';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+import { CustomerResponse } from '../../../core/auth/interfaces/customer-response';
+import { User } from '../../../core/model/user';
+import { environment } from '../../../../environments/environment.dev';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${HOST}/${PROJECT_KEY}`;
-  private accessToken = 'Ce5nn3SDzeBzrkSYyFkfTy7DRZsgjWwM';
+  private readonly accessToken: string = 'TpggDrcR9Fy0PteZLFt5UGzUOmftFm0e';
 
   constructor(private http: HttpClient) {}
 
   public register(userData: User): Observable<unknown> {
-    const url = `${this.apiUrl}/${CUSTOMERS}`;
+    const url = `${environment.apiUrl}/${environment.projectKey}/${environment.customers}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.accessToken}`,
     });
 
-    return this.http.post(url, userData, { headers }).pipe(catchError(this.handleError));
+    return this.http.post<CustomerResponse>(url, userData, { headers }).pipe(
+      tap({
+        next: (response: CustomerResponse) => {
+          // Show success registration message
+        },
+        error: (error) => {
+          this.handleError(error);
+        },
+      }),
+    );
   }
 
-  private handleError(error: unknown): Observable<never> {
-    // Handle error appropriately
-    console.error('An error occurred:', error);
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // Client-side or network error
+      console.error('An error occurred:', error.error);
+    } else {
+      // Backend returned unsuccessful response
+      console.error(`Backend returned code ${error.status}, body was:`, error.error);
+    }
 
-    return throwError('Something went wrong; please try again later.');
+    return new Error('Something went wrong; please try again later.');
   }
 }

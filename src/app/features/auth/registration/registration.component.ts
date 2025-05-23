@@ -9,7 +9,7 @@ import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { AuthService } from '../service/auth.service';
-import { CustomerResponse } from '../../../shared/interfaces/auth';
+import { CustomerResponse } from '../../../core/auth/interfaces/customer-response';
 
 @Component({
   selector: 'app-registration',
@@ -103,8 +103,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
       this.authService.register(userData).subscribe({
         next: (response) => {
-          const str = JSON.stringify(response);
-          const userResponse: CustomerResponse = JSON.parse(str);
+          const responseStr = JSON.stringify(response);
+          const userResponse: CustomerResponse = JSON.parse(responseStr);
           alert(
             `Nice to meet you, ${userResponse.customer.firstName} ${userResponse.customer.lastName}! You have been successful registered!`,
           );
