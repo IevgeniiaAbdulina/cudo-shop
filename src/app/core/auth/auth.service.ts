@@ -19,6 +19,7 @@ export class AuthService {
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  public isUserValid: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -65,6 +66,8 @@ export class AuthService {
     if (error.status === 0) {
       // Client-side or network error
       console.error('An error occurred:', error.error);
+    } else if (error.status === 400) {
+      this.isUserValid = false;
     } else {
       // Backend returned unsuccessful response
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
