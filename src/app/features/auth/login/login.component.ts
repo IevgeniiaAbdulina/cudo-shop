@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
         },
         error: () => {
           if (!this.authService.isUserValid) {
-            this.errorLoginMessage = this.errMsg.ERROR_USER_MESSAGE;
+            this.errorLoginMessage = this.errMsg.ERROR_LOGIN_MESSAGE;
           }
         },
       });

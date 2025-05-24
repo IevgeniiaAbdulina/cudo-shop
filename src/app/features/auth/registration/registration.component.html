@@ -1,9 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
   <h2>Hello! Register to get started</h2>
+  <div *ngIf="errorRegistrationMessage">
+    <p class="error__message">{{ errorRegistrationMessage }}</p>
+  </div>
   <div class="field">
     <label for="email"></label>
-    <div class="input-container">
+    <div class="input-container" [class]="errorRegistrationMessage ? 'error__input' : ''">
       <input id="email" formControlName="email" placeholder="Email *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('email')">
@@ -130,7 +133,18 @@
         </div>
       </div>
     </div>
+
+    <div class="field field_checkbox">
+      <input type="checkbox" id="billingAddressCheckbox" formControlName="useBillingAddress" />
+      <label for="billingAddressCheckbox">Set as default billing address</label>
+    </div>
+
+    <div class="field field_checkbox">
+      <input type="checkbox" id="shippingAddressCheckbox" formControlName="useShippingAddress" />
+      <label class="label_checkbox" for="shippingAddressCheckbox">Set as default shipping address</label>
+    </div>
   </div>
+
   <app-button
     label="Register"
     [disabled]="registrationForm.invalid"

@@ -28,7 +28,7 @@ h2 {
 }
 
 
-form input {
+input:not(input[type="checkbox"]) {
   width: 100%;
   padding: 8px 10px;
   border: none;
@@ -89,6 +89,9 @@ h3 {
   padding: 0.5rem;
   width: 100%;
   text-align: center;
+}
+.error__input input {
+  border-left: 5px solid $color-error ;
 }
 
 .select__wrapper {
