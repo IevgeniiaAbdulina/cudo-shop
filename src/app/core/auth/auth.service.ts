@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthResponse } from './interfaces/auth-response';
 import { environment } from '../../../environments/environment.dev';
 import { Router } from '@angular/router';
+import { User } from '../model/user';
+import { CustomerResponse } from './interfaces/customer-response';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +15,7 @@ export class AuthService {
   private readonly CLIENT_SECRET: string = environment.clientSecret;
   private readonly CLIENT_ID: string = environment.clientId;
   private readonly AUTH_URL: string = environment.authUrl;
+  private readonly accessToken: string = 'TpggDrcR9Fy0PteZLFt5UGzUOmftFm0e'; // TODO
 
   private apiClientAuthorization: string = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
   private apiUrlUserLogin: string = `${this.AUTH_URL}/oauth/${this.PROJECT_KEY}`;
@@ -52,8 +55,24 @@ export class AuthService {
           // this.setSession(response);
           this.tokenSubject.next(response.access_token);
           this.isAuthenticatedSubject.next(true);
-          //   Show success login message
         },
+        error: (error) => {
+          this.handleError(error);
+        },
+      }),
+    );
+  }
+
+  public register(userData: User): Observable<unknown> {
+    const url = `${environment.apiUrl}/${environment.projectKey}/${environment.customers}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.accessToken}`,
+    });
+
+    return this.http.post<CustomerResponse>(url, userData, { headers }).pipe(
+      tap({
+        next: () => {},
         error: (error) => {
           this.handleError(error);
         },
@@ -70,7 +89,7 @@ export class AuthService {
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
     }
 
-    return new Error('Something bad happened; please try again later.');
+    return new Error('Something went wrong; please try again later.');
   }
 
   public logout(): void {
