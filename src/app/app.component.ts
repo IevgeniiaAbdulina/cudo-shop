@@ -20,7 +20,11 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     if (!this.storageService.isAuthorisedSession()) {
-      this.authService.auth().subscribe();
+      if (this.storageService.isAccessTokenExpiredOnly()) {
+        this.authService.refreshToken().subscribe();
+      } else {
+        this.authService.auth().subscribe();
+      }
     }
   }
 }

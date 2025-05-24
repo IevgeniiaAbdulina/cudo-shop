@@ -16,7 +16,7 @@ export class AuthService {
   private readonly CLIENT_SECRET: string = environment.clientSecret;
   private readonly CLIENT_ID: string = environment.clientId;
   private readonly AUTH_URL: string = environment.authUrl;
-  private readonly accessToken: string = 'TpggDrcR9Fy0PteZLFt5UGzUOmftFm0e'; // TODO
+  private readonly API_URL: string = environment.apiUrl;
   private readonly SCOPES: string[] = environment.scopes;
 
   private apiClientAuthorization: string = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   private setAuthorisedSession(): void {
-    const isAuthorisedSession: boolean = this.storageService.getSessionType() === 'normal';
+    const isAuthorisedSession: boolean = this.storageService.isSessionNormal();
     const accessToken: string | null = this.storageService.getToken();
     const isExpirationDateOk: boolean = Date.now() / 1000 < this.storageService.getExpirationDate();
 
@@ -115,16 +115,17 @@ export class AuthService {
     );
   }
 
-  public register(userData: User): Observable<unknown> {
-    const url = `${environment.apiUrl}/${environment.projectKey}/${environment.customers}`;
+  public register(userData: User): Observable<CustomerResponse> {
+    const url = `${this.API_URL}/${this.PROJECT_KEY}/customers`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.accessToken}`,
     });
 
     return this.http.post<CustomerResponse>(url, userData, { headers }).pipe(
       tap({
-        next: () => {},
+        next: () => {
+          this.login({ email: userData.email, password: userData.password }).subscribe();
+        },
         error: (error) => {
           this.handleError(error);
         },
@@ -148,6 +149,7 @@ export class AuthService {
     this.storageService.clearStorage();
     this.tokenSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+    this.auth().subscribe();
     this.router.navigate(['/login']);
   }
 
@@ -168,6 +170,7 @@ export class AuthService {
         console.log('[auth service] requested refresh token: ', response);
         this.storageService.setSession(response, 'normal', true);
         this.tokenSubject.next(response.access_token);
+        this.isAuthenticatedSubject.next(true);
       }),
     );
   }
