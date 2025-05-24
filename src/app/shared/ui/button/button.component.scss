@@ -15,6 +15,6 @@ button {
   @extend %transition;
   color: currentColor;
   @include media-mobile {
-    padding: 0.2rem 1.0rem;
+    padding: 0.2rem 1rem;
   }
 }
