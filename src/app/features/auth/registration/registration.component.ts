@@ -27,7 +27,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public registrationError: string = '';
   public loginError: string = '';
   private subscription: Subscription = new Subscription();
-  public errorRegistrationMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -116,18 +115,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         },
         error: () => {
           // Handle registration error
-          //this.handleRegistrationError(error);
-          if (!this.authService.isUserValid) {
-            this.errorRegistrationMessage = this.errMsg.ERROR_REGISTRATION_MESSAGE;
-          }
+          this.handleRegistrationError();
         },
       });
     }
   }
 
-  private handleRegistrationError(error?: unknown): void {
+  private handleRegistrationError(): void {
     // Display user-friendly error messages
-    this.registrationError = 'Registration failed. Please try again.';
+    if (!this.authService.isUserValid) {
+      // it has an error on this moment
+      // console.log('User is has');
+      this.registrationError = this.errMsg.ERROR_REGISTRATION_MESSAGE;
+    }
   }
 
   public getFieldError(fieldName: string) {
