@@ -3,6 +3,5 @@ export interface Address {
   city: string;
   postalCode: string;
   country: string;
-  isDefaultBillingAddress?: boolean;
-  isDefaultShippingAddress?: boolean;
+  id?: string;
 }

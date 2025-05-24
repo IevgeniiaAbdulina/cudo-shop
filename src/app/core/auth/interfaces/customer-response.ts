@@ -1,9 +1,5 @@
-import { Address } from '../../model/address';
+import { UserResponse } from './user-response';
 
 export interface CustomerResponse {
-  customer: {
-    firstName: string;
-    lastName: string;
-    addresses: Address[];
-  };
+  customer: UserResponse;
 }

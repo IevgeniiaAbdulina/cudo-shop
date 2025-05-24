@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../../core/auth/auth.service';
-import { CustomerResponse } from '../../../core/auth/interfaces/customer-response';
 import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../shared/constants/regex';
 import ERROR_MSG from '../../../shared/constants/error-message';
 import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { User } from '../../../core/model/user';
+import { UserResponse } from '../../../core/auth/interfaces/user-response';
 
 @Component({
   selector: 'app-registration',
@@ -66,64 +68,92 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (this.registrationForm.valid) {
-      let country = '';
-      switch (this.registrationForm.value.address.country) {
-        case 'Poland':
-          country = 'PL';
-          break;
-        case 'Germany':
-          country = 'GE';
-          break;
-        case 'USA':
-          country = 'US';
-          break;
-        default:
-          country = 'UNDEFINED';
-          break;
-      }
-      const address = {
-        streetName: this.registrationForm.value.address.street,
-        city: this.registrationForm.value.address.city,
-        postalCode: this.registrationForm.value.address.postalCode,
-        country,
-      };
-      const userData = {
-        email: this.registrationForm.value.email,
-        password: this.registrationForm.value.password,
-        firstName: this.registrationForm.value.firstName,
-        lastName: this.registrationForm.value.lastName,
-        dateOfBirth: this.registrationForm.value.dob,
-        addresses: [
-          {
-            ...address,
-            isDefaultBillingAddress: this.registrationForm.value.address.useBillingAddress,
-            isDefaultShippingAddress: this.registrationForm.value.address.useShippingAddress,
-          },
-        ],
-      };
+      const userData = this.getUserData();
 
-      this.authService.register(userData).subscribe({
-        next: (response) => {
-          const responseStr = JSON.stringify(response);
-          const userResponse: CustomerResponse = JSON.parse(responseStr);
-          alert(
-            `Nice to meet you, ${userResponse.customer.firstName} ${userResponse.customer.lastName}! You have been successful registered!`,
-          );
-          console.log(userResponse);
-          // Handle successful registration
-          this.router.navigate(['/main']);
-        },
-        error: (error) => {
-          // Handle registration error
-          this.handleRegistrationError(error);
-        },
-      });
+      this.authService
+        .register(userData, this.registrationForm.value.address.useBillingAddress, this.registrationForm.value.address.useShippingAddress)
+        .subscribe({
+          next: (response) => {
+            const responseStr = JSON.stringify(response);
+            const userResponse: UserResponse = JSON.parse(responseStr);
+            alert(
+              // TODO : create more attractive message to user
+              `Nice to meet you, ${userResponse.firstName} ${userResponse.lastName}! You have been successful registered!`,
+            );
+            this.authService.login({ email: userData.email, password: userData.password }).subscribe({
+              next: () => {
+                this.router.navigate(['/main']);
+              },
+              error: (error) => {
+                this.handleLoginError(error);
+              },
+            });
+          },
+          error: (error) => {
+            // Handle registration error
+            this.handleRegistrationError(error);
+          },
+        });
     }
   }
 
-  private handleRegistrationError(error?: unknown): void {
+  private getUserData(): User {
+    let country = '';
+    switch (this.registrationForm.value.address.country) {
+      case 'Poland':
+        country = 'PL';
+        break;
+      case 'Germany':
+        country = 'GE';
+        break;
+      case 'USA':
+        country = 'US';
+        break;
+      default:
+        country = 'UNDEFINED';
+        break;
+    }
+    const address = {
+      streetName: this.registrationForm.value.address.street,
+      city: this.registrationForm.value.address.city,
+      postalCode: this.registrationForm.value.address.postalCode,
+      country,
+    };
+
+    return {
+      email: this.registrationForm.value.email,
+      password: this.registrationForm.value.password,
+      firstName: this.registrationForm.value.firstName,
+      lastName: this.registrationForm.value.lastName,
+      dateOfBirth: this.registrationForm.value.dob,
+      addresses: [{ ...address }],
+    };
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // Client-side or network error
+      console.error('An error occurred:', error.error);
+    } else {
+      // Backend returned unsuccessful response
+      console.error(`Backend returned code ${error.status}, body was:`, error.error);
+    }
+
+    return new Error('Something went wrong; please try again later.');
+  }
+
+  private handleLoginError(error: HttpErrorResponse): void {
+    // Display user-friendly error messages
+    this.loginError = 'Login failed. Please try again.';
+    console.log(this.loginError); // TODO
+    this.handleError(error);
+  }
+
+  private handleRegistrationError(error: HttpErrorResponse): void {
     // Display user-friendly error messages
     this.registrationError = 'Registration failed. Please try again.';
+    console.log(this.registrationError); // TODO
+    this.handleError(error);
   }
 
   public getFieldError(fieldName: string) {
