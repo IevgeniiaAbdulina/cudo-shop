@@ -11,6 +11,7 @@ import { UserResponse } from './interfaces/user-response';
 import { Address } from '../model/address';
 import { User } from '../model/user';
 import { environment } from '../../../environments/environment.dev';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,8 @@ export class AuthService {
   private readonly CLIENT_SECRET: string = environment.clientSecret;
   private readonly CLIENT_ID: string = environment.clientId;
   private readonly AUTH_URL: string = environment.authUrl;
+  private readonly API_URL: string = environment.apiUrl;
+  private readonly SCOPES: string[] = environment.scopes;
   private readonly CUSTOMERS_URL: string = `${environment.apiUrl}/${environment.projectKey}/${environment.customers}`;
   private readonly accessToken: string = 'a0GgPCH_GxNSIXfIFC58D0V8YQeW8EtJ'; // TODO
 
@@ -32,16 +35,66 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private storageService: StorageService,
   ) {
-    this.tokenSubject.next(this.apiClientAuthorization);
-  }
+    const token: string | null = this.storageService.getToken();
+    if (token) {
+      this.tokenSubject.next(token);
+      this.isAuthenticatedSubject.next(false);
+    }
 
-  public get token$(): Observable<string | null> {
-    return this.tokenSubject.asObservable();
+    this.setAuthorisedSession();
   }
 
   public get isAuthenticated$(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
+  }
+
+  private setAuthorisedSession(): void {
+    const isAuthorisedSession: boolean = this.storageService.isSessionNormal();
+    const accessToken: string | null = this.storageService.getToken();
+    const isExpirationDateOk: boolean = Date.now() / 1000 < this.storageService.getExpirationDate();
+
+    if (isAuthorisedSession && accessToken && isExpirationDateOk) {
+      this.tokenSubject.next(accessToken);
+      this.isAuthenticatedSubject.next(true);
+    }
+  }
+
+  public getToken(initialToken: boolean): string | null {
+    if (initialToken) {
+      console.log('[auth service] getting initial token');
+
+      return this.apiClientAuthorization;
+    }
+    console.log('[auth service] getting access token');
+
+    return this.tokenSubject.value;
+  }
+
+  public auth(): Observable<AuthResponse> {
+    const body = new URLSearchParams();
+    body.set('grant_type', 'client_credentials');
+    body.set('scope', this.SCOPES[0]);
+
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + this.apiClientAuthorization,
+    };
+
+    return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
+      tap({
+        next: (response: AuthResponse) => {
+          console.log('[auth service] Authorization client anonymous', response);
+          this.storageService.setSession(response, 'anonymous', false);
+          this.tokenSubject.next(response.access_token);
+        },
+        error: (error) => {
+          console.error('[auth service] Authorization failed', error);
+          this.handleError(error);
+        },
+      }),
+    );
   }
 
   public login(credentials: { email: string; password: string }): Observable<AuthResponse> {
@@ -58,7 +111,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/${environment.customers}/token`, body.toString(), { headers }).pipe(
       tap({
         next: (response: AuthResponse) => {
-          // this.setSession(response);
+          this.storageService.setSession(response, 'normal', false);
           this.tokenSubject.next(response.access_token);
           this.isAuthenticatedSubject.next(true);
         },
@@ -72,7 +125,6 @@ export class AuthService {
   public register(userData: User, isDefaultBillingAddress: string, isDefaultShippingAddress: string): Observable<UserResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.accessToken}`,
     });
 
     return this.http.post<CustomerResponse>(this.CUSTOMERS_URL, userData, { headers }).pipe(
@@ -142,12 +194,32 @@ export class AuthService {
   }
 
   public logout(): void {
+    this.storageService.clearStorage();
     this.tokenSubject.next(null);
     this.isAuthenticatedSubject.next(false);
+    this.auth().subscribe();
     this.router.navigate(['/login']);
   }
 
-  public getToken(): string | null {
-    return this.tokenSubject.value;
+  public refreshToken(): Observable<AuthResponse> {
+    const body = new URLSearchParams();
+    body.set('grant_type', 'refresh_token');
+    body.set('refresh_token', this.storageService.getRefreshToken() || '');
+
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + this.apiClientAuthorization,
+    };
+
+    console.log('[auth service] requesting refresh token');
+
+    return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
+      tap((response: AuthResponse) => {
+        console.log('[auth service] requested refresh token: ', response);
+        this.storageService.setSession(response, 'normal', true);
+        this.tokenSubject.next(response.access_token);
+        this.isAuthenticatedSubject.next(true);
+      }),
+    );
   }
 }

@@ -18,7 +18,6 @@ form {
   font-size: 1.6rem;
 }
 
-
 h2 {
   text-align: center;
   color: $color-primary;
@@ -26,7 +25,6 @@ h2 {
     font-size: 1.8rem;
   }
 }
-
 
 input:not(input[type="checkbox"]) {
   width: 100%;
@@ -42,7 +40,7 @@ input:not(input[type="checkbox"]) {
   }
 }
 
-div[formGroupName="address"] {
+div[formGroupName='address'] {
   display: flex;
   flex-direction: column;
   row-gap: 1.5rem;
@@ -53,7 +51,7 @@ h3 {
   margin-bottom: 1.6rem;
 }
 
-.field{
+.field {
   padding: 5px 0;
 }
 
@@ -64,7 +62,7 @@ h3 {
   position: relative;
 }
 
-.error__container{
+.error__container {
   height: 20px;
   padding: 0 10px;
 }
@@ -102,19 +100,19 @@ h3 {
   }
 }
 
-select option:active{
+select option:active {
   background-color: $color-additional;
 }
 
 .login-redirection {
-  margin: 2.0rem 0 3.0rem 0;
+  margin: 2rem 0 3rem 0;
   padding: 1rem;
   border-radius: 1rem;
   border: 2px solid $color-primary;
   background-color: $color-input-search;
 }
 
-.login-redirection a{
+.login-redirection a {
   color: $color-additional;
   text-decoration: none;
   @extend %transition;
@@ -123,14 +121,15 @@ select option:active{
   }
 }
 
-.form__button{
+.form__button {
   align-self: center;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 2.0rem;
+  margin-top: 2rem;
   @extend %transition;
-  &_visible{
+
+  &_visible {
     color: $color-input-search;
     background: $color-additional;
     &:hover {
@@ -138,7 +137,8 @@ select option:active{
       box-shadow: 0 1px 3px $color-input-search;
     }
   }
-  &_disabled{
+
+  &_disabled {
     cursor: not-allowed;
     color: $color-input-search;
     background-color: $color-button-disable;
