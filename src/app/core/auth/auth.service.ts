@@ -24,7 +24,6 @@ export class AuthService {
   private readonly API_URL: string = environment.apiUrl;
   private readonly SCOPES: string[] = environment.scopes;
   private readonly CUSTOMERS_URL: string = `${environment.apiUrl}/${environment.projectKey}/${environment.customers}`;
-  private readonly accessToken: string = 'a0GgPCH_GxNSIXfIFC58D0V8YQeW8EtJ'; // TODO
 
   private apiClientAuthorization: string = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
   private apiUrlUserLogin: string = `${this.AUTH_URL}/oauth/${this.PROJECT_KEY}`;
@@ -163,9 +162,7 @@ export class AuthService {
 
   private getCustomerById(customerId: string): Observable<UserResponse> {
     const url = `${this.CUSTOMERS_URL}/${customerId}`;
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.accessToken}`,
-    });
+    const headers = new HttpHeaders({}); // TODO : check if can remove headers
 
     return this.http.get<UserResponse>(url, { headers });
   }
@@ -174,7 +171,6 @@ export class AuthService {
     const url = `${this.CUSTOMERS_URL}/${customerId}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.accessToken}`,
     });
     const body = { version, actions };
 
