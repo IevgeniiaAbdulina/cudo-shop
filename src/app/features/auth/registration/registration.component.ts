@@ -89,9 +89,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
               },
             });
           },
-          error: (error) => {
+          error: () => {
             // Handle registration error
-            this.handleRegistrationError(error);
+            this.handleRegistrationError();
           },
         });
     }
@@ -149,11 +149,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.handleError(error);
   }
 
-  private handleRegistrationError(error: HttpErrorResponse): void {
+  private handleRegistrationError(): void {
     // Display user-friendly error messages
-    this.registrationError = 'Registration failed. Please try again.';
-    console.log(this.registrationError); // TODO
-    this.handleError(error);
+    if (!this.authService.isUserValid) {
+      // it has an error on this moment
+      // console.log('User is has');
+      this.registrationError = this.errMsg.ERROR_REGISTRATION_MESSAGE;
+    }
   }
 
   public getFieldError(fieldName: string) {

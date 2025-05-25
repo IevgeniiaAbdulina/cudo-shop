@@ -3,9 +3,12 @@
     Welcome back! <br />
     Glad to see you again!
   </h2>
+  <div *ngIf="errorLoginMessage">
+    <p class="error__message">{{ errorLoginMessage }}</p>
+  </div>
   <div class="field">
     <label for="email"></label>
-    <div class="input-container">
+    <div class="input-container" [class]="errorLoginMessage ? 'error__input' : ''">
       <input id="email" formControlName="email" placeholder="Adres e-mail *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('email')">
@@ -19,7 +22,7 @@
 
   <div class="field">
     <label for="password"></label>
-    <div class="input-container">
+    <div class="input-container" [class]="errorLoginMessage ? 'error__input' : ''">
       <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
       <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
       <div class="error__container">
