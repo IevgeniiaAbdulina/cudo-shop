@@ -113,17 +113,21 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           // Handle successful registration
           this.router.navigate(['/main']);
         },
-        error: (error) => {
+        error: () => {
           // Handle registration error
-          this.handleRegistrationError(error);
+          this.handleRegistrationError();
         },
       });
     }
   }
 
-  private handleRegistrationError(error?: unknown): void {
+  private handleRegistrationError(): void {
     // Display user-friendly error messages
-    this.registrationError = 'Registration failed. Please try again.';
+    if (!this.authService.isUserValid) {
+      // it has an error on this moment
+      // console.log('User is has');
+      this.registrationError = this.errMsg.ERROR_REGISTRATION_MESSAGE;
+    }
   }
 
   public getFieldError(fieldName: string) {
