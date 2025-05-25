@@ -163,9 +163,8 @@ export class AuthService {
 
   private getCustomerById(customerId: string): Observable<UserResponse> {
     const url = `${this.CUSTOMERS_URL}/${customerId}`;
-    const headers = new HttpHeaders({}); // TODO : check if can remove headers
 
-    return this.http.get<UserResponse>(url, { headers });
+    return this.http.get<UserResponse>(url);
   }
 
   private updateCustomerById(customerId: string, version: number, actions: CustomerAction[]): Observable<UserResponse> {
