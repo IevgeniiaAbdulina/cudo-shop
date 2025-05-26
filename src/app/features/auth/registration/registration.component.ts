@@ -17,7 +17,6 @@ import { UserResponse } from '../../../core/auth/interfaces/user-response';
 
 @Component({
   selector: 'app-registration',
-  standalone: true,
   imports: [CommonModule, ButtonComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -231,9 +230,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.isPasswordVisible = !this.isPasswordVisible;
     this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
   }
-
-  public getPostalCodeErrorMessage() {
-    const errors = this.registrationForm.get('address.postalCode')?.errors;
+  public getPostalCodeErrorMessage(fieldPath: string): string {
+    const errors = this.registrationForm.get(fieldPath)?.errors;
 
     return errors ? errors['message'] : '';
   }

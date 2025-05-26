@@ -117,7 +117,7 @@
           <div class="error__container">
             <div *ngIf="isFieldInvalid('billingAddress.postalCode')">
               <span class="error-line">
-                {{ `${getFieldError('billingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage() : `postal code ${errMsg.REQUIRED}`}` }}
+                {{ `${getFieldError('billingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage('billingAddress.postalCode') : `postal code ${errMsg.REQUIRED}`}` }}
               </span>
             </div>
           </div>
@@ -177,7 +177,7 @@
           <div class="error__container">
             <div *ngIf="isFieldInvalid('shippingAddress.postalCode')">
               <span class="error-line">
-                {{ `${getFieldError('shippingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage() : `postal code ${errMsg.REQUIRED}`}` }}
+                {{ `${getFieldError('shippingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage('shippingAddress.postalCode') : `postal code ${errMsg.REQUIRED}`}` }}
               </span>
             </div>
           </div>
