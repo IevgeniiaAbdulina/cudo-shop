@@ -160,10 +160,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   private getUserData(): User {
     const billingAddress: Address = {
-      streetName: this.registrationForm.value.address.street,
-      city: this.registrationForm.value.address.city,
-      postalCode: this.registrationForm.value.address.postalCode,
-      country: this.getCountryCode(this.registrationForm.value.address.country),
+      streetName: this.registrationForm.value.billingAddress.street,
+      city: this.registrationForm.value.billingAddress.city,
+      postalCode: this.registrationForm.value.billingAddress.postalCode,
+      country: this.getCountryCode(this.registrationForm.value.billingAddress.country),
     };
     const shippingAddress: Address = {
       streetName: this.registrationForm.value.shippingAddress.street,
