@@ -123,7 +123,7 @@ export class AuthService {
     );
   }
 
-  public register(userData: User, isDefaultShippingAddress: string): Observable<UserResponse> {
+  public register(userData: User): Observable<UserResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -134,23 +134,26 @@ export class AuthService {
         switchMap((response: CustomerResponse) => {
           const customerId: string = response.customer.id;
           const version: number = response.customer.version;
-          const address: Address = response.customer.addresses[0];
+          const billingAddress: Address = response.customer.addresses[0];
+          const shippingAddress: Address = response.customer.addresses[1];
           const updateActions: CustomerAction[] = [];
 
-          if (address.id) {
+          if (billingAddress.id) {
             updateActions.push({
               action: 'setDefaultBillingAddress',
-              addressId: address.id,
+              addressId: billingAddress.id,
             });
-
-            if (isDefaultShippingAddress) {
-              updateActions.push({
-                action: 'setDefaultShippingAddress',
-                addressId: address.id,
-              });
-            }
           } else {
-            throw new Error('Invalid address id');
+            throw new Error('Invalid billing address id');
+          }
+
+          if (shippingAddress.id) {
+            updateActions.push({
+              action: 'setDefaultShippingAddress',
+              addressId: shippingAddress.id,
+            });
+          } else {
+            throw new Error('Invalid shipping address id');
           }
 
           if (updateActions.length > 0) {

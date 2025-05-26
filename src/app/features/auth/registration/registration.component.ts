@@ -113,7 +113,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (this.registrationForm.valid) {
       const userData = this.getUserData();
 
-      this.authService.register(userData, this.registrationForm.value.address.useAsShippingAddress).subscribe({
+      this.authService.register(userData).subscribe({
         next: (response) => {
           const responseStr = JSON.stringify(response);
           const userResponse: UserResponse = JSON.parse(responseStr);
