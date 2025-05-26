@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { AuthResponse } from './interfaces/auth-response';
-import { environment } from '../../../environments/environment.dev';
 import { Router } from '@angular/router';
+
+import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+
+import { AuthResponse } from './interfaces/auth-response';
+import { CustomerAction } from '../customer/interfaces/customer-action';
+import { CustomerResponse } from '../customer/interfaces/customer-response';
+import { UserResponse } from './interfaces/user-response';
+import { Address } from '../model/address';
 import { User } from '../model/user';
-import { CustomerResponse } from './interfaces/customer-response';
+import { environment } from '../../../environments/environment.dev';
 import { StorageService } from './storage.service';
+import { CustomerService } from '../customer/customer.service';
+import API_ENDPOINT from '../../shared/constants/api-endpoint';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +23,6 @@ export class AuthService {
   private readonly CLIENT_SECRET: string = environment.clientSecret;
   private readonly CLIENT_ID: string = environment.clientId;
   private readonly AUTH_URL: string = environment.authUrl;
-  private readonly API_URL: string = environment.apiUrl;
   private readonly SCOPES: string[] = environment.scopes;
 
   private apiClientAuthorization: string = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
@@ -30,6 +36,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private storageService: StorageService,
+    private customerService: CustomerService,
   ) {
     const token: string | null = this.storageService.getToken();
     if (token) {
@@ -102,7 +109,7 @@ export class AuthService {
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
 
-    return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/customers/token`, body.toString(), { headers }).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/${API_ENDPOINT.CUSTOMERS}/token`, body.toString(), { headers }).pipe(
       tap({
         next: (response: AuthResponse) => {
           this.storageService.setSession(response, 'normal', false);
@@ -116,22 +123,45 @@ export class AuthService {
     );
   }
 
-  public register(userData: User): Observable<CustomerResponse> {
-    const url = `${this.API_URL}/${this.PROJECT_KEY}/customers`;
+  public register(userData: User, isDefaultBillingAddress: string, isDefaultShippingAddress: string): Observable<UserResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http.post<CustomerResponse>(url, userData, { headers }).pipe(
-      tap({
-        next: () => {
-          this.login({ email: userData.email, password: userData.password }).subscribe();
-        },
-        error: (error) => {
-          this.handleError(error);
-        },
-      }),
-    );
+    return this.http
+      .post<CustomerResponse>(`${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CUSTOMERS}`, userData, { headers })
+      .pipe(
+        switchMap((response: CustomerResponse) => {
+          const customerId: string = response.customer.id;
+          const version: number = response.customer.version;
+          const address: Address = response.customer.addresses[0];
+          const updateActions: CustomerAction[] = [];
+
+          if (address.id) {
+            if (isDefaultShippingAddress) {
+              updateActions.push({
+                action: 'setDefaultShippingAddress',
+                addressId: address.id,
+              });
+            }
+
+            if (isDefaultBillingAddress) {
+              updateActions.push({
+                action: 'setDefaultBillingAddress',
+                addressId: address.id,
+              });
+            }
+          } else {
+            throw new Error('Invalid address id');
+          }
+
+          if (updateActions.length > 0) {
+            return this.customerService.updateCustomerById(customerId, version, updateActions);
+          }
+
+          return this.customerService.getCustomerById(customerId);
+        }),
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
