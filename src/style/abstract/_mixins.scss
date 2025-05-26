@@ -4,6 +4,11 @@
     @content;
   }
 }
+@mixin media-laptop-tablet {
+  @media (max-width: $laptop-tablet-width) {
+    @content;
+  }
+}
 @mixin media-tablet {
   @media (max-width: $tablet-width) {
     @content;
