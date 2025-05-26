@@ -1,4 +1,6 @@
 enum API_ENDPOINT {
+  OAUTH = 'oauth',
+  TOKEN = 'token',
   CUSTOMERS = 'customers',
 }
 

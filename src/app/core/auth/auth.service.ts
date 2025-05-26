@@ -26,7 +26,7 @@ export class AuthService {
   private readonly SCOPES: string[] = environment.scopes;
 
   private apiClientAuthorization: string = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
-  private apiUrlUserLogin: string = `${this.AUTH_URL}/oauth/${this.PROJECT_KEY}`;
+  private apiUrlUserLogin: string = `${this.AUTH_URL}/${API_ENDPOINT.OAUTH}/${this.PROJECT_KEY}`;
 
   private tokenSubject = new BehaviorSubject<string | null>(null);
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
@@ -83,7 +83,7 @@ export class AuthService {
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
 
-    return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
+    return this.http.post<AuthResponse>(`${this.AUTH_URL}/${API_ENDPOINT.OAUTH}/${API_ENDPOINT.TOKEN}`, body.toString(), { headers }).pipe(
       tap({
         next: (response: AuthResponse) => {
           console.log('[auth service] Authorization client anonymous', response);
@@ -198,7 +198,7 @@ export class AuthService {
 
     console.log('[auth service] requesting refresh token');
 
-    return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
+    return this.http.post<AuthResponse>(`${this.AUTH_URL}/${API_ENDPOINT.OAUTH}/${API_ENDPOINT.TOKEN}`, body.toString(), { headers }).pipe(
       tap((response: AuthResponse) => {
         console.log('[auth service] requested refresh token: ', response);
         this.storageService.setSession(response, 'normal', true);
