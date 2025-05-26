@@ -123,7 +123,7 @@ export class AuthService {
     );
   }
 
-  public register(userData: User, isDefaultBillingAddress: string, isDefaultShippingAddress: string): Observable<UserResponse> {
+  public register(userData: User, isDefaultShippingAddress: string): Observable<UserResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -138,16 +138,14 @@ export class AuthService {
           const updateActions: CustomerAction[] = [];
 
           if (address.id) {
+            updateActions.push({
+              action: 'setDefaultBillingAddress',
+              addressId: address.id,
+            });
+
             if (isDefaultShippingAddress) {
               updateActions.push({
                 action: 'setDefaultShippingAddress',
-                addressId: address.id,
-              });
-            }
-
-            if (isDefaultBillingAddress) {
-              updateActions.push({
-                action: 'setDefaultBillingAddress',
                 addressId: address.id,
               });
             }

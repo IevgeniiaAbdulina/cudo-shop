@@ -11,11 +11,13 @@ import ERROR_MSG from '../../../shared/constants/error-message';
 import { minimumAgeValidator } from '../../../shared/validator/validate.dob';
 import { postalCodeValidator } from '../../../shared/validator/validate.postal-code';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { Address } from '../../../core/model/address';
 import { User } from '../../../core/model/user';
 import { UserResponse } from '../../../core/auth/interfaces/user-response';
 
 @Component({
   selector: 'app-registration',
+  standalone: true,
   imports: [CommonModule, ButtonComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
@@ -43,23 +45,65 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       firstName: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
       dob: ['', [Validators.required, minimumAgeValidator(18)]],
-      address: this.fb.group({
+      billingAddress: this.fb.group({
         street: ['', Validators.required],
         city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
         postalCode: ['', [Validators.required, postalCodeValidator()]],
         country: ['', Validators.required],
-        useBillingAddress: [false],
-        useShippingAddress: [false],
+        useAsShippingAddress: [false],
+      }),
+      shippingAddress: this.fb.group({
+        street: ['', Validators.required],
+        city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
+        postalCode: ['', [Validators.required, postalCodeValidator()]],
+        country: ['', Validators.required],
       }),
     });
 
-    const countryValueChangesSubscription = this.registrationForm.get('address.country')?.valueChanges.subscribe(() => {
-      this.registrationForm.get('address.postalCode')?.updateValueAndValidity();
+    this.addListeners();
+  }
+
+  public addListeners() {
+    const billingCountryValueChangesSubscription = this.registrationForm.get('billingAddress.country')?.valueChanges.subscribe(() => {
+      this.registrationForm.get('billingAddress.postalCode')?.updateValueAndValidity();
     });
 
-    if (countryValueChangesSubscription) {
-      this.subscription.add(countryValueChangesSubscription);
+    if (billingCountryValueChangesSubscription) {
+      this.subscription.add(billingCountryValueChangesSubscription);
     }
+
+    const shippingCountryValueChangesSubscription = this.registrationForm.get('shippingAddress.country')?.valueChanges.subscribe(() => {
+      this.registrationForm.get('shippingAddress.postalCode')?.updateValueAndValidity();
+    });
+
+    if (shippingCountryValueChangesSubscription) {
+      this.subscription.add(shippingCountryValueChangesSubscription);
+    }
+
+    const billingAddressValueChangesSubscription = this.registrationForm.get('billingAddress')?.valueChanges.subscribe(() => {
+      const useAsShippingAddress = this.registrationForm.get('billingAddress.useAsShippingAddress')?.value;
+      if (useAsShippingAddress) {
+        this.copyBillingToShipping();
+      }
+    });
+
+    if (billingAddressValueChangesSubscription) {
+      this.subscription.add(billingAddressValueChangesSubscription);
+    }
+  }
+
+  public copyBillingToShipping() {
+    const billingAddress = this.registrationForm.get('billingAddress')?.value;
+    this.registrationForm.get('shippingAddress')?.patchValue({
+      street: billingAddress.street,
+      city: billingAddress.city,
+      postalCode: billingAddress.postalCode,
+      country: billingAddress.country,
+    });
+  }
+
+  public isBillingAddressValid(): boolean {
+    return this.registrationForm.get('billingAddress')?.valid || false;
   }
 
   public ngOnDestroy(): void {
@@ -70,36 +114,34 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (this.registrationForm.valid) {
       const userData = this.getUserData();
 
-      this.authService
-        .register(userData, this.registrationForm.value.address.useBillingAddress, this.registrationForm.value.address.useShippingAddress)
-        .subscribe({
-          next: (response) => {
-            const responseStr = JSON.stringify(response);
-            const userResponse: UserResponse = JSON.parse(responseStr);
-            alert(
-              // TODO : create more attractive message to user
-              `Nice to meet you, ${userResponse.firstName} ${userResponse.lastName}! You have been successful registered!`,
-            );
-            this.authService.login({ email: userData.email, password: userData.password }).subscribe({
-              next: () => {
-                this.router.navigate(['/main']);
-              },
-              error: (error) => {
-                this.handleLoginError(error);
-              },
-            });
-          },
-          error: () => {
-            // Handle registration error
-            this.handleRegistrationError();
-          },
-        });
+      this.authService.register(userData, this.registrationForm.value.address.useAsShippingAddress).subscribe({
+        next: (response) => {
+          const responseStr = JSON.stringify(response);
+          const userResponse: UserResponse = JSON.parse(responseStr);
+          alert(
+            // TODO : create more attractive message to user
+            `Nice to meet you, ${userResponse.firstName} ${userResponse.lastName}! You have been successfully registered!`,
+          );
+          this.authService.login({ email: userData.email, password: userData.password }).subscribe({
+            next: () => {
+              this.router.navigate(['/main']);
+            },
+            error: (error) => {
+              this.handleLoginError(error);
+            },
+          });
+        },
+        error: () => {
+          // Handle registration error
+          this.handleRegistrationError();
+        },
+      });
     }
   }
 
-  private getUserData(): User {
+  private getCountryCode(countryName: string): string {
     let country = '';
-    switch (this.registrationForm.value.address.country) {
+    switch (countryName) {
       case 'Poland':
         country = 'PL';
         break;
@@ -113,11 +155,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         country = 'UNDEFINED';
         break;
     }
-    const address = {
+
+    return country;
+  }
+
+  private getUserData(): User {
+    const billingAddress: Address = {
       streetName: this.registrationForm.value.address.street,
       city: this.registrationForm.value.address.city,
       postalCode: this.registrationForm.value.address.postalCode,
-      country,
+      country: this.getCountryCode(this.registrationForm.value.address.country),
+    };
+    const shippingAddress: Address = {
+      streetName: this.registrationForm.value.shippingAddress.street,
+      city: this.registrationForm.value.shippingAddress.city,
+      postalCode: this.registrationForm.value.shippingAddress.postalCode,
+      country: this.getCountryCode(this.registrationForm.value.shippingAddress.country),
     };
 
     return {
@@ -126,7 +179,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       firstName: this.registrationForm.value.firstName,
       lastName: this.registrationForm.value.lastName,
       dateOfBirth: this.registrationForm.value.dob,
-      addresses: [{ ...address }],
+      addresses: [billingAddress, shippingAddress],
     };
   }
 
@@ -160,10 +213,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public getFieldError(fieldName: string) {
     let error = '';
-    let field = this.registrationForm.get(fieldName);
-    if (!field) {
-      field = this.registrationForm.controls['address'].get(fieldName);
-    }
+    const field = this.registrationForm.get(fieldName);
     if (field?.errors) {
       error = Object.keys(field?.errors)[0];
     }
@@ -174,7 +224,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public isFieldInvalid(fieldName: string): boolean | undefined {
     const field = this.registrationForm.get(fieldName);
 
-    return field?.invalid && field?.touched;
+    return field?.invalid && (field?.dirty || field?.touched);
   }
 
   public togglePasswordVisibility(): void {
