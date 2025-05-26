@@ -37,6 +37,10 @@ header {
     font-size: 1.9rem;
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
+    margin-left: 1rem;
+  }
+  @include media-mobile {
+    margin-left: 0;
   }
 }
 

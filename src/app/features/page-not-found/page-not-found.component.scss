@@ -1,0 +1,71 @@
+@use '../../../style/abstract/constant' as *;
+@use '../../../style/abstract/placeholders' as *;
+@use '../../../style/abstract/mixins' as *;
+
+.not-found__container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3.5rem;
+    color: $color-primary;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+.not-found__error{
+  display: flex;
+  justify-content: center;
+  column-gap: 4rem;
+  @include media-tablet {
+    column-gap: 2rem;
+  }
+  @include media-mobile-big {
+    flex-direction: column-reverse;
+    align-items: center;
+    row-gap: 1.5rem;
+  }
+}
+.not-found__image{
+  background-image: url('../../assets/images/404-error.png');
+  width: 30rem;
+  height: 25rem;
+  background-repeat: round;
+  object-fit: cover;
+  @include media-tablet {
+    width: 20rem;
+    height: 15rem;
+  }
+}
+.message__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  row-gap: 2.5rem;
+  align-self: center;
+  @include media-mobile-big {
+    row-gap: 1.5rem;
+  }
+}
+.message-error {
+  color: $color-additional;
+  font-size: 3.6rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  @include media-tablet {
+    font-size: 2.5rem;
+  }
+}
+.not-found__button {
+  color: $color-input-search;
+  align-self: center;
+  background: $color-additional;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  @extend %transition;
+  &:hover {
+    background: $color-button-hover;
+    box-shadow: 0 1px 3px $color-input-search;
+  }
+  @include media-mobile {
+    font-weight: 400;
+  }
+}

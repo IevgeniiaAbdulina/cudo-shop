@@ -20,11 +20,11 @@ form {
     max-width: 35rem;
   }
 
-  @media screen and (max-width: $tablet-width) {
+  @include media-tablet{
     max-width: 50rem;
   }
 
-  @media screen and (max-width: $mobile-width) {
+  @include media-mobile{
     max-width: 35rem;
   }
 }
@@ -33,7 +33,7 @@ h2 {
   text-align: center;
   color: $color-primary;
 
-  @include media-mobile {
+  @include media-tablet {
     font-size: 1.8rem;
   }
 }
@@ -117,7 +117,7 @@ div[formGroupName='shippingAddress']>h3 {
 }
 
 .error__container {
-  height: 20px;
+  height: max-content;
   padding: 0 10px;
 }
 
