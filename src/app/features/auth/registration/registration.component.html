@@ -87,7 +87,7 @@
       <div class="field">
         <label for="billing-street"></label>
         <div class="input-container">
-          <input id="billing-street" formControlName="street" placeholder="Address *" />
+          <input id="billing-street" formControlName="street" placeholder="Street *" />
           <div class="error__container">
             <div *ngIf="isFieldInvalid('billingAddress.street')">
               <span class="error-line">{{ `street ${errMsg.REQUIRED}` }}</span>
@@ -147,7 +147,7 @@
       <div class="field">
         <label for="shipping-street"></label>
         <div class="input-container">
-          <input id="shipping-street" formControlName="street" placeholder="Address *" />
+          <input id="shipping-street" formControlName="street" placeholder="Street *" />
           <div class="error__container">
             <div *ngIf="isFieldInvalid('shippingAddress.street')">
               <span class="error-line">{{ `street ${errMsg.REQUIRED}` }}</span>
