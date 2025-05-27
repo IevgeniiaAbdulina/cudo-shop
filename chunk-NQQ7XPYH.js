@@ -1,1 +1,0 @@
-import{L as o,h as r}from"./chunk-UDK6SDVK.js";var i=class t{routeSource=new r;routeName$=this.routeSource.asObservable();setRoute(e){this.routeSource.next(e)}static \u0275fac=function(c){return new(c||t)};static \u0275prov=o({token:t,factory:t.\u0275fac,providedIn:"root"})};export{i as a};
