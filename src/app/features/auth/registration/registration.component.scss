@@ -99,6 +99,11 @@ div[formGroupName='shippingAddress']>h3 {
     border: 2px solid $color-primary;
     background-color: $color-input-search;
   }
+
+  label {
+   font-size: 1.1rem;
+   font-weight: bold;
+  }
 }
 
 .field {
