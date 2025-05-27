@@ -104,6 +104,35 @@ div[formGroupName='shippingAddress']>h3 {
    font-size: 1.1rem;
    font-weight: bold;
   }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  /* Position the tooltip */
+  position: absolute;
+  bottom: 0.5rem;
+  left: 3rem;
+  z-index: 1;
+
+  padding: 5px 0;
+  width: 80%;
+  text-align: center;
+  font-size: 1rem;
+  color: #fff;
+  background-color: black;
+  border-radius: 6px;
+
+  transition: bottom 0.5s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  bottom: 3rem;
 }
 
 .field {
