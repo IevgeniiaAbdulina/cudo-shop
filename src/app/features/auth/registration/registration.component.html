@@ -11,7 +11,7 @@
       <div class="error__container">
         <div *ngIf="isFieldInvalid('email')">
           <span class="error-line">
-            {{ `${getFieldError('email') === 'pattern' ? `${errMsg.INVALID} email format` : `email ${errMsg.REQUIRED}`}` }}
+            {{ `${getFieldError('email') === 'pattern' ? `${errMsg.EMAIL}` : `email ${errMsg.REQUIRED}`}` }}
           </span>
         </div>
       </div>
