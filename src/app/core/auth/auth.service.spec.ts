@@ -15,8 +15,8 @@ import { AuthResponse } from './interfaces/auth-response';
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
-  let storageService: StorageService; // eslint-disable-line @typescript-eslint/no-unused-vars
-  let customerService: CustomerService; // eslint-disable-line @typescript-eslint/no-unused-vars
+  let storageService: StorageService;
+  let customerService: CustomerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,6 +41,14 @@ describe('AuthService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should use storage service', () => {
+    expect(storageService).toBeTruthy();
+  });
+
+  it('should use customer service', () => {
+    expect(customerService).toBeTruthy();
   });
 
   it('should use mock API_URL', () => {
