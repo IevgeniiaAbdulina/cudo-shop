@@ -1,7 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
-import { ROUTER_OUTLET_DATA } from '@angular/router';
-import { Book } from '../../../../shared/interfaces/book';
-import { Cosmetics } from '../../../../shared/interfaces/cosmetics';
+import { Component, inject } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 @Component({
@@ -12,14 +9,8 @@ import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 })
 export class HomeComponent {
   private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
-  private data = inject(ROUTER_OUTLET_DATA) as Signal<{
-    books: Book[];
-    cosmetics: Cosmetics[];
-  }>;
 
   public title: string = 'Home page';
-  public books = this.data().books;
-  public cosmetics = this.data().cosmetics;
 
   public selectCatalog(catalogName: string) {
     this.navigateToSpecificRouteService.setRoute(catalogName);

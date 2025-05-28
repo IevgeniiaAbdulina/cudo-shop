@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { routes } from '../../../../app.routes';
 
 import { HomeComponent } from './home.component';
 
@@ -9,6 +11,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
+      providers: [provideRouter(routes)],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);
@@ -19,4 +22,9 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('shoud navigate to select catalog', () => {
+    const navigateSpy = jest.spyOn(component, 'selectCatalog');
+    component.selectCatalog();
+    expect(navigateSpy).toHaveBeenCalled();
+  })
 });
