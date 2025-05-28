@@ -9,7 +9,7 @@ import { UserResponse } from './interfaces/user-response';
 import { CustomerResponse } from '../customer/interfaces/customer-response';
 import { environment } from '../../../environments/environment';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient } from '@angular/common/http';
 import { AuthResponse } from './interfaces/auth-response';
 
 describe('AuthService', () => {
@@ -148,18 +148,27 @@ describe('AuthService', () => {
       httpMock.verify();
     });
 
-    it('should handle POST errors', () => {
-      const mockError = { status: 500, statusText: 'Server Error' };
+    it('throws an error if request fails', () => {
+      let actualError: HttpErrorResponse | undefined;
 
       service.login(userCredentials).subscribe({
         next: () => fail('Should have failed'),
         error: (error) => {
-          expect(error.status).toEqual(mockError.status);
+          actualError = error;
         },
       });
 
       const req = httpMock.expectOne(loginUrl);
-      req.flush(null, mockError);
+      req.flush('Server error', {
+        status: 500,
+        statusText: 'Unprocessable entity',
+      });
+
+      if (!actualError) {
+        throw new Error('Error needs to be defined');
+      }
+      expect(actualError.status).toEqual(500);
+      expect(actualError.statusText).toEqual('Unprocessable entity');
     });
   });
 
