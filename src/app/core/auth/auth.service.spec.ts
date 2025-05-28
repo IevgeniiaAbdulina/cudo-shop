@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
@@ -7,8 +7,10 @@ import { StorageService } from './storage.service';
 import { CustomerService } from '../customer/customer.service';
 import { UserResponse } from './interfaces/user-response';
 import { CustomerResponse } from '../customer/interfaces/customer-response';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
+import { provideHttpClient } from '@angular/common/http';
+import { AuthResponse } from './interfaces/auth-response';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -18,8 +20,14 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [AuthService, StorageService, CustomerService, { provide: Router, useValue: { navigate: jest.fn() } }],
+      providers: [
+        AuthService,
+        StorageService,
+        CustomerService,
+        { provide: Router, useValue: { navigate: jest.fn() } },
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -33,6 +41,10 @@ describe('AuthService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should use mock API_URL', () => {
+    expect(environment.apiUrl).toBe('https://api.example.com');
   });
 
   it('should register a new user', () => {
@@ -113,5 +125,63 @@ describe('AuthService', () => {
     const req = httpMock.expectOne(`${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CUSTOMERS}`);
     expect(req.request.method).toBe('POST');
     req.flush('Error', { status: 500, statusText: 'Internal Server Error' });
+  });
+
+  describe('login', () => {
+    const userCredentials = { email: 'test@example.com', password: '123qweQWE' };
+    const reqBody = 'grant_type=password&username=test%40example.com&password=123qweQWE';
+    const loginUrl = `${environment.authUrl}/oauth/${environment.projectKey}/customers/token`;
+
+    it('should authorize user', () => {
+      const initToken: boolean = false;
+      let token: string | null = null;
+
+      service.login(userCredentials).subscribe((response: AuthResponse) => {
+        token = response.access_token;
+      });
+
+      const req = httpMock.expectOne(loginUrl);
+      req.flush(userCredentials);
+      expect(req.request.method).toEqual('POST');
+      expect(req.request.body).toEqual(reqBody);
+      expect(service.getToken(initToken)).toEqual(token);
+      httpMock.verify();
+    });
+
+    it('should handle POST errors', () => {
+      const mockError = { status: 500, statusText: 'Server Error' };
+
+      service.login(userCredentials).subscribe({
+        next: () => fail('Should have failed'),
+        error: (error) => {
+          expect(error.status).toEqual(mockError.status);
+        },
+      });
+
+      const req = httpMock.expectOne(loginUrl);
+      req.flush(null, mockError);
+    });
+  });
+
+  describe('refreshToken', () => {
+    const refreshTokenUrl = `${environment.authUrl}/oauth/token`;
+
+    it('should refresh client authorization', () => {
+      let token: string | undefined;
+      const response: AuthResponse = {
+        access_token: 'string',
+        token_type: 'string',
+        expires_in: 0,
+        scope: 'string',
+        refresh_token: 'refreshToken',
+      };
+      service.refreshToken().subscribe((response) => {
+        token = response.refresh_token;
+      });
+      const req = httpMock.expectOne(refreshTokenUrl);
+      req.flush(response);
+
+      expect(token).toEqual('refreshToken');
+    });
   });
 });
