@@ -1,7 +1,4 @@
-import { Component, inject, Signal } from '@angular/core';
-import { ROUTER_OUTLET_DATA } from '@angular/router';
-import { Book } from '../../../../shared/interfaces/book';
-import { Cosmetics } from '../../../../shared/interfaces/cosmetics';
+import { Component, inject } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 @Component({

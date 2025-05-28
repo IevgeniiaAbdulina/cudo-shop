@@ -1,8 +1,6 @@
-import { Component, inject, OnInit, Signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
-import { Router, ROUTER_OUTLET_DATA } from '@angular/router';
-import { Book } from '../../../shared/interfaces/book';
-import { Cosmetics } from '../../../shared/interfaces/cosmetics';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -13,14 +11,8 @@ import { Cosmetics } from '../../../shared/interfaces/cosmetics';
 export class ProductListComponent implements OnInit {
   private router = inject(Router);
   private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
-  private data = inject(ROUTER_OUTLET_DATA) as Signal<{
-    books: Book[];
-    cosmetics: Cosmetics[];
-  }>;
 
   public currentRoute: string = '';
-  public books = this.data().books;
-  public cosmetics = this.data().cosmetics;
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
