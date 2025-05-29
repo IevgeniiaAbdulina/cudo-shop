@@ -184,7 +184,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
-      console.error('An server error occurred:', error.error);
+      console.error('A server error occurred:', error.error);
     } else {
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
     }
