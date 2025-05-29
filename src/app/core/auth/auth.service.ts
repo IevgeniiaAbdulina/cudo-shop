@@ -10,7 +10,7 @@ import { CustomerResponse } from '../customer/interfaces/customer-response';
 import { UserResponse } from './interfaces/user-response';
 import { Address } from '../model/address';
 import { User } from '../model/user';
-import { environment } from '../../../environments/environment.dev';
+import { environment } from '../../../environments/environment';
 import { StorageService } from './storage.service';
 import { CustomerService } from '../customer/customer.service';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
