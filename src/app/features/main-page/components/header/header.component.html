@@ -1,0 +1,18 @@
+<header class="wrapper">
+  <app-button label="Cudo-shop" (buttonClicked)="buttonClickedGoToHome.emit()" class="header__name" />
+
+  <div class="header__search">
+    <svg class="header-search"></svg>
+    <input type="search" name="search" id="search" placeholder="Search..." />
+  </div>
+  <div class="header__buttons">
+    @if ((isLogin$ | async) === false) {
+      <app-button label="Register" (buttonClicked)="buttonClickedRegister.emit()" class="header__button" />
+      <app-button label="Log in" (buttonClicked)="buttonClickedLogIn.emit()" class="header__button" />
+    } @else {
+      <app-button label="Profile" (buttonClicked)="buttonClickedProfile.emit()" class="header__button" />
+      <app-button label="Cart" (buttonClicked)="buttonClickedCart.emit()" class="header__button" />
+      <app-button label="Logout" (buttonClicked)="buttonClickedLogOut.emit()" class="header__button" />
+    }
+  </div>
+</header>

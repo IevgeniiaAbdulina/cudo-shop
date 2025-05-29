@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@use '../src/style/abstract/constant' as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 1.6rem;
+}
+
+.wrapper {
+  max-width: $content-width;
+  margin: 0 auto;
+}
