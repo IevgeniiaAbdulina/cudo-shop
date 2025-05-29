@@ -1,0 +1,35 @@
+@use '../../../../../style/abstract/constant' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem;
+  padding: 1rem;
+  width: 35rem;
+  border-radius: 0.5rem;
+  border: 2px solid $color-primary;
+  background-color: $color-input-search;
+  box-shadow: 0 3px 9px 5px $color-input-search;
+}
+
+.card__img {
+  text-align: center;
+
+  img {
+    object-fit: contain;
+    width: 26rem;
+    height: 35rem;
+  }
+}
+
+.card__info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.card__title {
+  font-size: 1.25em;
+  font-weight: bold;
+}
