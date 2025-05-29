@@ -13,11 +13,8 @@ export const refreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (!req.url.includes(`${environment.authUrl}/oauth`)) {
     if (Date.now() / 1000 > expiresAt) {
-      console.log('[refresh token interceptor] time to refresh');
-
       return authService.refreshToken().pipe(
         switchMap((token: AuthResponse) => {
-          console.log('[refresh token interceptor] get refreshed token: ', token);
           const newReq = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + token.access_token),
           });

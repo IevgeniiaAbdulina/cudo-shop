@@ -11,7 +11,6 @@ export class StorageService {
   private readonly EXPIRES_AT_KEY: string = 'expires_at';
 
   public setSession(response: AuthResponse, type: string, isRefresh: boolean): void {
-    console.log('[storage] set session', response);
     const expiresAtInSec: number = Math.floor(Date.now() / 1000) + response.expires_in;
 
     localStorage.setItem(this.SESSION_KEY, type);

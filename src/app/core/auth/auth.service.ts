@@ -64,11 +64,8 @@ export class AuthService {
 
   public getToken(initialToken: boolean): string | null {
     if (initialToken) {
-      console.log('[auth service] getting initial token');
-
       return this.apiClientAuthorization;
     }
-    console.log('[auth service] getting access token');
 
     return this.tokenSubject.value;
   }
@@ -86,7 +83,6 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
       tap({
         next: (response: AuthResponse) => {
-          console.log('[auth service] Authorization client anonymous', response);
           this.storageService.setSession(response, 'anonymous', false);
           this.tokenSubject.next(response.access_token);
         },
@@ -167,12 +163,10 @@ export class AuthService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
-      // Client-side or network error
       console.error('An error occurred:', error.error);
     } else if (error.status === 400) {
       this.isUserValid = false;
     } else {
-      // Backend returned unsuccessful response
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
     }
 
@@ -197,11 +191,8 @@ export class AuthService {
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
 
-    console.log('[auth service] requesting refresh token');
-
     return this.http.post<AuthResponse>(`${this.AUTH_URL}/oauth/token`, body.toString(), { headers }).pipe(
       tap((response: AuthResponse) => {
-        console.log('[auth service] requested refresh token: ', response);
         this.storageService.setSession(response, 'normal', true);
         this.tokenSubject.next(response.access_token);
         this.isAuthenticatedSubject.next(true);

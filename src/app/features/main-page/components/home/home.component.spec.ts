@@ -26,5 +26,5 @@ describe('HomeComponent', () => {
     const navigateSpy = jest.spyOn(component, 'selectCatalog');
     component.selectCatalog();
     expect(navigateSpy).toHaveBeenCalled();
-  })
+  });
 });
