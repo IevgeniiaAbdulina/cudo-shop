@@ -16,7 +16,6 @@ export class ProductListComponent implements OnInit {
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
-    console.log(this.currentRoute);
   }
 
   public goBack(): void {

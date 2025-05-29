@@ -184,10 +184,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
-      // Client-side or network error
-      console.error('An error occurred:', error.error);
+      console.error('An server error occurred:', error.error);
     } else {
-      // Backend returned unsuccessful response
       console.error(`Backend returned code ${error.status}, body was:`, error.error);
     }
 
@@ -195,17 +193,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   private handleLoginError(error: HttpErrorResponse): void {
-    // Display user-friendly error messages
     this.loginError = 'Login failed. Please try again.';
-    console.log(this.loginError); // TODO
     this.handleError(error);
   }
 
   private handleRegistrationError(): void {
-    // Display user-friendly error messages
     if (!this.authService.isUserValid) {
-      // it has an error on this moment
-      // console.log('User is has');
       this.registrationError = this.errMsg.ERROR_REGISTRATION_MESSAGE;
     }
   }
