@@ -29,6 +29,6 @@ describe('LoginComponent', () => {
       component.togglePasswordVisibility();
       expect(component.passwordFieldType).toBeTruthy();
       expect(component.passwordFieldType).toBe('text');
-    })
-  })
+    });
+  });
 });
