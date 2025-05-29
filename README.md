@@ -67,7 +67,26 @@ Compiles the source code by transforming source files into optimized and product
 Reduces file size by removing unnecessary spaces, comments, and applying other optimization techniques to improve website loading speed. <br>
 Creates the final build: places all prepared files into a separate folder (dist or build), ready for deployment on a server or hosting environment. <br>
 
+```npm run build:prod``` <br>
+Creates a build directory with a production build of your app.
+
+```npm run watch``` <br>
+It will watch your files for changes.
+The `watch` command will compile the components then watch the files and recompile when one of them changes.
+
 ### Run tests
 
 ```npm run test``` <br>
 Used to automatically execute a set of tests written with the Jest test framefork.
+
+```npm run test:coverage``` <br>
+Test coverage helps ensure that all functional and usability aspects of the software are thoroughly tested.
+
+### Husky and lint-staged
+
+```npm run prepare``` <br>
+Script will install a husky shell script in the root folder.
+Husky is a popular Git hook tool that helps developers enforce and automate certain actions and scripts before committing or pushing code to a Git repository.
+
+```npx lint-staged``` <br>
+Runs linting and formatting tools on files that are staged in Git before committing them. It helps ensure code quality and consistency by automatically running linters like ESLint and formatters like Prettier on only the files that are about to be committed, making the pre-commit process faster and more efficient. 
