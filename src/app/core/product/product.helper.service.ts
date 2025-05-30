@@ -1,31 +1,38 @@
 import { Injectable } from '@angular/core';
+
 import { Product } from './interfaces/product';
+import LANG from '../../shared/constants/lang';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductHelperService {
-
   constructor() {}
 
   public getProductImg(product: Product): string {
-    const currentMasterVariantImage = product.masterData.current.masterVariant.images[0];
+    const currentMasterVariantImage = product.masterData.current.masterVariant.images[this.getImgIdx()];
 
     return currentMasterVariantImage.url;
   }
 
   public getProductName(product: Product): string {
     const currentName = product.masterData.current.name;
-    const key = Object.keys(currentName)[0];
 
-    return currentName[key];
+    return currentName[this.getLangKey()];
   }
 
   public getShortProductDescription(product: Product): string {
     const currentMetaDescription = product.masterData.current.metaDescription;
-    const key = Object.keys(currentMetaDescription)[0];
-    const description = currentMetaDescription[key];
+    const description = currentMetaDescription[this.getLangKey()];
 
     return description.length > 89 ? `${description.slice(0, 80)}...` : description;
+  }
+
+  private getImgIdx(): number {
+    return 0;
+  }
+
+  private getLangKey(): string {
+    return LANG.EN_US;
   }
 }
