@@ -2,12 +2,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BriefCardComponent } from './brief-card/brief-card.component';
+import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { CategoryResponse } from '../../../core/category/interfaces/category-response';
+import { Category } from '../../../core/category/interfaces/category';
+import { CategoryApiService } from '../../../core/category/category.api.service';
+import { CategoryHelperService } from '../../../core/category/category.helper.service';
 import { Product } from '../../../core/product/interfaces/product';
 import { ProductResponse } from '../../../core/product/interfaces/product-response';
 import { ProductService } from '../../../core/product/product.service';
 import { ProductHelperService } from '../../../core/product/product.helper.service';
-import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { BriefCardComponent } from './brief-card/brief-card.component';
 
 @Component({
   selector: 'app-product-list',
@@ -16,26 +20,44 @@ import { NavigateToSpecificRouteService } from '../../../shared/services/navigat
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
-  constructor(
-    private navigateToSpecificRouteService: NavigateToSpecificRouteService,
-    private apiService: ProductService,
-    public helperService: ProductHelperService,
-    private router: Router,
-  ) {}
-
   public products: Product[] = [];
 
+  public categories: Category[] = [];
+
   public currentRoute: string = '';
+
+  constructor(
+    private navigateToSpecificRouteService: NavigateToSpecificRouteService,
+    private router: Router,
+    private categoryApiService: CategoryApiService,
+    private categoryHelperService: CategoryHelperService,
+    private productApiService: ProductService,
+    public productHelperService: ProductHelperService,
+  ) {}
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
 
-    this.apiService.getAllProducts().subscribe({
+    this.productApiService.getAllProducts().subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const productResponse: ProductResponse = JSON.parse(responseStr);
 
         this.products = [...productResponse.results];
+      },
+      error: (error: HttpErrorResponse) => {
+        // Handle request error
+        this.handleError(error);
+      },
+    });
+
+    this.categoryApiService.getAllCategories().subscribe({
+      next: (response) => {
+        const responseStr = JSON.stringify(response);
+        const categoryResponse: CategoryResponse = JSON.parse(responseStr);
+
+        this.categories = [...categoryResponse.results];
+        this.categories.forEach((c) => console.log(this.categoryHelperService.getCategoryName(c))); //TODO
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
