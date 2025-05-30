@@ -1,4 +1,3 @@
-<p>product-list works!</p>
 <button (click)="goBack()">Go Back</button>
 @if (currentRoute === '/books') {
   <ul>
@@ -10,3 +9,13 @@
     <li>cosmetics title</li>
   </ul>
 }
+
+<div class="product-list">
+  @for (product of products; track $index) {
+    <app-brief-card
+      [title]="getProductName(product)"
+      [imgUrl]="getProductImg(product)"
+      [description]="getShortProductDescription(product)"
+    ></app-brief-card>
+  }
+</div>
