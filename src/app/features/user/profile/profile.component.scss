@@ -1,0 +1,20 @@
+.address__card {
+  width: 150px;
+  padding: 1rem;
+  border: 1px solid black;
+}
+
+.default {
+  width: 150px;
+  padding: 1rem;
+  border: 2px solid orangered;
+}
+
+.address__card__body {
+  span {
+    padding: 0.5rem 1rem;
+    background: deepskyblue;
+    border-radius: 24px;
+    color: white;
+  }
+}
