@@ -13,9 +13,9 @@
 <div class="product-list">
   @for (product of products; track $index) {
     <app-brief-card
-      [title]="getProductName(product)"
-      [imgUrl]="getProductImg(product)"
-      [description]="getShortProductDescription(product)"
+      [title]="helperService.getProductName(product)"
+      [imgUrl]="helperService.getProductImg(product)"
+      [description]="helperService.getShortProductDescription(product)"
     ></app-brief-card>
   }
 </div>
