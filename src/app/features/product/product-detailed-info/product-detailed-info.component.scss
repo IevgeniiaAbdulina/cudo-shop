@@ -1,0 +1,67 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.product__wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 7rem 10rem;
+}
+
+.product-image {
+    width: 30%;
+    height: fit-content;
+    text-align: center;
+}
+
+.product-image img {
+    width: 60%;
+    height: 70%;
+}
+
+.product-information {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    width: 50%;
+}
+
+.product-title {
+    color: $color-primary;
+    font-size: 3.6rem;
+}
+
+.product-price__container {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.product-price {
+    color: $color-error;
+    text-decoration: line-through;
+    font-size: 2rem;
+}
+
+.product-discount {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.product__button{
+  color: $color-input-search;
+  background: $color-additional;
+  border-radius: 10px;
+  font-weight: 600;
+  align-self: baseline;
+  cursor: pointer;
+  @extend %transition;
+  &:hover {
+    background: $color-button-hover;
+    box-shadow: 0 1px 3px $color-input-search;
+  }
+  @include media-mobile {
+    font-weight: 400;
+  }
+}
