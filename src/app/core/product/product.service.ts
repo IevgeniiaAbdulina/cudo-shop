@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
-import { ProductResponse } from './interfaces/product-response';
-import API_ENDPOINT from '../../shared/constants/api-endpoint';
 import { environment } from '../../../environments/environment.dev';
+import API_ENDPOINT from '../../shared/constants/api-endpoint';
+import { ProductResponse } from './interfaces/product-response';
 
 @Injectable({
   providedIn: 'root',
