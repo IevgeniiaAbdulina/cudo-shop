@@ -22,7 +22,7 @@
 .product-information {
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    row-gap: 2.2rem;
     width: 50%;
 }
 
@@ -64,4 +64,10 @@
   @include media-mobile {
     font-weight: 400;
   }
+}
+
+.product-description {
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-style: italic;
 }
