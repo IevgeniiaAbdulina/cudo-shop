@@ -1,0 +1,97 @@
+$prf-spacing-vr: 8px;
+$prf-spacing-hr: 16px;
+$prf-spacing-016: 1rem;
+$prf-spacing-032: 2rem;
+$prf-max-width: max(100px);
+$prf-color-accent: #f07800;
+$prf-color-font-dark: #000000;
+$prf-border-color: #dcdcdcff;
+
+.profile__section {
+  border: 1px solid #dcdcdcff;
+  border-radius: 1rem;
+  padding: $prf-spacing-032;
+  margin: $prf-spacing-032 0;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $prf-spacing-032;
+  }
+}
+
+/* About you section */
+.profile__info {
+  line-height: 160%;
+  color: #4f4f4f;
+
+  &__name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: $prf-spacing-016;
+    color: $prf-color-font-dark;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #dcdcdcff;
+}
+
+/* Button style */
+.profile__btn {
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
+  border: solid 1px transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: #ffffff;
+  transition: all 0.5s ease-out;
+}
+
+.profile__btn:hover {
+  background: #a93d0b;
+  box-shadow: 0 1px 3px #eee;
+}
+
+.btn {
+  &__edit-profile {
+    background: $prf-color-accent;
+  }
+
+  &__add-address {
+    background: $prf-color-accent;
+    color: #fff;
+  }
+
+  &__edit {
+    width: $prf-max-width;
+    background: $prf-color-accent;
+  }
+
+  &__remove {
+    width: $prf-max-width;
+    background: transparent;
+    border: 1px solid #dcdcdcff;
+    color: $prf-color-font-dark;
+  }
+
+  &__remove:hover {
+    background: #dcdcdcff;
+    box-shadow: 0 1px 3px #eee;
+  }
+}
+
+button:hover {
+  background: #a93d0b;
+  box-shadow: 0 1px 3px #eee;
+}

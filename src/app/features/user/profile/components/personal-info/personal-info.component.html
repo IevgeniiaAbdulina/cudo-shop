@@ -1,0 +1,17 @@
+<section class="profile__section">
+  <header class="profile__section__header">
+    <h2>About You</h2>
+    <app-button class="profile__btn btn__edit-profile">Edit profile</app-button>
+  </header>
+  <div class="profile__info">
+    <div class="profile__info__name">
+      @if (user()) {
+        {{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}
+      } @else {
+        <span>-</span>
+      }
+    </div>
+    <div><span>Email:</span> {{ user()?.email }}</div>
+    <div><span>Birthday:</span> {{ user()?.dateOfBirth | date }}</div>
+  </div>
+</section>

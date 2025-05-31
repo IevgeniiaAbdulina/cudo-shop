@@ -1,0 +1,97 @@
+<section class="profile__section">
+  <header class="profile__section__header">
+    <h2>Your Billing addresses</h2>
+    <app-button class="profile__btn btn__add-address">Add a new address</app-button>
+  </header>
+
+  <div class="address__card__wrapper">
+    <div class="address__card default">
+      @if (defaultBillingAddress) {
+        <div class="address__card__badge">
+          <span>Default</span>
+        </div>
+      }
+      <div class="address__card__body">
+        <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
+        <div>{{ defaultBillingAddress?.streetName | titlecase }}</div>
+        <div>{{ defaultBillingAddress?.postalCode }} {{ defaultBillingAddress?.city | uppercase }}</div>
+        <div>{{ defaultBillingAddress?.country | formatCountry | uppercase }}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="address__card__actions">
+        <app-button class="profile__btn btn__edit">Edit</app-button>
+        <app-button class="profile__btn btn__remove">Remove</app-button>
+      </div>
+    </div>
+  </div>
+
+  @for (item of billingAddresses; track item.id) {
+    @if (item?.id !== defaultBillingAddress?.id) {
+      <div class="divider"></div>
+      <div class="address__card__wrapper">
+        <div class="address__card">
+          <div class="address__card__body">
+            <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
+            <div>{{ item?.streetName | titlecase }}</div>
+            <div>{{ item?.postalCode }} {{ item?.city | uppercase }}</div>
+            <div>{{ item?.country | formatCountry | uppercase }}</div>
+          </div>
+          <div class="divider"></div>
+          <div class="address__card__actions">
+            <app-button class="profile__btn btn__edit">Edit</app-button>
+            <app-button class="profile__btn btn__remove">Remove</app-button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</section>
+
+<section class="profile__section">
+  <header class="profile__section__header">
+    <h2>Your Shipping addresses</h2>
+    <app-button class="profile__btn btn__add-address">Add a new address</app-button>
+  </header>
+
+  <div class="address__card__wrapper">
+    <div class="address__card default">
+      @if (defaultShippingAddress) {
+        <div class="address__card__badge">
+          <span>Default</span>
+        </div>
+      }
+      <div class="address__card__body">
+        <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
+        <div>{{ defaultShippingAddress?.streetName | titlecase }}</div>
+        <div>{{ defaultShippingAddress?.postalCode }} {{ defaultShippingAddress?.city | uppercase }}</div>
+        <div>{{ defaultShippingAddress?.country | formatCountry | uppercase }}</div>
+      </div>
+      <div class="divider"></div>
+      <div class="address__card__actions">
+        <app-button class="profile__btn btn__edit">Edit</app-button>
+        <app-button class="profile__btn btn__remove">Remove</app-button>
+      </div>
+    </div>
+  </div>
+
+  @for (item of shippingAddresses; track item.id) {
+    @if (item?.id !== defaultShippingAddress?.id) {
+      <div class="divider"></div>
+      <div class="address__card__wrapper">
+        <div class="address__card">
+          <div class="address__card__body">
+            <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
+            <div>{{ item?.streetName | titlecase }}</div>
+            <div>{{ item?.postalCode }} {{ item?.city | uppercase }}</div>
+            <div>{{ item?.country | formatCountry | uppercase }}</div>
+          </div>
+          <div class="divider"></div>
+          <div class="address__card__actions">
+            <app-button class="profile__btn btn__edit">Edit</app-button>
+            <app-button class="profile__btn btn__remove">Remove</app-button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</section>
