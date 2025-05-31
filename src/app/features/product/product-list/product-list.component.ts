@@ -15,6 +15,7 @@ import { BriefCardComponent } from './brief-card/brief-card.component';
 
 @Component({
   selector: 'app-product-list',
+  standalone: true, // TODO
   imports: [BriefCardComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -67,10 +68,33 @@ export class ProductListComponent implements OnInit {
         this.categories = [...categoryResponse.results];
       },
       error: (error: HttpErrorResponse) => {
-        // Handle request error
         this.handleError(error);
       },
     });
+  }
+
+  public filterByCategory(categoryId: string) {
+    this.selectedCategory = categoryId;
+    this.productApiService.getProductsByCategory(categoryId).subscribe({
+      next: (response) => {
+        const responseStr = JSON.stringify(response);
+        const productResponse: ProductResponse = JSON.parse(responseStr);
+        console.log('Click category!', this.selectedCategory, productResponse); // TODO
+        this.products = [...productResponse.results];
+      },
+      error: (error: HttpErrorResponse) => {
+        // Handle request error
+        console.log('Category %s is clicked, but something went wrong: %s', categoryId, error); // TODO
+        this.loadProducts();
+        this.handleError(error);
+      },
+    });
+  }
+
+  public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
+    if (event.key === 'Enter') {
+      this.filterByCategory(categoryId);
+    }
   }
 
   private handleError(error: HttpErrorResponse): Error {

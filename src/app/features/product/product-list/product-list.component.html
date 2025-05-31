@@ -1,14 +1,25 @@
-<button (click)="goBack()">Go Back</button>
-@if (currentRoute === '/books') {
+<aside class="categories">
+  <button (click)="goBack()">Go Back</button>
+  @if (currentRoute === '/books') {
+    <ul>
+      <li>book title</li>
+    </ul>
+  }
+  @if (currentRoute === '/cosmetics') {
+    <ul>
+      <li>cosmetics title</li>
+    </ul>
+  }
+
+  <h3>Filter by category</h3>
   <ul>
-    <li>book title</li>
+    @for (category of categories; track $index) {
+      <li tabindex="0" (click)="filterByCategory(category.id)" (keyup)="onKeyUpFilter($event, category.id)">
+        {{ categoryHelperService.getCategoryName(category) }}
+      </li>
+    }
   </ul>
-}
-@if (currentRoute === '/cosmetics') {
-  <ul>
-    <li>cosmetics title</li>
-  </ul>
-}
+</aside>
 
 <div class="product-list">
   @for (product of products; track $index) {

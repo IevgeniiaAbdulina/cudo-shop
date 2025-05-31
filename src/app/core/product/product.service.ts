@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -15,5 +15,13 @@ export class ProductService {
 
   public getAllProducts(): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(`${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.PRODUCTS}`);
+  }
+
+  public getProductsByCategory(categoryId: string): Observable<ProductResponse> {
+    const params = new HttpParams().set('filter.query', `categories.id:"${categoryId}"`);
+
+    return this.http.get<ProductResponse>(`${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.PRODUCT_PROJECTIONS}/search`, {
+      params,
+    });
   }
 }

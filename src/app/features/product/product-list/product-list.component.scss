@@ -1,5 +1,14 @@
+:host {
+  display: flex;
+}
+
 .product-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.categories {
+  width: 200px;
+  margin-right: 20px;
 }
