@@ -25,24 +25,30 @@ export class ProductListComponent implements OnInit {
   public categories: Category[] = [];
 
   public currentRoute: string = '';
+  public selectedCategory: string | null = null;
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
     private router: Router,
     private categoryApiService: CategoryApiService,
-    private categoryHelperService: CategoryHelperService,
     private productApiService: ProductService,
     public productHelperService: ProductHelperService,
+    public categoryHelperService: CategoryHelperService,
   ) {}
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
 
+    this.loadProducts();
+    this.loadCategories();
+  }
+
+  private loadProducts() {
     this.productApiService.getAllProducts().subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const productResponse: ProductResponse = JSON.parse(responseStr);
-
+        console.log(productResponse); // TODO
         this.products = [...productResponse.results];
       },
       error: (error: HttpErrorResponse) => {
@@ -50,14 +56,15 @@ export class ProductListComponent implements OnInit {
         this.handleError(error);
       },
     });
+  }
 
+  private loadCategories() {
     this.categoryApiService.getAllCategories().subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const categoryResponse: CategoryResponse = JSON.parse(responseStr);
-
+        console.log(categoryResponse); // TODO
         this.categories = [...categoryResponse.results];
-        this.categories.forEach((c) => console.log(this.categoryHelperService.getCategoryName(c))); //TODO
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
