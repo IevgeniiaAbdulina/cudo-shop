@@ -1,20 +1,50 @@
-.address__card {
-  width: 150px;
-  padding: 1rem;
-  border: 1px solid black;
-}
+$prf-spacing-vr: 8px;
+$prf-spacing-hr: 16px;
+$prf-spacing-016: 1rem;
+$prf-spacing-032: 2rem;
+$prf-max-width: max(100px);
+$prf-color-accent: #f07800;
+$prf-color-primary: #071b9f;
+$prf-color-font-dark: #000000;
+$prf-border-color: #dcdcdcff;
 
-.default {
-  width: 150px;
-  padding: 1rem;
-  border: 2px solid orangered;
-}
-
-.address__card__body {
-  span {
-    padding: 0.5rem 1rem;
-    background: deepskyblue;
-    border-radius: 24px;
-    color: white;
+.profile {
+  &__content {
   }
+
+  &__nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $prf-spacing-032;
+    padding: $prf-spacing-016 0;
+    margin: $prf-spacing-032 0 $prf-spacing-016;
+
+    &__item {
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+
+      &:hover {
+        color: $prf-color-primary;
+      }
+    }
+  }
+
+  &__segment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.active {
+  color: $prf-color-accent;
 }
