@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { BriefCardComponent } from './brief-card/brief-card.component';
 import { Product } from '../../../core/product/interfaces/product';
@@ -10,7 +10,7 @@ import { NavigateToSpecificRouteService } from '../../../shared/services/navigat
 
 @Component({
   selector: 'app-product-list',
-  imports: [BriefCardComponent],
+  imports: [BriefCardComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
