@@ -1,14 +1,39 @@
+@use '../../../../style/abstract/constant' as *;
+
 :host {
   display: flex;
 }
 
-.product-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+aside {
+  margin: 2rem;
+  padding: 2rem;
+  width: 26rem;
+  border-radius: 1rem;
+  border: 2px solid $color-input-search;
+  box-shadow: 0 3px 9px 5px $color-input-search;
+
+  h3 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
 }
 
-.categories {
-  width: 200px;
-  margin-right: 20px;
+li {
+  list-style: none;
+  padding: 0.5rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 1rem;
+    border-color: $color-input-search;
+    box-shadow: 0 3px 9px 5px $color-input-search;
+  }
+}
+
+.product-list {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-wrap: wrap;
 }
