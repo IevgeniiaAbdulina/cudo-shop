@@ -12,10 +12,14 @@
 
 <div class="product-list">
   @for (product of products; track $index) {
-    <app-brief-card
-      [title]="getProductName(product)"
-      [imgUrl]="getProductImg(product)"
-      [description]="getShortProductDescription(product)"
-    ></app-brief-card>
+    @if (product.key) {
+      <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+        <app-brief-card
+          [title]="getProductName(product)"
+          [imgUrl]="getProductImg(product)"
+          [description]="getShortProductDescription(product)"
+        ></app-brief-card>
+      </div>
+    }
   }
 </div>

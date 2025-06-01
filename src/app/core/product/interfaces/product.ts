@@ -8,4 +8,5 @@ export interface Product {
     current: ProductMasterData;
     staged: ProductMasterData;
   };
+  key: string;
 }
