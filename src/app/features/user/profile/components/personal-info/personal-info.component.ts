@@ -14,6 +14,8 @@ import { UserService } from '../../../services/user.service';
 export class PersonalInfoComponent implements OnInit {
   public user: WritableSignal<UserModel | null> = signal<UserModel | null>(null);
 
+  public modeToggle: boolean = false;
+
   constructor(private userService: UserService) {}
 
   public ngOnInit() {
@@ -35,5 +37,9 @@ export class PersonalInfoComponent implements OnInit {
         console.error(error);
       },
     });
+  }
+
+  public editModeToggle(): void {
+    this.modeToggle = !this.modeToggle;
   }
 }
