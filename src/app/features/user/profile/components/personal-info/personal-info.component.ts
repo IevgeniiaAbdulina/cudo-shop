@@ -1,23 +1,36 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { UserModel } from '../../../model/user-model';
 import { UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-personal-info',
-  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent],
+  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent, ReactiveFormsModule],
   templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })
 export class PersonalInfoComponent implements OnInit {
   public user: WritableSignal<UserModel | null> = signal<UserModel | null>(null);
+  public modalIsClosed = input();
 
   public isModalVisible: boolean = false;
+  public profileForm!: FormGroup;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+  ) {
+    this.profileForm = this.fb.group({
+      email: ['', [Validators.required]],
+      firstName: [''],
+      lastName: [''],
+      dateOfBirth: [''],
+    });
+  }
 
   public ngOnInit() {
     this.userService.getUserPersonalInfoByToken().subscribe({
@@ -45,14 +58,48 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   public openModal() {
+    this.setEditModeValue();
     this.editModeToggle();
   }
 
   public closeModal(): void {
+    this.profileForm.reset();
     this.editModeToggle();
   }
 
-  public submitForm(): void {
-    console.log('[personal-info] submit form');
+  public onFormSubmit(): void {
+    if (this.profileForm.valid) {
+      const editedUserInfo = {
+        id: this.user()!.id,
+        email: this.profileForm.value.email,
+        firstName: this.profileForm.value.firstName,
+        lastName: this.profileForm.value.lastName,
+        dateOfBirth: this.profileForm.value.dateOfBirth,
+        password: this.user()!.password,
+        addresses: this.user()!.addresses,
+      };
+
+      console.log('[personal-info] submit form with new data: ', editedUserInfo);
+      this.user.set(editedUserInfo);
+    }
+    this.showMessage(this.profileForm.valid);
+    this.closeModal();
+  }
+
+  private setEditModeValue(): void {
+    this.profileForm = this.fb.group({
+      email: [this.user()?.email],
+      firstName: [this.user()?.firstName],
+      lastName: [this.user()?.lastName],
+      dateOfBirth: [this.user()?.dateOfBirth],
+    });
+  }
+
+  private showMessage(isSuccess: boolean): void {
+    if (isSuccess) {
+      alert('Your personal information successfully has been saved.');
+    } else {
+      alert('Something went wrong! Please try again later.');
+    }
   }
 }

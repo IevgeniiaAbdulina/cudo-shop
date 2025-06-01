@@ -20,6 +20,7 @@
   background-color: #ffffff;
   padding: 2rem;
   width: 35vw;
+  overflow-x: scroll;
 
   @include media-laptop {
     width: 50vw;

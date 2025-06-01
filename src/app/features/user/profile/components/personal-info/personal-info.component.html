@@ -17,7 +17,7 @@
 </section>
 
 <!-- Edit mode Modal -->
-<app-edit-mode-modal [isVisible]="isModalVisible">
+<app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeModal()">
   <div modal-header>
     <div class="modal__header">
       <h2>Edit Personal info</h2>
@@ -27,15 +27,15 @@
     </div>
   </div>
   <div modal-body>
-    <form class="edit__form">
+    <form class="edit__form" [formGroup]="profileForm" (keyup.enter)="onFormSubmit()" (ngSubmit)="onFormSubmit()">
       <fieldset id="edit__name">
         <legend>Edit you personal data</legend>
         <div class="fields__container">
           <div class="field__wrapper">
-            <label for="firstName"><input type="text" id="firstName" [value]="user()?.firstName" /></label>
+            <label for="firstName"><input type="text" id="firstName" formControlName="firstName" /></label>
           </div>
           <div class="field__wrapper">
-            <label for="lastName"><input type="text" id="lastName" [value]="user()?.lastName" /></label>
+            <label for="lastName"><input type="text" id="lastName" formControlName="lastName" /></label>
           </div>
         </div>
       </fieldset>
@@ -44,7 +44,7 @@
         <legend>Change you Email</legend>
         <div class="fields__container">
           <div class="field__wrapper">
-            <label><input type="email" [value]="user()?.email" /></label>
+            <label><input type="email" formControlName="email" /></label>
           </div>
         </div>
       </fieldset>
@@ -53,7 +53,7 @@
         <legend>Edit your date of birth</legend>
         <div class="fields__container">
           <div class="field__wrapper">
-            <label for="birthDateMonth"><input type="date" id="birthDateMonth" [value]="user()?.dateOfBirth" /></label>
+            <label for="dateOfBirth"><input type="date" id="dateOfBirth" formControlName="dateOfBirth" /></label>
           </div>
         </div>
       </fieldset>
@@ -61,7 +61,7 @@
   </div>
   <div modal-footer class="modal__footer">
     <div class="modal__footer__btn-submit">
-      <app-button (buttonClicked)="submitForm()" class="profile__btn btn__modal__submit">Save changes </app-button>
+      <app-button type="submit" (buttonClicked)="onFormSubmit()" class="profile__btn btn__modal__submit">Save changes </app-button>
     </div>
   </div>
 </app-edit-mode-modal>

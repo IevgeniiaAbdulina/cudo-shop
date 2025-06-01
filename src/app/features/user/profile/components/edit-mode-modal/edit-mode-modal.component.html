@@ -1,4 +1,4 @@
-<div class="modal" *ngIf="isVisible()">
+<div class="modal" *ngIf="isVisible()" (mousedown)="closeModal($event)">
   <div class="modal-dialog">
     <div class="modal-header">
       <ng-content select="[modal-header]"></ng-content>
