@@ -11,23 +11,25 @@ import { ButtonComponent } from '../../../shared/ui/button/button.component';
 })
 export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
+  @Input() public key: string | null = null;
   public products: ProductDetailed[] = [];
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
   public ngOnInit(): void {
-    const key = '101221075';
-    this.productDetailedService.getProductByKey(key).subscribe({
-      next: (product: ProductDetailed) => {
-        const responseStr = JSON.stringify(product);
-        const productResponse: ProductDetailed = JSON.parse(responseStr);
-        this.products[0] = productResponse;
-        console.log('product', this.products[0]);
-      },
-      error: (error) => {
-        console.error(`Loading error: ${error}`);
-      },
-    });
+    if (this.key) {
+      this.productDetailedService.getProductByKey(this.key).subscribe({
+        next: (product: ProductDetailed) => {
+          const responseStr = JSON.stringify(product);
+          const productResponse: ProductDetailed = JSON.parse(responseStr);
+          this.products[0] = productResponse;
+          console.log('product', this.products[0]);
+        },
+        error: (error) => {
+          console.error(`Loading error: ${error}`);
+        },
+      });
+    }
   }
 
   public getProductImage(product: ProductDetailed): string {
