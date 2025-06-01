@@ -1,0 +1,49 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: end;
+  //justify-content: center;
+  //align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal-dialog {
+  background-color: #ffffff;
+  padding: 2rem;
+  width: 35vw;
+
+  @include media-laptop {
+    width: 50vw;
+  }
+  @include media-tablet {
+    width: 100vw;
+  }
+  @include media-mobile {
+    padding: 1rem;
+    width: 100vw;
+  }
+}
+
+.modal-header {
+  font-size: clamp(16px, 2vw, 28px);
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 1rem 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+}

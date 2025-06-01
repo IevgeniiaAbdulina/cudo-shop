@@ -1,3 +1,7 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
+
 $prf-spacing-vr: 8px;
 $prf-spacing-hr: 16px;
 $prf-spacing-016: 1rem;
@@ -9,7 +13,7 @@ $prf-border-color: #dcdcdcff;
 
 .profile__section {
   border: 1px solid #dcdcdcff;
-  border-radius: 1rem;
+  border-radius: $prf-spacing-016;
   padding: $prf-spacing-032;
   margin: $prf-spacing-032 0;
 
@@ -94,4 +98,93 @@ $prf-border-color: #dcdcdcff;
 button:hover {
   background: #a93d0b;
   box-shadow: 0 1px 3px #eee;
+}
+
+/* modal window */
+.modal {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__btn-submit {
+      width: 100%;
+      border-radius: 10px;
+      background-color: $color-additional;
+    }
+  }
+}
+
+.btn {
+  &__modal {
+    &__close {
+      width: 24px;
+      height: 24px;
+      background-image: url('../../../../../assets/icons/close_24dp.svg');
+      transition: transform 0.25s ease-out;
+
+      &:hover {
+        transform: rotate(90deg);
+        background-image: url('../../../../../assets/icons/close_24dp_color.svg');
+      }
+    }
+
+    &__submit {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+/* Form style */
+fieldset {
+  border: none;
+  margin: $prf-spacing-032 0 4rem;
+}
+
+legend {
+  margin-bottom: $prf-spacing-016;
+}
+
+.field__wrapper {
+  width: 100%;
+  height: 40px;
+}
+
+.fields__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $prf-spacing-032;
+}
+
+.edit__form {
+  input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
 }
