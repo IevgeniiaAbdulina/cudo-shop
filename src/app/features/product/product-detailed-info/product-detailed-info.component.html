@@ -7,8 +7,12 @@
       <div class="product-information">
         <h2 class="product-title">{{ getProductName(product) }}</h2>
         <div class="product-price__container">
-          <p class="product-price">{{ getProductPrice(product) }}</p>
-          <p class="product-discount">{{ getProductDiscount(product) }}</p>
+          <p [ngClass]="{ 'product-old-price': hasDiscount(product), 'product-price': !hasDiscount(product) }">
+            {{ getProductPrice(product) }}
+          </p>
+          <ng-container *ngIf="hasDiscount(product)">
+            <p class="product-discount">{{ getProductDiscount(product) }}</p>
+          </ng-container>
           <p class="product-currency">{{ getProductCurrency(product) }}</p>
         </div>
         <app-button label="Add to cart" (buttonClicked)="buttonClickedAddToCart.emit()" class="product__button" />

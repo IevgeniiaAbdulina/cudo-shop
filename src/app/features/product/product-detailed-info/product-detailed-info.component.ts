@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductDetailed } from './interfaces/product-detailed';
 import { ProductDetailedService } from './services/product-detailed.service';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-product-detailed-info',
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, CommonModule],
   templateUrl: './product-detailed-info.component.html',
   styleUrl: './product-detailed-info.component.scss',
 })
@@ -23,7 +24,6 @@ export class ProductDetailedInfoComponent implements OnInit {
           const responseStr = JSON.stringify(product);
           const productResponse: ProductDetailed = JSON.parse(responseStr);
           this.products[0] = productResponse;
-          console.log('product', this.products[0]);
         },
         error: (error) => {
           console.error(`Loading error: ${error}`);
@@ -34,7 +34,6 @@ export class ProductDetailedInfoComponent implements OnInit {
 
   public getProductImage(product: ProductDetailed): string {
     const productImage = product.masterData.current.masterVariant.images[0].url;
-    console.log('productImage', productImage);
 
     return productImage;
   }
@@ -53,10 +52,20 @@ export class ProductDetailedInfoComponent implements OnInit {
   }
 
   public getProductDiscount(product: ProductDetailed): string {
-    const discountPrice = product.masterData.current.masterVariant.prices[0].discounted.value.centAmount;
-    const productDiscount = (discountPrice / 100).toFixed(2);
+    const discountPrice = product.masterData.current.masterVariant.prices[0].discounted?.value.centAmount;
+    if (typeof discountPrice !== 'undefined') {
+      const productDiscount = (discountPrice / 100).toFixed(2);
 
-    return productDiscount;
+      return productDiscount;
+    } else {
+      return '';
+    }
+  }
+
+  public hasDiscount(product: ProductDetailed): boolean {
+    const isSale = !!product.masterData.current.masterVariant.prices[0].discounted;
+
+    return isSale;
   }
 
   public getProductCurrency(product: ProductDetailed): string {
