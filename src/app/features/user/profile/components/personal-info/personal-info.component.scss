@@ -1,3 +1,7 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
+
 $prf-spacing-vr: 8px;
 $prf-spacing-hr: 16px;
 $prf-spacing-016: 1rem;
@@ -9,7 +13,7 @@ $prf-border-color: #dcdcdcff;
 
 .profile__section {
   border: 1px solid #dcdcdcff;
-  border-radius: 1rem;
+  border-radius: $prf-spacing-016;
   padding: $prf-spacing-032;
   margin: $prf-spacing-032 0;
 
@@ -17,7 +21,6 @@ $prf-border-color: #dcdcdcff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $prf-spacing-032;
   }
 }
 
@@ -91,7 +94,77 @@ $prf-border-color: #dcdcdcff;
   }
 }
 
-button:hover {
-  background: #a93d0b;
-  box-shadow: 0 1px 3px #eee;
+/* Form style */
+fieldset {
+  border: none;
+  margin: $prf-spacing-032 0 4rem;
+}
+
+legend {
+  margin-bottom: $prf-spacing-016;
+}
+
+.field__wrapper {
+  width: 100%;
+  height: 40px;
+}
+
+.fields__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $prf-spacing-032;
+}
+
+.edit__form {
+  input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
+}
+
+.btn__modal__submit {
+  display: flex;
+  align-items: center;
+  background-color: $color-additional;
+}
+
+/* Edit Mode Messages */
+.edit-mode__message__container {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edit-mode__message__item {
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+
+  &.error {
+    color: $color-error;
+    background-color: $color-background-error;
+  }
+
+  &.success {
+    color: darkgreen;
+    background-color: lightgreen;
+  }
 }
