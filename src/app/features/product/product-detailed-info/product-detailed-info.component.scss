@@ -32,6 +32,10 @@
   }
 }
 
+/*.image__container {
+  display: flex;
+}*/
+
 .product-image img {
   width: 80%;
   height: 70%;
@@ -132,4 +136,8 @@
   @include media-tablet {
     font-size: 1.4rem;
   }
+}
+
+.image__container {
+  display: flex;
 }

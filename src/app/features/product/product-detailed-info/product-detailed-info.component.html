@@ -19,5 +19,10 @@
         <p class="product-description">{{ getProductDescription(product) }}</p>
       </div>
     </div>
+    <div class="image__container">
+      <div *ngFor="let image of getProductImages(product)">
+        <img [src]="image.url" alt="picture" />
+      </div>
+    </div>
   }
 </div>

@@ -3,6 +3,7 @@ import { ProductDetailed } from './interfaces/product-detailed';
 import { ProductDetailedService } from './services/product-detailed.service';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { CommonModule } from '@angular/common';
+import { ProductImage } from '../../../core/product/interfaces/product-image';
 
 @Component({
   selector: 'app-product-detailed-info',
@@ -14,6 +15,7 @@ export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
   @Input() public key: string | null = null;
   public products: ProductDetailed[] = [];
+  public productImages: ProductImage[] = [];
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
@@ -80,5 +82,12 @@ export class ProductDetailedInfoComponent implements OnInit {
     const productDescription = product.masterData.current.description['en-US'];
 
     return productDescription;
+  }
+
+  public getProductImages(product: ProductDetailed): ProductImage[] {
+    this.productImages = product.masterData.current.masterVariant.images;
+    console.log('productImages', this.productImages);
+
+    return this.productImages;
   }
 }
