@@ -3,6 +3,15 @@
     <h2>About You</h2>
     <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">Edit profile </app-button>
   </header>
+  <div class="edit-mode__message__container">
+    <div *ngIf="showMessage">
+      @if (isEditSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ERROR }}</p>
+      }
+    </div>
+  </div>
   <div class="profile__info">
     <div class="profile__info__name">
       @if (user()) {

@@ -21,7 +21,6 @@ $prf-border-color: #dcdcdcff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: $prf-spacing-032;
   }
 }
 
@@ -186,5 +185,28 @@ input:not(input[type='checkbox']) {
   &.ng-invalid.ng-touched,
   &.ng-invalid.ng-touched {
     outline: 1px solid $color-error;
+  }
+}
+
+/* Edit Mode Messages */
+.edit-mode__message__container {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edit-mode__message__item {
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+
+  &.error {
+    color: $color-error;
+    background-color: $color-background-error;
+  }
+
+  &.success {
+    color: darkgreen;
+    background-color: lightgreen;
   }
 }

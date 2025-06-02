@@ -1,15 +1,16 @@
 import { Component, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgIf, TitleCasePipe } from '@angular/common';
 import { UserModel } from '../../../model/user-model';
 import { UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { EDIT_MODE_MSG } from '../../enums/edit-mode-messages';
 
 @Component({
   selector: 'app-personal-info',
-  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent, ReactiveFormsModule, NgIf],
   templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })
@@ -19,6 +20,10 @@ export class PersonalInfoComponent implements OnInit {
 
   public isModalVisible: boolean = false;
   public profileForm!: FormGroup;
+  public isEditSuccess: boolean = false;
+  public showMessage: boolean = false;
+
+  protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
 
   constructor(
     private userService: UserService,
@@ -79,10 +84,13 @@ export class PersonalInfoComponent implements OnInit {
         addresses: this.user()!.addresses,
       };
 
-      console.log('[personal-info] submit form with new data: ', editedUserInfo);
       this.user.set(editedUserInfo);
+      this.isEditSuccess = true;
+    } else {
+      this.isEditSuccess = false;
     }
-    this.showMessage(this.profileForm.valid);
+
+    this.showEditModeMessage();
     this.closeModal();
   }
 
@@ -95,11 +103,11 @@ export class PersonalInfoComponent implements OnInit {
     });
   }
 
-  private showMessage(isSuccess: boolean): void {
-    if (isSuccess) {
-      alert('Your personal information successfully has been saved.');
-    } else {
-      alert('Something went wrong! Please try again later.');
-    }
+  private showEditModeMessage(): void {
+    this.showMessage = true;
+
+    setTimeout(() => {
+      this.showMessage = false;
+    }, 5000);
   }
 }
