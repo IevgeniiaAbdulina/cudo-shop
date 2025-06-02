@@ -2,6 +2,7 @@ import { Address } from '../interfaces/user-response';
 
 export class UserModel {
   constructor(
+    public version: number,
     public id: string,
     public email: string,
     public firstName: string,

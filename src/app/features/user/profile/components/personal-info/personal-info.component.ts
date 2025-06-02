@@ -42,6 +42,7 @@ export class PersonalInfoComponent implements OnInit {
       next: (response: UserResponse) => {
         this.user.set(
           new UserModel(
+            response.version,
             response.id,
             response.email,
             response.firstName,
@@ -76,6 +77,7 @@ export class PersonalInfoComponent implements OnInit {
     if (this.profileForm.valid) {
       this.user.set(
         new UserModel(
+          this.user()!.version,
           this.user()!.id,
           this.profileForm.value.email,
           this.profileForm.value.firstName,
@@ -85,6 +87,15 @@ export class PersonalInfoComponent implements OnInit {
           this.user()!.addresses,
         ),
       );
+
+      this.userService.updateUserById(this.user()).subscribe({
+        next: (response: UserResponse) => {
+          console.log('[personal-info] update response: ', response);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
 
       this.isEditSuccess = true;
     } else {
