@@ -10,8 +10,6 @@
   bottom: 0;
   display: flex;
   justify-content: end;
-  //justify-content: center;
-  //align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
@@ -47,4 +45,45 @@
   display: flex;
   justify-content: flex-end;
   padding-top: 1rem;
+}
+
+/* modal window */
+.modal {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__btn-submit {
+      width: 100%;
+      border-radius: 10px;
+      background-color: $color-additional;
+    }
+  }
+}
+
+.btn {
+  &__modal {
+    &__close {
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+      border: none;
+      transition: transform 0.25s ease-out;
+      background-image: url('../../../../../assets/icons/close_24dp.svg');
+      background-position: center;
+
+      &:hover {
+        transform: rotate(90deg);
+        background-image: url('../../../../../assets/icons/close_24dp_color.svg');
+      }
+    }
+  }
 }

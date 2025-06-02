@@ -74,17 +74,18 @@ export class PersonalInfoComponent implements OnInit {
 
   public onFormSubmit(): void {
     if (this.profileForm.valid) {
-      const editedUserInfo = {
-        id: this.user()!.id,
-        email: this.profileForm.value.email,
-        firstName: this.profileForm.value.firstName,
-        lastName: this.profileForm.value.lastName,
-        dateOfBirth: this.profileForm.value.dateOfBirth,
-        password: this.user()!.password,
-        addresses: this.user()!.addresses,
-      };
+      this.user.set(
+        new UserModel(
+          this.user()!.id,
+          this.profileForm.value.email,
+          this.profileForm.value.firstName,
+          this.profileForm.value.lastName,
+          this.profileForm.value.dateOfBirth,
+          this.user()!.password,
+          this.user()!.addresses,
+        ),
+      );
 
-      this.user.set(editedUserInfo);
       this.isEditSuccess = true;
     } else {
       this.isEditSuccess = false;
@@ -108,6 +109,6 @@ export class PersonalInfoComponent implements OnInit {
 
     setTimeout(() => {
       this.showMessage = false;
-    }, 5000);
+    }, 3500);
   }
 }

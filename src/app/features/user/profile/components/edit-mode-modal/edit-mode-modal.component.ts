@@ -1,10 +1,9 @@
 import { Component, input, InputSignal, output } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
 
 @Component({
   selector: 'app-edit-mode-modal',
-  imports: [NgIf, ButtonComponent],
+  imports: [NgIf],
   templateUrl: './edit-mode-modal.component.html',
   styleUrl: './edit-mode-modal.component.scss',
 })
@@ -15,7 +14,7 @@ export class EditModeModalComponent {
   public closeModal(event: Event): void {
     const target = event.target as HTMLInputElement;
 
-    if (target.classList.contains('modal')) {
+    if (target.classList.contains('modal') || target.classList.contains('close')) {
       this.closeModalWindow.emit();
     }
   }

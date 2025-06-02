@@ -94,54 +94,6 @@ $prf-border-color: #dcdcdcff;
   }
 }
 
-button:hover {
-  background: #a93d0b;
-  box-shadow: 0 1px 3px #eee;
-}
-
-/* modal window */
-.modal {
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &__footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    &__btn-submit {
-      width: 100%;
-      border-radius: 10px;
-      background-color: $color-additional;
-    }
-  }
-}
-
-.btn {
-  &__modal {
-    &__close {
-      width: 24px;
-      height: 24px;
-      background-image: url('../../../../../assets/icons/close_24dp.svg');
-      transition: transform 0.25s ease-out;
-
-      &:hover {
-        transform: rotate(90deg);
-        background-image: url('../../../../../assets/icons/close_24dp_color.svg');
-      }
-    }
-
-    &__submit {
-      display: flex;
-      align-items: center;
-    }
-  }
-}
-
 /* Form style */
 fieldset {
   border: none;
@@ -186,6 +138,12 @@ input:not(input[type='checkbox']) {
   &.ng-invalid.ng-touched {
     outline: 1px solid $color-error;
   }
+}
+
+.btn__modal__submit {
+  display: flex;
+  align-items: center;
+  background-color: $color-additional;
 }
 
 /* Edit Mode Messages */

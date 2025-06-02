@@ -1,7 +1,10 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>About You</h2>
-    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">Edit profile </app-button>
+    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">
+      Edit profile
+      <span class="btn__edit__icon"></span>
+    </app-button>
   </header>
   <div class="edit-mode__message__container">
     <div *ngIf="showMessage">
@@ -27,16 +30,10 @@
 
 <!-- Edit mode Modal -->
 <app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeModal()">
-  <div modal-header>
-    <div class="modal__header">
-      <h2>Edit Personal info</h2>
-      <app-button (buttonClicked)="closeModal()">
-        <div class="btn__modal__close"></div>
-      </app-button>
-    </div>
-  </div>
+  <div modal-header>Edit Personal info</div>
+
   <div modal-body>
-    <form class="edit__form" [formGroup]="profileForm" (keyup.enter)="onFormSubmit()" (ngSubmit)="onFormSubmit()">
+    <form class="edit__form" [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
       <fieldset id="edit__name">
         <legend>Edit you personal data</legend>
         <div class="fields__container">
@@ -66,11 +63,8 @@
           </div>
         </div>
       </fieldset>
+
+      <app-button type="submit" class="profile__btn btn__modal__submit">Save changes</app-button>
     </form>
-  </div>
-  <div modal-footer class="modal__footer">
-    <div class="modal__footer__btn-submit">
-      <app-button type="submit" (buttonClicked)="onFormSubmit()" class="profile__btn btn__modal__submit">Save changes </app-button>
-    </div>
   </div>
 </app-edit-mode-modal>
