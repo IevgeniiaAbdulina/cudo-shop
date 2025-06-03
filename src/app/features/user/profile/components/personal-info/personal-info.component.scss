@@ -188,7 +188,8 @@ input:not(input[type='checkbox']) {
     }
   }
 
-  &_disabled {
+  &_disabled,
+  &_disabled:hover {
     cursor: not-allowed;
     color: $color-input-search;
     background-color: $color-button-disable;
@@ -231,5 +232,5 @@ input:not(input[type='checkbox']) {
 }
 
 .item__wrap {
-  margin: $prf-spacing-016 0;
+  margin: $prf-spacing-032 0;
 }

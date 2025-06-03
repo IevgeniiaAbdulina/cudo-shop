@@ -1,7 +1,7 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>About You</h2>
-    <app-button label="Edit profile" class="profile__btn btn__edit-profile" (buttonClicked)="openModal()" />
+    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()"> Edit profile </app-button>
   </header>
   <div class="edit-mode__message__container">
     <div *ngIf="showMessage">
@@ -28,12 +28,12 @@
 <section class="profile__section password-section">
   <header class="profile__section__header">
     <h2>Your password</h2>
-    <app-button label="Change Password" class="profile__btn btn__edit-password" (buttonClicked)="openPasswordModal()" />
+    <app-button class="profile__btn btn__edit-password" (buttonClicked)="openPasswordModal()"> Change Password </app-button>
   </header>
 
   <div class="edit-mode__message__container">
-    <div *ngIf="showMessage">
-      @if (isEditSuccess) {
+    <div *ngIf="changePasswordErrorMessage">
+      @if (isChangePasswordSuccess) {
         <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.PASSWORD_SUCCESS }}</p>
       } @else {
         <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ERROR }}</p>
@@ -59,6 +59,15 @@
             Current password
             <input type="password" id="currentPassword" formControlName="currentPassword" />
           </label>
+          @if (validationCheck(getPasswordControlName('currentPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('currentPassword')?.errors?.['required']) {
+                <span class="error-line"> Current password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('currentPassword')?.errors?.['pattern']) {
+                <span class="error-line"> Current password {{ ERROR_MSG.PASSWORD }} </span>
+              }
+            </div>
+          }
         </div>
 
         <div class="field__wrapper item__wrap">
@@ -66,6 +75,15 @@
             New password
             <input type="password" id="newPassword" formControlName="newPassword" />
           </label>
+          @if (validationCheck(getPasswordControlName('newPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('newPassword')?.errors?.['required']) {
+                <span class="error-line"> New password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('newPassword')?.errors?.['pattern']) {
+                <span class="error-line"> New password {{ ERROR_MSG.PASSWORD }} </span>
+              }
+            </div>
+          }
         </div>
 
         <div class="field__wrapper item__wrap">
@@ -73,12 +91,25 @@
             Confirm new password
             <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" />
           </label>
+          @if (validationCheck(getPasswordControlName('confirmNewPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('confirmNewPassword')?.errors?.['required']) {
+                <span class="error-line"> Confirm new password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('confirmNewPassword')?.errors?.['pattern']) {
+                <span class="error-line"> Confirm new password {{ ERROR_MSG.PASSWORD }} </span>
+              }
+            </div>
+          }
         </div>
       </div>
 
       <app-button
         label="Save changes"
         [disabled]="passwordForm.invalid"
+        [ngClass]="{
+          form__button_disabled: passwordForm.invalid,
+          form__button_visible: !passwordForm.invalid,
+        }"
         type="submit"
         class="profile__btn btn__modal__submit form__button"
       />

@@ -7,7 +7,7 @@ import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EDIT_MODE_MSG } from '../../enums/edit-mode-messages';
-import { EMAIL_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex';
+import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../../../shared/constants/regex';
 import { minimumAgeValidator } from '../../../../../shared/validator/validate.dob';
 import { ControlService } from '../../../services/control.service';
 import ERROR_MSG from '../../../../../shared/constants/error-message';
@@ -27,7 +27,9 @@ export class PersonalInfoComponent implements OnInit {
   public profileForm!: FormGroup;
   public passwordForm!: FormGroup;
   public isEditSuccess: boolean = false;
+  public isChangePasswordSuccess: boolean = false;
   public showMessage: boolean = false;
+  public changePasswordErrorMessage: boolean = false;
 
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
   protected readonly ERROR_MSG = ERROR_MSG;
@@ -77,6 +79,7 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   public openPasswordModal(): void {
+    this.setPasswordForm();
     this.changePasswordModeToggle();
   }
 
@@ -85,8 +88,25 @@ export class PersonalInfoComponent implements OnInit {
     this.changePasswordModeToggle();
   }
 
+  private setPasswordForm(): void {
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+      newPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+      confirmNewPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+    });
+  }
+
   public onPasswordFormSubmit(): void {
-    console.log('[edit-profile password] change password');
+    if (this.passwordForm.valid) {
+      console.log('[edit-profile password] change password');
+
+      this.isChangePasswordSuccess = true;
+      this.showChangePasswordErrorMessage();
+      this.closePasswordModal();
+    } else {
+      this.isChangePasswordSuccess = false;
+      this.showChangePasswordErrorMessage();
+    }
   }
 
   public editModeToggle(): void {
@@ -153,11 +173,23 @@ export class PersonalInfoComponent implements OnInit {
     }, 3500);
   }
 
+  private showChangePasswordErrorMessage(): void {
+    this.changePasswordErrorMessage = true;
+
+    setTimeout(() => {
+      this.changePasswordErrorMessage = false;
+    }, 3500);
+  }
+
   public validationCheck(control: AbstractControl): boolean | null {
     return ControlService.validationChecks(control);
   }
 
   public getControlName(controlName: string): AbstractControl | null {
     return ControlService.getFormControl(this.profileForm, controlName);
+  }
+
+  public getPasswordControlName(controlName: string): AbstractControl | null {
+    return ControlService.getFormControl(this.passwordForm, controlName);
   }
 }
