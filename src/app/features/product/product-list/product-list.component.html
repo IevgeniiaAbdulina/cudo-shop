@@ -26,9 +26,9 @@
     @if (product.key) {
       <div [routerLink]="['/books', product.key]" class="product-list__item-link">
         <app-brief-card
-          [title]="productHelperService.getProductName(product)"
-          [imgUrl]="productHelperService.getProductImg(product)"
-          [description]="productHelperService.getShortProductDescription(product)"
+          [title]="productProjectionsHelperService.getProductName(product)"
+          [imgUrl]="productProjectionsHelperService.getProductImg(product)"
+          [description]="productProjectionsHelperService.getShortProductDescription(product)"
         ></app-brief-card>
       </div>
     }

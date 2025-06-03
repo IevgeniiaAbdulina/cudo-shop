@@ -1,7 +1,7 @@
 enum API_ENDPOINT {
   CUSTOMERS = 'customers',
   PRODUCTS = 'products',
-  PRODUCT_PROJECTIONS = 'product-projections',
+  PRODUCT_SEARCH = 'product-projections/search',
   CATEGORIES = 'categories',
 }
 

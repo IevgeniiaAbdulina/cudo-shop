@@ -7,10 +7,10 @@ import { CategoryResponse } from '../../../core/category/interfaces/category-res
 import { Category } from '../../../core/category/interfaces/category';
 import { CategoryApiService } from '../../../core/category/category.api.service';
 import { CategoryHelperService } from '../../../core/category/category.helper.service';
-import { Product } from '../../../core/product/interfaces/product';
-import { ProductResponse } from '../../../core/product/interfaces/product-response';
-import { ProductService } from '../../../core/product/product.service';
-import { ProductHelperService } from '../../../core/product/product.helper.service';
+import { ProductProjection } from '../../../core/product/interfaces/product-projection';
+import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
+import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
+import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
 import { BriefCardComponent } from './brief-card/brief-card.component';
 
 @Component({
@@ -20,7 +20,7 @@ import { BriefCardComponent } from './brief-card/brief-card.component';
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
-  public products: Product[] = [];
+  public products: ProductProjection[] = [];
 
   public categories: Category[] = [];
 
@@ -31,8 +31,9 @@ export class ProductListComponent implements OnInit {
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
     private router: Router,
     private categoryApiService: CategoryApiService,
-    private productApiService: ProductService,
-    public productHelperService: ProductHelperService,
+    private productProjectionsApiService: ProductProjectionsApiService,
+
+    public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
   ) {}
 
@@ -44,10 +45,10 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadProducts() {
-    this.productApiService.getAllProducts().subscribe({
+    this.productProjectionsApiService.getAllProductProjections().subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
-        const productResponse: ProductResponse = JSON.parse(responseStr);
+        const productResponse: ProductProjectionsResponse = JSON.parse(responseStr);
         console.log(productResponse); // TODO
         this.products = [...productResponse.results];
       },
@@ -74,12 +75,12 @@ export class ProductListComponent implements OnInit {
 
   public filterByCategory(categoryId: string) {
     this.selectedCategory = categoryId;
-    this.productApiService.getProductsByCategory(categoryId).subscribe({
+    this.productProjectionsApiService.getProductProjectionsByCategory(categoryId).subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
-        const productResponse: ProductResponse = JSON.parse(responseStr);
-        console.log('Click category!', this.selectedCategory, productResponse); // TODO
-        this.products = [...productResponse.results];
+        const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+        console.log('Click category!', this.selectedCategory, productProjectionsResponse); // TODO
+        this.products = [...productProjectionsResponse.results];
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
