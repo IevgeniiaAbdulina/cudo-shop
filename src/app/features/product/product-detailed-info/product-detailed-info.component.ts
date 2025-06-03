@@ -16,6 +16,7 @@ export class ProductDetailedInfoComponent implements OnInit {
   @Input() public key: string | null = null;
   public products: ProductDetailed[] = [];
   public productImages: ProductImage[] = [];
+  public currentImageIndex: number = 0;
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
@@ -26,6 +27,8 @@ export class ProductDetailedInfoComponent implements OnInit {
           const responseStr = JSON.stringify(product);
           const productResponse: ProductDetailed = JSON.parse(responseStr);
           this.products[0] = productResponse;
+          this.getProductImages(productResponse);
+          this.currentImageIndex = 0;
         },
         error: (error) => {
           console.error(`Loading error: ${error}`);
@@ -89,5 +92,25 @@ export class ProductDetailedInfoComponent implements OnInit {
     console.log('productImages', this.productImages);
 
     return this.productImages;
+  }
+
+  public onClickLeft() {
+    if (this.productImages.length > 0) {
+      this.currentImageIndex = (this.currentImageIndex - 1 + this.productImages.length) % this.productImages.length;
+    }
+  }
+
+  public onClickRight() {
+    if (this.productImages.length > 0) {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.productImages.length;
+    }
+  }
+
+  public getCurrentImage(): ProductImage | null {
+    if (this.productImages.length > 0 && this.currentImageIndex >= 0 && this.currentImageIndex < this.productImages.length) {
+      return this.productImages[this.currentImageIndex];
+    }
+
+    return null;
   }
 }

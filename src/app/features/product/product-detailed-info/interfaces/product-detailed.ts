@@ -1,41 +1,39 @@
+import { ProductImage } from '../../../../core/product/interfaces/product-image';
+
 export interface ProductDetailed {
   id: string;
   key: string;
   masterData: {
     current: {
       name: {
-        'en-US': string,
-      },
+        'en-US': string;
+      };
       categories: {
-        typeId: string,
-        id: string,
-      },
+        typeId: string;
+        id: string;
+      };
       description: {
-        'en-US': string,
-      },
+        'en-US': string;
+      };
       masterVariant: {
-        sku: string | number,
-        key: string | number,
-        images: [
-          {
-            url: string,
-          },
-        ],
+        sku: string | number;
+        key: string | number;
+        images: ProductImage[];
         prices: [
           {
             discounted: {
               value: {
-                currencyCode: string,
-                centAmount: number,
-              }
-            },
+                currencyCode: string;
+                centAmount: number;
+              };
+            };
             value: {
-              centAmount: number,
-              currencyCode: string,
-            }
+              centAmount: number;
+              currencyCode: string;
+            };
           },
-        ],
-      },
-    },
+        ];
+      };
+    };
   };
 }
