@@ -1,10 +1,7 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>About You</h2>
-    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">
-      Edit profile
-      <span class="btn__edit__icon"></span>
-    </app-button>
+    <app-button label="Edit profile" class="profile__btn btn__edit-profile" (buttonClicked)="openModal()" />
   </header>
   <div class="edit-mode__message__container">
     <div *ngIf="showMessage">
@@ -28,7 +25,29 @@
   </div>
 </section>
 
-<!-- Edit mode Modal -->
+<section class="profile__section">
+  <header class="profile__section__header">
+    <h2>Your password</h2>
+    <app-button label="Change Password" class="profile__btn btn__edit-password" (buttonClicked)="openModal()" />
+  </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="showMessage">
+      @if (isEditSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ERROR }}</p>
+      }
+    </div>
+  </div>
+
+  <div class="password__container">
+    <div class="password__icon"></div>
+    <span>••••••••••</span>
+  </div>
+</section>
+
+<!-- Edit mode Modal Profile Info -->
 <app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeModal()">
   <div modal-header>Edit Personal info</div>
 

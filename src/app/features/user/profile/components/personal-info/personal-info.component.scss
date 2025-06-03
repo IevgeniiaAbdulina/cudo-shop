@@ -59,10 +59,16 @@ $prf-border-color: #dcdcdcff;
   background: transparent;
   color: #ffffff;
   transition: all 0.5s ease-out;
+
+  &:hover {
+    background: #a93d0b;
+    box-shadow: 0 1px 3px #eee;
+  }
 }
 
 .btn {
-  &__edit-profile {
+  &__edit-profile,
+  &__edit-password {
     background: $prf-color-accent;
   }
 
@@ -197,4 +203,25 @@ input:not(input[type='checkbox']) {
 .error-line {
   font-size: 1rem;
   color: $color-error;
+}
+
+/* Password section */
+.password {
+  &__container {
+    display: flex;
+    align-items: center;
+    gap: $prf-spacing-016;
+
+    span > * {
+      border: 1px solid red;
+    }
+  }
+
+  &__icon {
+    align-self: center;
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    background-image: url('../../../../../assets/icons/lock_24dp.svg');
+  }
 }
