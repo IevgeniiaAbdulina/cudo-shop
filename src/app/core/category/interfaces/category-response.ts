@@ -1,9 +1,6 @@
+import { BaseResponse } from '../../../shared/interfaces/base-response';
 import { Category } from './category';
 
-export interface CategoryResponse {
-  limit: number;
-  offset: number;
-  count: number;
-  total: number;
+export interface CategoryResponse extends BaseResponse {
   results: Category[];
 }

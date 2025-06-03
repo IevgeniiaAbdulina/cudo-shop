@@ -1,9 +1,6 @@
+import { BaseResponse } from '../../../shared/interfaces/base-response';
 import { Product } from './product';
 
-export interface ProductResponse {
-  limit: number;
-  offset: number;
-  count: number;
-  total: number;
+export interface ProductResponse extends BaseResponse {
   results: Product[];
 }
