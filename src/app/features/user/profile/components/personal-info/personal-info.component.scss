@@ -61,11 +61,6 @@ $prf-border-color: #dcdcdcff;
   transition: all 0.5s ease-out;
 }
 
-.profile__btn:hover {
-  background: #a93d0b;
-  box-shadow: 0 1px 3px #eee;
-}
-
 .btn {
   &__edit-profile {
     background: $prf-color-accent;
@@ -167,4 +162,39 @@ input:not(input[type='checkbox']) {
     color: darkgreen;
     background-color: lightgreen;
   }
+}
+
+.form__button {
+  align-self: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  @extend %transition;
+
+  &_visible {
+    color: $color-input-search;
+    background: $color-additional;
+
+    &:hover:enabled {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+    color: $color-input-search;
+    background-color: $color-button-disable;
+  }
+}
+
+.error__container {
+  height: max-content;
+  padding: 0 10px;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: $color-error;
 }

@@ -39,9 +39,27 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="firstName"><input type="text" id="firstName" formControlName="firstName" /></label>
+            @if (validationCheck(getControlName('firstName')!)) {
+              <div class="error__container">
+                @if (getControlName('firstName')?.errors?.['required']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('firstName')?.errors?.['pattern']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
           </div>
           <div class="field__wrapper">
             <label for="lastName"><input type="text" id="lastName" formControlName="lastName" /></label>
+            @if (validationCheck(getControlName('lastName')!)) {
+              <div class="error__container">
+                @if (getControlName('lastName')?.errors?.['required']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('lastName')?.errors?.['pattern']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
           </div>
         </div>
       </fieldset>
@@ -51,6 +69,15 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label><input type="email" formControlName="email" /></label>
+            @if (validationCheck(getControlName('email')!)) {
+              <div class="error__container">
+                @if (getControlName('email')?.errors?.['required']) {
+                  <span class="error-line"> Email {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('email')?.errors?.['pattern']) {
+                  <span class="error-line"> Email {{ ERROR_MSG.EMAIL }} </span>
+                }
+              </div>
+            }
           </div>
         </div>
       </fieldset>
@@ -60,11 +87,29 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="dateOfBirth"><input type="date" id="dateOfBirth" formControlName="dateOfBirth" /></label>
+            @if (validationCheck(getControlName('dateOfBirth')!)) {
+              <div class="error__container">
+                @if (getControlName('dateOfBirth')?.errors?.['required']) {
+                  <span class="error-line"> Date of birth {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('dateOfBirth')?.errors) {
+                  <span class="error-line"> You must be at least 18 years old </span>
+                }
+              </div>
+            }
           </div>
         </div>
       </fieldset>
 
-      <app-button type="submit" class="profile__btn btn__modal__submit">Save changes</app-button>
+      <app-button
+        label="Save changes"
+        [disabled]="profileForm.invalid"
+        [ngClass]="{
+          form__button_disabled: profileForm.invalid,
+          form__button_visible: !profileForm.invalid,
+        }"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+      />
     </form>
   </div>
 </app-edit-mode-modal>

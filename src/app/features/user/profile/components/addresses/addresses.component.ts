@@ -29,6 +29,7 @@ export class AddressesComponent implements OnInit {
 
         this.user.set(
           new UserModel(
+            response.version,
             response.id,
             response.email,
             response.firstName,
