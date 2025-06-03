@@ -113,6 +113,12 @@
         type="submit"
         class="profile__btn btn__modal__submit form__button"
       />
+      <app-button
+        label="Cancel"
+        type="button"
+        class="profile__btn btn__modal__submit btn__modal__cansel"
+        (buttonClicked)="closePasswordModal()"
+      />
     </form>
   </div>
 </app-edit-mode-modal>

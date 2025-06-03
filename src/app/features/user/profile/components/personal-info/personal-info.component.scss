@@ -144,7 +144,10 @@ input:not(input[type='checkbox']) {
 .btn__modal__submit {
   display: flex;
   align-items: center;
-  background-color: $color-additional;
+
+  &__submit {
+    background-color: $color-additional;
+  }
 }
 
 /* Edit Mode Messages */
@@ -232,5 +235,26 @@ input:not(input[type='checkbox']) {
 }
 
 .item__wrap {
-  margin: $prf-spacing-032 0;
+  margin: 3rem 0;
+}
+
+input[type='password'] {
+  margin-top: 1rem;
+}
+
+.btn {
+  &__modal {
+    &__cansel {
+      margin-top: 2rem;
+      background-color: #ffffff;
+      border: 1px solid rgba(127, 127, 127, 0.35);
+      color: #7f7f7f;
+
+      &:hover {
+        background-color: rgba(127, 127, 127, 0.15);
+        border: 1px solid #7f7f7f;
+        color: #7f7f7f;
+      }
+    }
+  }
 }
