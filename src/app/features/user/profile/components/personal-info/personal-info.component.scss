@@ -1,0 +1,200 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
+
+$prf-spacing-vr: 8px;
+$prf-spacing-hr: 16px;
+$prf-spacing-016: 1rem;
+$prf-spacing-032: 2rem;
+$prf-max-width: max(100px);
+$prf-color-accent: #f07800;
+$prf-color-font-dark: #000000;
+$prf-border-color: #dcdcdcff;
+
+.profile__section {
+  border: 1px solid #dcdcdcff;
+  border-radius: $prf-spacing-016;
+  padding: $prf-spacing-032;
+  margin: $prf-spacing-032 0;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* About you section */
+.profile__info {
+  line-height: 160%;
+  color: #4f4f4f;
+
+  &__name {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: $prf-spacing-016;
+    color: $prf-color-font-dark;
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #dcdcdcff;
+}
+
+/* Button style */
+.profile__btn {
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
+  border: solid 1px transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  background: transparent;
+  color: #ffffff;
+  transition: all 0.5s ease-out;
+}
+
+.btn {
+  &__edit-profile {
+    background: $prf-color-accent;
+  }
+
+  &__add-address {
+    background: $prf-color-accent;
+    color: #fff;
+  }
+
+  &__edit {
+    width: $prf-max-width;
+    background: $prf-color-accent;
+  }
+
+  &__remove {
+    width: $prf-max-width;
+    background: transparent;
+    border: 1px solid #dcdcdcff;
+    color: $prf-color-font-dark;
+  }
+
+  &__remove:hover {
+    background: #dcdcdcff;
+    box-shadow: 0 1px 3px #eee;
+  }
+}
+
+/* Form style */
+fieldset {
+  border: none;
+  margin: $prf-spacing-032 0 4rem;
+}
+
+legend {
+  margin-bottom: $prf-spacing-016;
+}
+
+.field__wrapper {
+  width: 100%;
+  height: 40px;
+}
+
+.fields__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $prf-spacing-032;
+}
+
+.edit__form {
+  input {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
+}
+
+.btn__modal__submit {
+  display: flex;
+  align-items: center;
+  background-color: $color-additional;
+}
+
+/* Edit Mode Messages */
+.edit-mode__message__container {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edit-mode__message__item {
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+
+  &.error {
+    color: $color-error;
+    background-color: $color-background-error;
+  }
+
+  &.success {
+    color: darkgreen;
+    background-color: lightgreen;
+  }
+}
+
+.form__button {
+  align-self: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  @extend %transition;
+
+  &_visible {
+    color: $color-input-search;
+    background: $color-additional;
+
+    &:hover:enabled {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+    color: $color-input-search;
+    background-color: $color-button-disable;
+  }
+}
+
+.error__container {
+  height: max-content;
+  padding: 0 10px;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: $color-error;
+}

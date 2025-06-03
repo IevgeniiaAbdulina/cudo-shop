@@ -1,0 +1,135 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.product__wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 7rem 10rem;
+  @include media-laptop-tablet {
+    padding: 7rem 5rem;
+  }
+  @include media-tablet {
+    padding: 5rem;
+  }
+  @include media-mobile-big {
+    flex-direction: column;
+    padding: 3rem;
+    row-gap: 1.5rem;
+  }
+}
+
+.product-image {
+  width: 30%;
+  height: fit-content;
+  text-align: center;
+  @include media-laptop-tablet {
+    width: 50%;
+  }
+  @include media-mobile-big {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.product-image img {
+  width: 80%;
+  height: 70%;
+  @include media-laptop-tablet {
+    width: 80%;
+  }
+  @include media-tablet {
+    width: 60%;
+  }
+  @include media-mobile-big {
+    width: 50%;
+  }
+}
+
+.product-information {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.2rem;
+  width: 50%;
+  @include media-tablet {
+    row-gap: 1.8rem;
+    width: 60%;
+  }
+  @include media-mobile-big {
+    width: 100%;
+  }
+}
+
+.product-title {
+  color: $color-primary;
+  font-size: 3.6rem;
+  @include media-laptop-tablet {
+    font-size: 2.8rem;
+  }
+  @include media-tablet {
+    font-size: 2.0rem;
+  }
+}
+
+.product-price__container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.product-old-price {
+  color: $color-old-price;
+  text-decoration: line-through;
+  font-size: 2rem;
+  @include media-tablet {
+    font-size: 1.8rem;
+  }
+}
+.product-price {
+  color: $color-old-price;
+  font-weight: bold;
+  font-size: 3rem;
+  @include media-tablet {
+    font-size: 2.2rem;
+  } 
+}
+
+.product-discount {
+  font-size: 3rem;
+  font-weight: bold;
+  color: $color-additional;
+  @include media-tablet {
+    font-size: 2.2rem;
+  }
+}
+
+.product__button {
+  color: $color-input-search;
+  background: $color-additional;
+  border-radius: 10px;
+  font-weight: 600;
+  align-self: baseline;
+  cursor: pointer;
+  @extend %transition;
+  &:hover {
+    background: $color-button-hover;
+    box-shadow: 0 1px 3px $color-input-search;
+  }
+  @include media-mobile {
+    font-weight: 400;
+  }
+}
+
+.product-description {
+  font-size: 1.8rem;
+  line-height: 1.5;
+  font-style: italic;
+  @include media-laptop-tablet {
+    font-size: 1.6rem;
+    line-height: normal;
+  }
+  @include media-tablet {
+    font-size: 1.4rem;
+  }
+}

@@ -1,0 +1,115 @@
+<section class="profile__section">
+  <header class="profile__section__header">
+    <h2>About You</h2>
+    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">
+      Edit profile
+      <span class="btn__edit__icon"></span>
+    </app-button>
+  </header>
+  <div class="edit-mode__message__container">
+    <div *ngIf="showMessage">
+      @if (isEditSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ERROR }}</p>
+      }
+    </div>
+  </div>
+  <div class="profile__info">
+    <div class="profile__info__name">
+      @if (user()) {
+        {{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}
+      } @else {
+        <span>-</span>
+      }
+    </div>
+    <div><span>Email:</span> {{ user()?.email }}</div>
+    <div><span>Birthday:</span> {{ user()?.dateOfBirth | date }}</div>
+  </div>
+</section>
+
+<!-- Edit mode Modal -->
+<app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeModal()">
+  <div modal-header>Edit Personal info</div>
+
+  <div modal-body>
+    <form class="edit__form" [formGroup]="profileForm" (ngSubmit)="onFormSubmit()">
+      <fieldset id="edit__name">
+        <legend>Edit you personal data</legend>
+        <div class="fields__container">
+          <div class="field__wrapper">
+            <label for="firstName"><input type="text" id="firstName" formControlName="firstName" /></label>
+            @if (validationCheck(getControlName('firstName')!)) {
+              <div class="error__container">
+                @if (getControlName('firstName')?.errors?.['required']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('firstName')?.errors?.['pattern']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
+          </div>
+          <div class="field__wrapper">
+            <label for="lastName"><input type="text" id="lastName" formControlName="lastName" /></label>
+            @if (validationCheck(getControlName('lastName')!)) {
+              <div class="error__container">
+                @if (getControlName('lastName')?.errors?.['required']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('lastName')?.errors?.['pattern']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="edit__email">
+        <legend>Change you Email</legend>
+        <div class="fields__container">
+          <div class="field__wrapper">
+            <label><input type="email" formControlName="email" /></label>
+            @if (validationCheck(getControlName('email')!)) {
+              <div class="error__container">
+                @if (getControlName('email')?.errors?.['required']) {
+                  <span class="error-line"> Email {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('email')?.errors?.['pattern']) {
+                  <span class="error-line"> Email {{ ERROR_MSG.EMAIL }} </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset id="edit__birth-date" name="birthday-input" class="birthday-input">
+        <legend>Edit your date of birth</legend>
+        <div class="fields__container">
+          <div class="field__wrapper">
+            <label for="dateOfBirth"><input type="date" id="dateOfBirth" formControlName="dateOfBirth" /></label>
+            @if (validationCheck(getControlName('dateOfBirth')!)) {
+              <div class="error__container">
+                @if (getControlName('dateOfBirth')?.errors?.['required']) {
+                  <span class="error-line"> Date of birth {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getControlName('dateOfBirth')?.errors) {
+                  <span class="error-line"> You must be at least 18 years old </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <app-button
+        label="Save changes"
+        [disabled]="profileForm.invalid"
+        [ngClass]="{
+          form__button_disabled: profileForm.invalid,
+          form__button_visible: !profileForm.invalid,
+        }"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+      />
+    </form>
+  </div>
+</app-edit-mode-modal>

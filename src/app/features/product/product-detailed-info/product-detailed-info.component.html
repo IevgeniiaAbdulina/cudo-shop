@@ -1,1 +1,23 @@
-<p>product-detailed-info works!</p>
+<div class="wrapper">
+  @for (product of products; track product.id) {
+    <div class="product__wrapper">
+      <div class="product-image">
+        <img [src]="getProductImage(product)" alt="picture" />
+      </div>
+      <div class="product-information">
+        <h2 class="product-title">{{ getProductName(product) }}</h2>
+        <div class="product-price__container">
+          <p [ngClass]="{ 'product-old-price': hasDiscount(product), 'product-price': !hasDiscount(product) }">
+            {{ getProductPrice(product) }}
+          </p>
+          <ng-container *ngIf="hasDiscount(product)">
+            <p class="product-discount">{{ getProductDiscount(product) }}</p>
+          </ng-container>
+          <p class="product-currency">{{ getProductCurrency(product) }}</p>
+        </div>
+        <app-button label="Add to cart" (buttonClicked)="buttonClickedAddToCart.emit()" class="product__button" />
+        <p class="product-description">{{ getProductDescription(product) }}</p>
+      </div>
+    </div>
+  }
+</div>

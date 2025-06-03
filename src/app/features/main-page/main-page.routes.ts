@@ -4,7 +4,6 @@ import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { authGuard } from '../../core/auth/auth.guard';
-import { ProfileComponent } from '../user/profile/profile.component';
 import { isLoggedGuard } from '../../core/auth/is-logged.guard';
 
 export const mainRoutes: Routes = [
@@ -37,7 +36,7 @@ export const mainRoutes: Routes = [
       },
       {
         path: 'profile',
-        component: ProfileComponent,
+        loadChildren: () => import('../user/profile/user-profile.routes').then((c) => c.profileRoutes),
         canActivate: [authGuard],
       },
       {

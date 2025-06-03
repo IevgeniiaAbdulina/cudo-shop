@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { CategoryResponse } from '../../../core/category/interfaces/category-response';
@@ -15,8 +15,7 @@ import { BriefCardComponent } from './brief-card/brief-card.component';
 
 @Component({
   selector: 'app-product-list',
-  standalone: true, // TODO
-  imports: [BriefCardComponent],
+  imports: [BriefCardComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })

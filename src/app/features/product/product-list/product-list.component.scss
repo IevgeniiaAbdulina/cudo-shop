@@ -36,4 +36,8 @@ li {
   flex: 1;
   justify-content: center;
   flex-wrap: wrap;
+
+  &__item-link {
+    cursor: pointer;
+  }
 }
