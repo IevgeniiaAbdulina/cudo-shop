@@ -1,6 +1,6 @@
 import { Component, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
-import { DatePipe, NgIf, TitleCasePipe } from '@angular/common';
+import { DatePipe, NgClass, NgIf, TitleCasePipe } from '@angular/common';
 import { UserModel } from '../../../model/user-model';
 import { UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
@@ -14,7 +14,7 @@ import ERROR_MSG from '../../../../../shared/constants/error-message';
 
 @Component({
   selector: 'app-personal-info',
-  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent, ReactiveFormsModule, NgIf],
+  imports: [ButtonComponent, DatePipe, TitleCasePipe, EditModeModalComponent, ReactiveFormsModule, NgIf, NgClass],
   templateUrl: './personal-info.component.html',
   styleUrl: './personal-info.component.scss',
 })

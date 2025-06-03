@@ -100,7 +100,16 @@
         </div>
       </fieldset>
 
-      <app-button type="submit" class="profile__btn btn__modal__submit">Save changes</app-button>
+      <app-button
+        label="Save changes"
+        [disabled]="profileForm.invalid"
+        [ngClass]="{
+          form__button_disabled: profileForm.invalid,
+          form__button_visible: !profileForm.invalid,
+        }"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+      />
     </form>
   </div>
 </app-edit-mode-modal>
