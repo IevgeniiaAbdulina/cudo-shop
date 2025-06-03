@@ -23,7 +23,9 @@ export class PersonalInfoComponent implements OnInit {
   public modalIsClosed = input();
 
   public isModalVisible: boolean = false;
+  public isPasswordModalVisible: boolean = false;
   public profileForm!: FormGroup;
+  public passwordForm!: FormGroup;
   public isEditSuccess: boolean = false;
   public showMessage: boolean = false;
 
@@ -39,6 +41,12 @@ export class PersonalInfoComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       dateOfBirth: [''],
+    });
+
+    this.passwordForm = this.fb.group({
+      currentPassword: [''],
+      newPassword: [''],
+      confirmNewPassword: [''],
     });
   }
 
@@ -62,6 +70,23 @@ export class PersonalInfoComponent implements OnInit {
         console.error(error);
       },
     });
+  }
+
+  public changePasswordModeToggle(): void {
+    this.isPasswordModalVisible = !this.isPasswordModalVisible;
+  }
+
+  public openPasswordModal(): void {
+    this.changePasswordModeToggle();
+  }
+
+  public closePasswordModal(): void {
+    this.passwordForm.reset();
+    this.changePasswordModeToggle();
+  }
+
+  public onPasswordFormSubmit(): void {
+    console.log('[edit-profile password] change password');
   }
 
   public editModeToggle(): void {

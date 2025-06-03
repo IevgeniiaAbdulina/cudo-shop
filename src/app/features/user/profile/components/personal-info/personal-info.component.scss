@@ -225,3 +225,11 @@ input:not(input[type='checkbox']) {
     background-image: url('../../../../../assets/icons/lock_24dp.svg');
   }
 }
+
+.list__wrap {
+  margin: $prf-spacing-032 0 4rem;
+}
+
+.item__wrap {
+  margin: $prf-spacing-016 0;
+}
