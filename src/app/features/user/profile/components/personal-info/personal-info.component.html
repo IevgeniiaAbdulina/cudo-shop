@@ -39,9 +39,25 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="firstName"><input type="text" id="firstName" formControlName="firstName" /></label>
+            <div class="error__container">
+              <div *ngIf="validationCheck(getControlName('firstName')!)">
+                <span class="error-line" *ngIf="getControlName('firstName')?.errors?.['required']">
+                  First name {{ ERROR_MSG.REQUIRED }}.
+                </span>
+                <span class="error-line" *ngIf="getControlName('firstName')?.errors?.['pattern']"> First name {{ ERROR_MSG.NAME }} . </span>
+              </div>
+            </div>
           </div>
           <div class="field__wrapper">
             <label for="lastName"><input type="text" id="lastName" formControlName="lastName" /></label>
+            <div class="error__container">
+              <div *ngIf="validationCheck(getControlName('lastName')!)">
+                <span class="error-line" *ngIf="getControlName('lastName')?.errors?.['required']">
+                  Last name {{ ERROR_MSG.REQUIRED }}
+                </span>
+                <span class="error-line" *ngIf="getControlName('lastName')?.errors?.['pattern']"> Last name {{ ERROR_MSG.NAME }} . </span>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>
@@ -51,6 +67,12 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label><input type="email" formControlName="email" /></label>
+            <div class="error__container">
+              <div *ngIf="validationCheck(getControlName('email')!)">
+                <span class="error-line" *ngIf="getControlName('email')?.errors?.['required']"> Email {{ ERROR_MSG.REQUIRED }} . </span>
+                <span class="error-line" *ngIf="getControlName('email')?.errors?.['pattern']"> Email {{ ERROR_MSG.EMAIL }} . </span>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>
@@ -60,6 +82,14 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="dateOfBirth"><input type="date" id="dateOfBirth" formControlName="dateOfBirth" /></label>
+            <div class="error__container">
+              <div *ngIf="validationCheck(getControlName('dateOfBirth')!)">
+                <span class="error-line" *ngIf="getControlName('dateOfBirth')?.errors?.['required']">
+                  Date of birth {{ ERROR_MSG.REQUIRED }}.
+                </span>
+                <span class="error-line" *ngIf="getControlName('dateOfBirth')?.errors"> You must be at least 18 years old. </span>
+              </div>
+            </div>
           </div>
         </div>
       </fieldset>

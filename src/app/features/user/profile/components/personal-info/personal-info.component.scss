@@ -168,3 +168,13 @@ input:not(input[type='checkbox']) {
     background-color: lightgreen;
   }
 }
+
+.error__container {
+  height: max-content;
+  padding: 0 10px;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: $color-error;
+}

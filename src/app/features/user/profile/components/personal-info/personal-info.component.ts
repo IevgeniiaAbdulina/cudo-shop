@@ -5,8 +5,12 @@ import { UserModel } from '../../../model/user-model';
 import { UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EDIT_MODE_MSG } from '../../enums/edit-mode-messages';
+import { EMAIL_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex';
+import { minimumAgeValidator } from '../../../../../shared/validator/validate.dob';
+import { ControlService } from '../../../services/control.service';
+import ERROR_MSG from '../../../../../shared/constants/error-message';
 
 @Component({
   selector: 'app-personal-info',
@@ -24,13 +28,14 @@ export class PersonalInfoComponent implements OnInit {
   public showMessage: boolean = false;
 
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
+  protected readonly ERROR_MSG = ERROR_MSG;
 
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
   ) {
     this.profileForm = this.fb.group({
-      email: ['', [Validators.required]],
+      email: [''],
       firstName: [''],
       lastName: [''],
       dateOfBirth: [''],
@@ -98,20 +103,20 @@ export class PersonalInfoComponent implements OnInit {
       });
 
       this.isEditSuccess = true;
+      this.showEditModeMessage();
+      this.closeModal();
     } else {
       this.isEditSuccess = false;
+      this.showEditModeMessage();
     }
-
-    this.showEditModeMessage();
-    this.closeModal();
   }
 
   private setEditModeValue(): void {
     this.profileForm = this.fb.group({
-      email: [this.user()?.email],
-      firstName: [this.user()?.firstName],
-      lastName: [this.user()?.lastName],
-      dateOfBirth: [this.user()?.dateOfBirth],
+      email: [this.user()?.email, [Validators.required, Validators.pattern(EMAIL_REGEX)]],
+      firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      dateOfBirth: [this.user()?.dateOfBirth, [Validators.required, minimumAgeValidator(18)]],
     });
   }
 
@@ -121,5 +126,13 @@ export class PersonalInfoComponent implements OnInit {
     setTimeout(() => {
       this.showMessage = false;
     }, 3500);
+  }
+
+  public validationCheck(control: AbstractControl): boolean | null {
+    return ControlService.validationChecks(control);
+  }
+
+  public getControlName(controlName: string): AbstractControl | null {
+    return ControlService.getFormControl(this.profileForm, controlName);
   }
 }
