@@ -67,6 +67,7 @@
               formControlName="currentPassword"
               placeholder="Current password *"
               (input)="onInputChange()"
+              [type]="passwordFieldType"
             />
             <div class="input__validator">
               @if (!getPasswordControlName('currentPassword')?.errors) {
@@ -74,8 +75,10 @@
                   <span class="input__validator__icon__valid"></span>
                 }
               }
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
             </div>
           </label>
+
           @if (validationCheck(getPasswordControlName('currentPassword')!)) {
             <div class="error__container">
               @if (getPasswordControlName('currentPassword')?.errors?.['required']) {
@@ -89,7 +92,10 @@
 
         <div class="field__wrapper item__wrap">
           <label for="newPassword">
-            <input type="password" id="newPassword" formControlName="newPassword" placeholder="New password *" />
+            <input type="password" id="newPassword" formControlName="newPassword" placeholder="New password *" [type]="passwordFieldType" />
+            <div class="input__validator">
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+            </div>
           </label>
           @if (validationCheck(getPasswordControlName('newPassword')!)) {
             <div class="error__container">
@@ -104,11 +110,18 @@
 
         <div class="field__wrapper item__wrap">
           <label for="confirmNewPassword">
-            <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" placeholder="Confirm new password *" />
+            <input
+              type="password"
+              id="confirmNewPassword"
+              formControlName="confirmNewPassword"
+              placeholder="Confirm new password *"
+              [type]="passwordFieldType"
+            />
             <div class="input__validator">
               @if (!getPasswordControlName('confirmNewPassword')?.errors) {
                 <span class="input__validator__icon__valid"></span>
               }
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
             </div>
           </label>
           @if (validationCheck(getPasswordControlName('confirmNewPassword')!)) {

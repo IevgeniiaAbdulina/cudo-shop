@@ -34,6 +34,8 @@ export class PersonalInfoComponent implements OnInit {
   public changePasswordErrorMessage: boolean = false;
   public verifyCurrentPasswordError: boolean = false;
   public showCurrentPasswordConfirmation: boolean = false;
+  public passwordFieldType: string = 'password';
+  public isPasswordVisible: boolean = false;
 
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
   protected readonly ERROR_MSG = ERROR_MSG;
@@ -252,5 +254,10 @@ export class PersonalInfoComponent implements OnInit {
 
   public getPasswordControlName(controlName: string): AbstractControl | null {
     return ControlService.getFormControl(this.changePasswordForm, controlName);
+  }
+
+  public togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+    this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
   }
 }
