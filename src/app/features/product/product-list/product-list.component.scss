@@ -1,4 +1,5 @@
 @use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/placeholders' as *;
 
 :host {
   display: flex;
@@ -7,11 +8,12 @@
 aside {
   margin: 2rem;
   padding: 2rem;
-  width: 26rem;
+  width: 30rem;
   border-radius: 1rem;
   border: 2px solid $color-input-search;
   box-shadow: 0 3px 9px 5px $color-input-search;
 
+  h2,
   h3 {
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -21,13 +23,44 @@ aside {
 li {
   list-style: none;
   padding: 0.5rem;
+  border-radius: 1rem;
   border: 2px solid transparent;
   cursor: pointer;
 
-  &:hover {
-    border-radius: 1rem;
+  &:hover:not(.selected) {
     border-color: $color-input-search;
     box-shadow: 0 3px 9px 5px $color-input-search;
+  }
+
+  &.selected {
+    font-weight: bold;
+    background-color: $color-input-search;
+
+    &:hover {
+      cursor: default;
+    }
+  }
+}
+
+.filter-button {
+  @extend %transition;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: $color-input-search;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: $color-additional;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $color-button-hover;
+  }
+
+  &:disabled {
+    background-color: $color-button-disable;
+    cursor: not-allowed;
   }
 }
 
@@ -36,8 +69,4 @@ li {
   flex: 1;
   justify-content: center;
   flex-wrap: wrap;
-
-  &__item-link {
-    cursor: pointer;
-  }
 }

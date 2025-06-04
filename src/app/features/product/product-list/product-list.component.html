@@ -11,14 +11,22 @@
     </ul>
   }
 
-  <h3>Filter by category</h3>
+  <h2>Filter by category</h2>
+  <h3>{{ categoryTitle0 }}</h3>
   <ul>
     @for (category of categories; track $index) {
-      <li tabindex="0" (click)="filterByCategory(category.id)" (keyup)="onKeyUpFilter($event, category.id)">
+      <li
+        tabindex="0"
+        (click)="filterByCategory(category.id)"
+        (keyup)="onKeyUpFilter($event, category.id)"
+        [ngClass]="{ selected: selectedCategory === category.id }"
+      >
         {{ categoryHelperService.getCategoryName(category) }}
       </li>
     }
   </ul>
+
+  <button class="filter-button" [disabled]="!selectedCategory" (click)="loadProducts()">Reset filters</button>
 </aside>
 
 <div class="product-list">
