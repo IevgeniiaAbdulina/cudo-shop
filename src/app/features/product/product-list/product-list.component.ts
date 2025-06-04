@@ -52,7 +52,6 @@ export class ProductListComponent implements OnInit {
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const productResponse: ProductProjectionsResponse = JSON.parse(responseStr);
-        console.log(productResponse); // TODO
         this.products = [...productResponse.results];
       },
       error: (error: HttpErrorResponse) => {
@@ -68,12 +67,10 @@ export class ProductListComponent implements OnInit {
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
-        console.log('Click category!', this.selectedCategory, productProjectionsResponse); // TODO
         this.products = [...productProjectionsResponse.results];
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
-        console.log('Category %s is clicked, but something went wrong: %s', categoryId, error); // TODO
         this.loadProducts();
         this.handleError(error);
       },
@@ -95,7 +92,6 @@ export class ProductListComponent implements OnInit {
       next: (response) => {
         const responseStr = JSON.stringify(response);
         const categoryResponse: CategoryResponse = JSON.parse(responseStr);
-        console.log(categoryResponse); // TODO
         this.categories = [...categoryResponse.results].slice(2);
         this.categoryTitle0 = this.categoryHelperService.getCategoryName(categoryResponse.results[0]);
         this.categoryTitle1 = this.categoryHelperService.getCategoryName(categoryResponse.results[1]);
