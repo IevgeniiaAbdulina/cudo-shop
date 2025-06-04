@@ -1,3 +1,6 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
 $prf-spacing-vr: 8px;
 $prf-spacing-hr: 16px;
 $prf-spacing-016: 1rem;
@@ -104,10 +107,6 @@ $prf-border-color: #dcdcdcff;
 }
 
 .btn {
-  &__edit-profile {
-    background: $prf-color-accent;
-  }
-
   &__add-address {
     background: $prf-color-accent;
     color: #fff;
@@ -134,4 +133,128 @@ $prf-border-color: #dcdcdcff;
 button:hover {
   background: #a93d0b;
   box-shadow: 0 1px 3px #eee;
+}
+
+/* Modal Form style */
+fieldset {
+  border: none;
+  margin: $prf-spacing-032 0 4rem;
+}
+
+legend {
+  margin-bottom: $prf-spacing-016;
+}
+
+.field__wrapper {
+  width: 100%;
+  height: 40px;
+}
+
+.fields__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $prf-spacing-032;
+}
+
+.address__modal {
+  &__form-container {
+    input,
+    select {
+      position: relative;
+      width: 100%;
+      height: 48px;
+    }
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
+}
+
+.select__wrapper {
+  position: relative;
+  width: 100%;
+  border: 2px solid $color-additional;
+}
+
+.select__wrapper select {
+  width: 100%;
+  height: 48px;
+  padding: 0 10px;
+  background: transparent;
+  border: 0;
+  color: $color-overlay;
+
+  &:checked {
+    border: none;
+  }
+}
+
+select option:active {
+  background-color: $color-additional;
+}
+
+.btn__modal {
+  &__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-additional;
+  }
+}
+
+.form__button {
+  align-self: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  @extend %transition;
+
+  &_visible {
+    color: $color-input-search;
+    background: $color-additional;
+
+    &:hover:enabled {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+  }
+
+  &_disabled,
+  &_disabled:hover {
+    cursor: not-allowed;
+    color: $color-input-search;
+    background-color: $color-button-disable;
+  }
+}
+
+.address-info {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 2rem;
+
+  &__item {
+    &__code {
+      flex: 2;
+    }
+
+    &__city {
+      flex: 4;
+    }
+  }
 }

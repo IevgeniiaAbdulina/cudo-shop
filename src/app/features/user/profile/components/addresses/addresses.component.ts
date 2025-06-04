@@ -1,14 +1,25 @@
 import { Component, signal, WritableSignal, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
 import { FormatCountryPipe } from '../../../pipes/format-country.pipe';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { UserModel } from '../../../model/user-model';
 import { Address, UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
+import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-addresses',
-  imports: [ButtonComponent, FormatCountryPipe, TitleCasePipe, UpperCasePipe],
+  imports: [
+    ButtonComponent,
+    FormatCountryPipe,
+    TitleCasePipe,
+    UpperCasePipe,
+    EditModeModalComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgForOf,
+  ],
   templateUrl: './addresses.component.html',
   styleUrl: './addresses.component.scss',
 })
@@ -20,7 +31,24 @@ export class AddressesComponent implements OnInit {
   public billingAddresses?: Address[];
   public shippingAddresses?: Address[];
 
-  constructor(private userService: UserService) {}
+  public isModalVisible: boolean = false;
+  public validCountries: string[] = ['Poland', 'Germany', 'USA'];
+
+  public newShoppingAddressGroup: FormGroup;
+
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+  ) {
+    this.newShoppingAddressGroup = this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      street: [''],
+      postalCode: [''],
+      city: [''],
+      country: [''],
+    });
+  }
 
   public ngOnInit(): void {
     this.userService.getUserPersonalInfoByToken().subscribe({
@@ -49,6 +77,23 @@ export class AddressesComponent implements OnInit {
         console.error(error);
       },
     });
+  }
+
+  // Add New Shipping Address
+  public editModeToggle(): void {
+    this.isModalVisible = !this.isModalVisible;
+  }
+
+  public openModalShippingAddress(): void {
+    this.editModeToggle();
+  }
+
+  public closeNewShippingAddressModal(): void {
+    this.editModeToggle();
+  }
+
+  public onFormSubmit(): void {
+    console.log('[shipping address] create new shipping address');
   }
 
   public findDefaultBillingAddress(response: UserResponse): Address | undefined {
