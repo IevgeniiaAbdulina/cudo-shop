@@ -1,0 +1,11 @@
+<p>modal works!</p>
+<div class="modal__wrapper" *ngIf="isModalOpen">
+  <div class="modal">
+    <app-button label="X" (buttonClicked)="closeModal()" class="modal__button" />
+    <div class="modal__window">
+      <app-button label="<" (buttonClicked)="onClickLeft()" class="modal__left" />
+      <img [src]="" alt="" />
+      <app-button label=">" (buttonClicked)="onClickRight()" class="modal__right" />
+    </div>
+  </div>
+</div>
