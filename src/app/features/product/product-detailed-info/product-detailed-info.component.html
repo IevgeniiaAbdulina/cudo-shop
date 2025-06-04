@@ -2,7 +2,12 @@
   @for (product of products; track product.id) {
     <div class="product__wrapper">
       <div class="product-image">
-        <img [src]="getProductImage(product)" alt="picture" />
+        <!--<img [src]="getProductImage(product)" alt="picture" />-->
+        <app-button label="<" (buttonClicked)="onClickLeft()" class="image__button" />
+        <div *ngIf="getCurrentImage() as currentImage">
+          <img [src]="currentImage.url" [alt]="currentImage.label" />
+        </div>
+        <app-button label=">" (buttonClicked)="onClickRight()" class="image__button" />
       </div>
       <div class="product-information">
         <h2 class="product-title">{{ getProductName(product) }}</h2>
