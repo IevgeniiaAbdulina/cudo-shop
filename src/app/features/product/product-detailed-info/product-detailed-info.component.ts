@@ -4,10 +4,11 @@ import { ProductDetailedService } from './services/product-detailed.service';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { CommonModule } from '@angular/common';
 import { ProductImage } from '../../../core/product/interfaces/product-image';
+import { ModalComponent } from './modal/modal/modal.component';
 
 @Component({
   selector: 'app-product-detailed-info',
-  imports: [ButtonComponent, CommonModule],
+  imports: [ButtonComponent, CommonModule, ModalComponent],
   templateUrl: './product-detailed-info.component.html',
   styleUrl: './product-detailed-info.component.scss',
 })
@@ -17,6 +18,8 @@ export class ProductDetailedInfoComponent implements OnInit {
   public products: ProductDetailed[] = [];
   public productImages: ProductImage[] = [];
   public currentImageIndex: number = 0;
+  public isModalOpen: boolean = false;
+  public modalStartIndex: number = 0;
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
@@ -37,11 +40,11 @@ export class ProductDetailedInfoComponent implements OnInit {
     }
   }
 
-  public getProductImage(product: ProductDetailed): string {
-    const productImage = product.masterData.current.masterVariant.images[0].url;
+  // public getProductImage(product: ProductDetailed): string {
+  //   const productImage = product.masterData.current.masterVariant.images[0].url;
 
-    return productImage;
-  }
+  //   return productImage;
+  // }
 
   public getProductName(product: ProductDetailed): string {
     const productName = product.masterData.current.name['en-US'];
@@ -113,4 +116,15 @@ export class ProductDetailedInfoComponent implements OnInit {
 
     return null;
   }
+
+  public openImageInModal(): void {
+    this.isModalOpen = true;
+  }
+
+  // public onKeydown(event: KeyboardEvent): void {
+  //   if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+  //     event.preventDefault();
+  //     this.openImageInModal();
+  //   }
+  // }
 }

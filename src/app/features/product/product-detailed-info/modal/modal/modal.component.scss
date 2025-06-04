@@ -17,6 +17,7 @@
 .modal {
   position: relative;
   margin: 0 auto;
+  width: 80%;
 }
 
 .modal__button {
@@ -25,6 +26,34 @@
   right: 11px;
   font-size: 3.6rem;
   color: $color-input-search;
+  cursor: pointer;
+  @extend %transition;
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.modal__window {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal__image-container {
+  height: 60%;
+}
+
+.modal__image-container img {
+  width: 80%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.modal__left,
+.modal__right {
+  font-size: 3.6rem;
+  color: $color-input-search;
+  background-color: $color-button-disable;
   cursor: pointer;
   @extend %transition;
   &:hover {
