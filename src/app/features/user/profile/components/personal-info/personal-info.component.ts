@@ -11,6 +11,8 @@ import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../../../shared/c
 import { minimumAgeValidator } from '../../../../../shared/validator/validate.dob';
 import { ControlService } from '../../../services/control.service';
 import ERROR_MSG from '../../../../../shared/constants/error-message';
+import { AuthService } from '../../../../../core/auth/auth.service';
+import { AuthResponse } from '../../../../../core/auth/interfaces/auth-response';
 
 @Component({
   selector: 'app-personal-info',
@@ -30,12 +32,15 @@ export class PersonalInfoComponent implements OnInit {
   public isChangePasswordSuccess: boolean = false;
   public showMessage: boolean = false;
   public changePasswordErrorMessage: boolean = false;
+  public verifyCurrentPasswordError: boolean = false;
+  public showCurrentPasswordConfirmation: boolean = false;
 
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
   protected readonly ERROR_MSG = ERROR_MSG;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private fb: FormBuilder,
   ) {
     this.profileForm = this.fb.group({
@@ -102,15 +107,43 @@ export class PersonalInfoComponent implements OnInit {
     );
   }
 
+  public onInputChange(): void {
+    this.showCurrentPasswordConfirmation = false;
+  }
+
+  private verifyPasswordErrorMessage(): void {
+    this.verifyCurrentPasswordError = true;
+
+    setTimeout(() => {
+      this.verifyCurrentPasswordError = false;
+    }, 3500);
+  }
+
   public onPasswordFormSubmit(): void {
     if (this.changePasswordForm.valid) {
       console.log('[edit-profile password] change password');
+      const currentPassword = this.changePasswordForm.controls['currentPassword'].value;
 
-      this.isChangePasswordSuccess = true;
+      this.authService
+        .login({
+          email: this.user()!.email,
+          password: currentPassword,
+        })
+        .subscribe({
+          next: (response: AuthResponse) => {
+            console.log('[change password] verify current password response data: ]', response);
+            this.verifyCurrentPasswordError = false;
+            this.showCurrentPasswordConfirmation = true;
+          },
+          error: (err) => {
+            console.error(err);
+            this.showCurrentPasswordConfirmation = false;
+            this.verifyPasswordErrorMessage();
+          },
+        });
+
       this.showChangePasswordErrorMessage();
-      this.closePasswordModal();
     } else {
-      this.isChangePasswordSuccess = false;
       this.showChangePasswordErrorMessage();
     }
   }

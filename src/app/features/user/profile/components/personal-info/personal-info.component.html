@@ -52,12 +52,24 @@
   <div modal-header>Change Password</div>
 
   <div modal-body>
+    <div class="edit-mode__message__container">
+      @if (verifyCurrentPasswordError) {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.PASSWORD_ERROR }}</p>
+      }
+    </div>
     <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordFormSubmit()" class="edit__form">
       <div class="fields__container list__wrap">
         <div class="field__wrapper item__wrap">
           <label for="currentPassword">
             Current password
-            <input type="password" id="currentPassword" formControlName="currentPassword" />
+            <input type="password" id="currentPassword" formControlName="currentPassword" (input)="onInputChange()" />
+            <div class="input__validator">
+              @if (!getPasswordControlName('currentPassword')?.errors) {
+                @if (showCurrentPasswordConfirmation) {
+                  <span class="input__validator__icon__valid"></span>
+                }
+              }
+            </div>
           </label>
           @if (validationCheck(getPasswordControlName('currentPassword')!)) {
             <div class="error__container">
