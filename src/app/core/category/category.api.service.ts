@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
@@ -16,11 +16,9 @@ export class CategoryApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllCategories(): Observable<CategoryResponse> {
-    return this.http.get<CategoryResponse>(this.URL);
-  }
-
-  public getCategoryById(id: string): Observable<Category> {
-    return this.http.get<Category>(`${this.URL}/${id}`);
+  public getSubcategories(parentId: string): Observable<Category[]> {
+    return this.http
+      .get<CategoryResponse>(this.URL)
+      .pipe(map((response) => response.results.filter((category) => category.ancestors.some((ancestor) => ancestor.id === parentId))));
   }
 }
