@@ -1,42 +1,102 @@
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
-import { BriefCardComponent } from './brief-card/brief-card.component';
-import { Product } from '../../../core/product/interfaces/product';
-import { ProductService } from '../../../core/product/product.service';
-import { ProductResponse } from '../../../core/product/interfaces/product-response';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { CategoryResponse } from '../../../core/category/interfaces/category-response';
+import { Category } from '../../../core/category/interfaces/category';
+import { CategoryApiService } from '../../../core/category/category.api.service';
+import { CategoryHelperService } from '../../../core/category/category.helper.service';
+import { ProductProjection } from '../../../core/product/interfaces/product-projection';
+import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
+import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
+import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
+import { BriefCardComponent } from './brief-card/brief-card.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [BriefCardComponent, RouterLink],
+  imports: [CommonModule, BriefCardComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
-  constructor(
-    private navigateToSpecificRouteService: NavigateToSpecificRouteService,
-    private productService: ProductService,
-    private router: Router,
-  ) {}
+  public products: ProductProjection[] = [];
 
-  public products: Product[] = [];
+  public categories: Category[] = [];
 
   public currentRoute: string = '';
+  public selectedCategory: string | null = null;
+  public categoryTitle0: string = '';
+  public categoryTitle1: string = '';
+
+  constructor(
+    private navigateToSpecificRouteService: NavigateToSpecificRouteService,
+    private router: Router,
+    private categoryApiService: CategoryApiService,
+    private productProjectionsApiService: ProductProjectionsApiService,
+
+    public productProjectionsHelperService: ProductProjectionsHelperService,
+    public categoryHelperService: CategoryHelperService,
+  ) {}
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
 
-    this.productService.getAllProducts().subscribe({
+    this.loadProducts();
+    this.loadCategories();
+  }
+
+  public loadProducts() {
+    this.productProjectionsApiService.getAllProductProjections().subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
-        const productResponse: ProductResponse = JSON.parse(responseStr);
-
+        const productResponse: ProductProjectionsResponse = JSON.parse(responseStr);
         this.products = [...productResponse.results];
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
+        this.handleError(error);
+      },
+    });
+  }
+
+  public filterByCategory(categoryId: string) {
+    this.selectedCategory = categoryId;
+    this.productProjectionsApiService.getProductProjectionsByCategory(categoryId).subscribe({
+      next: (response) => {
+        const responseStr = JSON.stringify(response);
+        const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+        this.products = [...productProjectionsResponse.results];
+      },
+      error: (error: HttpErrorResponse) => {
+        // Handle request error
+        this.loadProducts();
+        this.handleError(error);
+      },
+    });
+  }
+
+  public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
+    if (event.key === 'Enter') {
+      this.filterByCategory(categoryId);
+    }
+  }
+
+  public goBack(): void {
+    this.navigateToSpecificRouteService.setRoute('.');
+  }
+
+  private loadCategories() {
+    this.categoryApiService.getAllCategories().subscribe({
+      next: (response) => {
+        const responseStr = JSON.stringify(response);
+        const categoryResponse: CategoryResponse = JSON.parse(responseStr);
+        this.categories = [...categoryResponse.results].slice(2);
+        this.categoryTitle0 = this.categoryHelperService.getCategoryName(categoryResponse.results[0]);
+        this.categoryTitle1 = this.categoryHelperService.getCategoryName(categoryResponse.results[1]);
+      },
+      error: (error: HttpErrorResponse) => {
         this.handleError(error);
       },
     });
@@ -52,30 +112,5 @@ export class ProductListComponent implements OnInit {
     }
 
     return new Error('Something went wrong; please try again later.');
-  }
-
-  public getProductImg(product: Product): string {
-    const currentMasterVariantImage = product.masterData.current.masterVariant.images[0];
-
-    return currentMasterVariantImage.url;
-  }
-
-  public getProductName(product: Product): string {
-    const currentName = product.masterData.current.name;
-    const key = Object.keys(currentName)[0];
-
-    return currentName[key];
-  }
-
-  public getShortProductDescription(product: Product): string {
-    const currentMetaDescription = product.masterData.current.metaDescription;
-    const key = Object.keys(currentMetaDescription)[0];
-    const description = currentMetaDescription[key];
-
-    return description.length > 89 ? `${description.slice(0, 80)}...` : description;
-  }
-
-  public goBack(): void {
-    this.navigateToSpecificRouteService.setRoute('.');
   }
 }

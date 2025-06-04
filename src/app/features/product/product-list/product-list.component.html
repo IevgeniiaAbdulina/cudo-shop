@@ -1,23 +1,42 @@
-<button (click)="goBack()">Go Back</button>
-@if (currentRoute === '/books') {
+<aside class="categories">
+  <button (click)="goBack()">Go Back</button>
+  @if (currentRoute === '/books') {
+    <ul>
+      <li>book title</li>
+    </ul>
+  }
+  @if (currentRoute === '/cosmetics') {
+    <ul>
+      <li>cosmetics title</li>
+    </ul>
+  }
+
+  <h2>Filter by category</h2>
+  <h3>{{ categoryTitle0 }}</h3>
   <ul>
-    <li>book title</li>
+    @for (category of categories; track $index) {
+      <li
+        tabindex="0"
+        (click)="filterByCategory(category.id)"
+        (keyup)="onKeyUpFilter($event, category.id)"
+        [ngClass]="{ selected: selectedCategory === category.id }"
+      >
+        {{ categoryHelperService.getCategoryName(category) }}
+      </li>
+    }
   </ul>
-}
-@if (currentRoute === '/cosmetics') {
-  <ul>
-    <li>cosmetics title</li>
-  </ul>
-}
+
+  <button class="filter-button" [disabled]="!selectedCategory" (click)="loadProducts()">Reset filters</button>
+</aside>
 
 <div class="product-list">
   @for (product of products; track $index) {
     @if (product.key) {
       <div [routerLink]="['/books', product.key]" class="product-list__item-link">
         <app-brief-card
-          [title]="getProductName(product)"
-          [imgUrl]="getProductImg(product)"
-          [description]="getShortProductDescription(product)"
+          [title]="productProjectionsHelperService.getProductName(product)"
+          [imgUrl]="productProjectionsHelperService.getProductImg(product)"
+          [description]="productProjectionsHelperService.getShortProductDescription(product)"
         ></app-brief-card>
       </div>
     }
