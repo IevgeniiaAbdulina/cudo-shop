@@ -25,7 +25,7 @@ export class PersonalInfoComponent implements OnInit {
   public isModalVisible: boolean = false;
   public isPasswordModalVisible: boolean = false;
   public profileForm!: FormGroup;
-  public passwordForm!: FormGroup;
+  public changePasswordForm!: FormGroup;
   public isEditSuccess: boolean = false;
   public isChangePasswordSuccess: boolean = false;
   public showMessage: boolean = false;
@@ -45,7 +45,7 @@ export class PersonalInfoComponent implements OnInit {
       dateOfBirth: [''],
     });
 
-    this.passwordForm = this.fb.group({
+    this.changePasswordForm = this.fb.group({
       currentPassword: [''],
       newPassword: [''],
       confirmNewPassword: [''],
@@ -74,6 +74,7 @@ export class PersonalInfoComponent implements OnInit {
     });
   }
 
+  // Change password section
   public changePasswordModeToggle(): void {
     this.isPasswordModalVisible = !this.isPasswordModalVisible;
   }
@@ -84,20 +85,25 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   public closePasswordModal(): void {
-    this.passwordForm.reset();
+    this.changePasswordForm.reset();
     this.changePasswordModeToggle();
   }
 
   private setPasswordForm(): void {
-    this.passwordForm = this.fb.group({
-      currentPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
-      newPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
-      confirmNewPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
-    });
+    this.changePasswordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+        newPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+        confirmNewPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+      },
+      {
+        validators: ControlService.matchValidator('newPassword', 'confirmNewPassword'),
+      },
+    );
   }
 
   public onPasswordFormSubmit(): void {
-    if (this.passwordForm.valid) {
+    if (this.changePasswordForm.valid) {
       console.log('[edit-profile password] change password');
 
       this.isChangePasswordSuccess = true;
@@ -109,6 +115,7 @@ export class PersonalInfoComponent implements OnInit {
     }
   }
 
+  // Edit Personal information section
   public editModeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
@@ -190,6 +197,6 @@ export class PersonalInfoComponent implements OnInit {
   }
 
   public getPasswordControlName(controlName: string): AbstractControl | null {
-    return ControlService.getFormControl(this.passwordForm, controlName);
+    return ControlService.getFormControl(this.changePasswordForm, controlName);
   }
 }

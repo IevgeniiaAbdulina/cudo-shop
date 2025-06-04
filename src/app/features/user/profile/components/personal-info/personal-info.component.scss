@@ -258,3 +258,22 @@ input[type='password'] {
     }
   }
 }
+
+/* Match validator icon */
+.input__validator {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  position: relative;
+  bottom: 28px;
+  right: 8px;
+
+  &__icon {
+    &__valid {
+      width: 24px;
+      height: 24px;
+      padding: 8px;
+      background-image: url('../../../../../assets/icons/check_24dp_green.svg');
+    }
+  }
+}

@@ -52,7 +52,7 @@
   <div modal-header>Change Password</div>
 
   <div modal-body>
-    <form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit()" class="edit__form">
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordFormSubmit()" class="edit__form">
       <div class="fields__container list__wrap">
         <div class="field__wrapper item__wrap">
           <label for="currentPassword">
@@ -90,6 +90,11 @@
           <label for="confirmNewPassword">
             Confirm new password
             <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" />
+            <div class="input__validator">
+              @if (!getPasswordControlName('confirmNewPassword')?.errors) {
+                <span class="input__validator__icon__valid"></span>
+              }
+            </div>
           </label>
           @if (validationCheck(getPasswordControlName('confirmNewPassword')!)) {
             <div class="error__container">
@@ -97,6 +102,8 @@
                 <span class="error-line"> Confirm new password {{ ERROR_MSG.REQUIRED }} </span>
               } @else if (getPasswordControlName('confirmNewPassword')?.errors?.['pattern']) {
                 <span class="error-line"> Confirm new password {{ ERROR_MSG.PASSWORD }} </span>
+              } @else if (getPasswordControlName('confirmNewPassword')?.errors?.['confirmedValidator']) {
+                <span class="error-line"> Passwords do not match </span>
               }
             </div>
           }
@@ -105,21 +112,21 @@
 
       <app-button
         label="Save changes"
-        [disabled]="passwordForm.invalid"
+        [disabled]="changePasswordForm.invalid"
         [ngClass]="{
-          form__button_disabled: passwordForm.invalid,
-          form__button_visible: !passwordForm.invalid,
+          form__button_disabled: changePasswordForm.invalid,
+          form__button_visible: !changePasswordForm.invalid,
         }"
         type="submit"
         class="profile__btn btn__modal__submit form__button"
       />
-      <app-button
-        label="Cancel"
-        type="button"
-        class="profile__btn btn__modal__submit btn__modal__cansel"
-        (buttonClicked)="closePasswordModal()"
-      />
     </form>
+    <app-button
+      label="Cancel"
+      type="button"
+      class="profile__btn btn__modal__submit btn__modal__cansel"
+      (buttonClicked)="closePasswordModal()"
+    />
   </div>
 </app-edit-mode-modal>
 
