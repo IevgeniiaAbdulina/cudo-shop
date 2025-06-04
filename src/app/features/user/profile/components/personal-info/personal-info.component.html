@@ -61,8 +61,13 @@
       <div class="fields__container list__wrap">
         <div class="field__wrapper item__wrap">
           <label for="currentPassword">
-            Current password
-            <input type="password" id="currentPassword" formControlName="currentPassword" (input)="onInputChange()" />
+            <input
+              type="password"
+              id="currentPassword"
+              formControlName="currentPassword"
+              placeholder="Current password *"
+              (input)="onInputChange()"
+            />
             <div class="input__validator">
               @if (!getPasswordControlName('currentPassword')?.errors) {
                 @if (showCurrentPasswordConfirmation) {
@@ -84,8 +89,7 @@
 
         <div class="field__wrapper item__wrap">
           <label for="newPassword">
-            New password
-            <input type="password" id="newPassword" formControlName="newPassword" />
+            <input type="password" id="newPassword" formControlName="newPassword" placeholder="New password *" />
           </label>
           @if (validationCheck(getPasswordControlName('newPassword')!)) {
             <div class="error__container">
@@ -100,8 +104,7 @@
 
         <div class="field__wrapper item__wrap">
           <label for="confirmNewPassword">
-            Confirm new password
-            <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" />
+            <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" placeholder="Confirm new password *" />
             <div class="input__validator">
               @if (!getPasswordControlName('confirmNewPassword')?.errors) {
                 <span class="input__validator__icon__valid"></span>

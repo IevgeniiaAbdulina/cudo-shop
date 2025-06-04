@@ -12,7 +12,7 @@ import { minimumAgeValidator } from '../../../../../shared/validator/validate.do
 import { ControlService } from '../../../services/control.service';
 import ERROR_MSG from '../../../../../shared/constants/error-message';
 import { AuthService } from '../../../../../core/auth/auth.service';
-import { AuthResponse } from '../../../../../core/auth/interfaces/auth-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-personal-info',
@@ -111,9 +111,16 @@ export class PersonalInfoComponent implements OnInit {
     this.showCurrentPasswordConfirmation = false;
   }
 
-  private verifyPasswordErrorMessage(): void {
-    this.verifyCurrentPasswordError = true;
+  private showChangePasswordErrorMessage(): void {
+    this.changePasswordErrorMessage = true;
 
+    setTimeout(() => {
+      this.changePasswordErrorMessage = false;
+    }, 3500);
+  }
+
+  private showVerificationPasswordError(): void {
+    this.verifyCurrentPasswordError = true;
     setTimeout(() => {
       this.verifyCurrentPasswordError = false;
     }, 3500);
@@ -121,8 +128,8 @@ export class PersonalInfoComponent implements OnInit {
 
   public onPasswordFormSubmit(): void {
     if (this.changePasswordForm.valid) {
-      console.log('[edit-profile password] change password');
-      const currentPassword = this.changePasswordForm.controls['currentPassword'].value;
+      const currentPassword: string = this.changePasswordForm.controls['currentPassword'].value;
+      const newPassword = this.changePasswordForm.controls['newPassword'].value;
 
       this.authService
         .login({
@@ -130,21 +137,43 @@ export class PersonalInfoComponent implements OnInit {
           password: currentPassword,
         })
         .subscribe({
-          next: (response: AuthResponse) => {
-            console.log('[change password] verify current password response data: ]', response);
+          next: () => {
             this.verifyCurrentPasswordError = false;
             this.showCurrentPasswordConfirmation = true;
+
+            this.userService.changeUserPassword(this.user()!.id, this.user()!.version, currentPassword, newPassword).subscribe({
+              next: () => {
+                this.authService
+                  .login({
+                    email: this.user()!.email,
+                    password: newPassword,
+                  })
+                  .subscribe({
+                    next: () => {
+                      this.isChangePasswordSuccess = true;
+                      this.showChangePasswordErrorMessage();
+                      this.closePasswordModal();
+                    },
+                    error: (error: HttpErrorResponse) => {
+                      console.error(error);
+                    },
+                  });
+              },
+              error: (err) => {
+                console.error(err);
+                this.isChangePasswordSuccess = false;
+                this.closePasswordModal();
+                this.showChangePasswordErrorMessage();
+              },
+            });
           },
           error: (err) => {
             console.error(err);
-            this.showCurrentPasswordConfirmation = false;
-            this.verifyPasswordErrorMessage();
+            this.showVerificationPasswordError();
           },
         });
-
-      this.showChangePasswordErrorMessage();
     } else {
-      this.showChangePasswordErrorMessage();
+      console.warn('[change password] INVALID form');
     }
   }
 
@@ -210,14 +239,6 @@ export class PersonalInfoComponent implements OnInit {
 
     setTimeout(() => {
       this.showMessage = false;
-    }, 3500);
-  }
-
-  private showChangePasswordErrorMessage(): void {
-    this.changePasswordErrorMessage = true;
-
-    setTimeout(() => {
-      this.changePasswordErrorMessage = false;
     }, 3500);
   }
 
