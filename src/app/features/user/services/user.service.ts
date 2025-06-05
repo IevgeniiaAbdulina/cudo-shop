@@ -54,4 +54,15 @@ export class UserService {
 
     return this.http.post<UserResponse>(`${this.baseUrl}/customers/${userId}`, payload);
   }
+
+  public changeUserPassword(id: string, version: number, currentPassword: string, newPassword: string): Observable<UserResponse> {
+    const body = {
+      id: id,
+      version: version,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/password`, JSON.stringify(body));
+  }
 }
