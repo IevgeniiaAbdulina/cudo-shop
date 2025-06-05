@@ -50,7 +50,7 @@ export class AddressesComponent implements OnInit {
   public addressId: string = '';
   // public defaultCountryOption: string = 'Select a country *';
 
-  public newShoppingAddressForm: FormGroup;
+  public addressForm: FormGroup;
   protected readonly ERROR_MSG = ERROR_MSG;
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
 
@@ -58,7 +58,7 @@ export class AddressesComponent implements OnInit {
     private userService: UserService,
     private fb: FormBuilder,
   ) {
-    this.newShoppingAddressForm = this.fb.group({
+    this.addressForm = this.fb.group({
       firstName: [''],
       lastName: [''],
       streetName: [''],
@@ -100,7 +100,7 @@ export class AddressesComponent implements OnInit {
   }
 
   private setNewAddressForm(): void {
-    this.newShoppingAddressForm = this.fb.group({
+    this.addressForm = this.fb.group({
       firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       streetName: ['', Validators.required],
@@ -109,8 +109,8 @@ export class AddressesComponent implements OnInit {
       country: ['', Validators.required],
     });
 
-    this.newShoppingAddressForm.get('country')?.valueChanges.subscribe(() => {
-      this.newShoppingAddressForm.get('postalCode')?.updateValueAndValidity();
+    this.addressForm.get('country')?.valueChanges.subscribe(() => {
+      this.addressForm.get('postalCode')?.updateValueAndValidity();
     });
   }
 
@@ -170,7 +170,7 @@ export class AddressesComponent implements OnInit {
   public setAddressForm(addressData: Address): void {
     // this.defaultCountryOption = addressData.country;
 
-    this.newShoppingAddressForm = this.fb.group({
+    this.addressForm = this.fb.group({
       firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       streetName: [addressData.streetName, Validators.required],
@@ -179,8 +179,8 @@ export class AddressesComponent implements OnInit {
       country: [addressData.country, Validators.required],
     });
 
-    this.newShoppingAddressForm.get('country')?.valueChanges.subscribe(() => {
-      this.newShoppingAddressForm.get('postalCode')?.updateValueAndValidity();
+    this.addressForm.get('country')?.valueChanges.subscribe(() => {
+      this.addressForm.get('postalCode')?.updateValueAndValidity();
     });
   }
 
@@ -211,16 +211,16 @@ export class AddressesComponent implements OnInit {
   }
 
   public closeNewShippingAddressModal(): void {
-    this.newShoppingAddressForm.reset();
+    this.addressForm.reset();
     this.modeToggle();
   }
 
   public onFormSubmit(): void {
-    if (this.newShoppingAddressForm.valid) {
-      console.log('[shipping address] create new shipping address, form is valid: ', this.newShoppingAddressForm.value);
+    if (this.addressForm.valid) {
+      console.log('[shipping address] create new shipping address, form is valid: ', this.addressForm.value);
 
       if (this.isEditAddress) {
-        this.userService.changeAddress(this.user()!.id, this.user()!.version, this.addressId, this.newShoppingAddressForm.value).subscribe({
+        this.userService.changeAddress(this.user()!.id, this.user()!.version, this.addressId, this.addressForm.value).subscribe({
           next: (response: UserResponse) => {
             this.updateUserdata(response);
             this.closeNewShippingAddressModal();
@@ -231,7 +231,7 @@ export class AddressesComponent implements OnInit {
           },
         });
       } else {
-        this.userService.addAddress(this.user()!.id, this.user()!.version, this.newShoppingAddressForm.value).subscribe({
+        this.userService.addAddress(this.user()!.id, this.user()!.version, this.addressForm.value).subscribe({
           next: (response: UserResponse) => {
             console.log('[shipping address] add address, response: ', response);
 
@@ -328,6 +328,6 @@ export class AddressesComponent implements OnInit {
   }
 
   public getShippingAddressControlName(controlName: string): AbstractControl | null {
-    return ControlService.getFormControl(this.newShoppingAddressForm, controlName);
+    return ControlService.getFormControl(this.addressForm, controlName);
   }
 }

@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="address__card__actions">
-        <app-button class="profile__btn btn__edit">Edit</app-button>
+        <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(defaultBillingAddress!)">Edit </app-button>
       </div>
     </div>
   </div>
@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="address__card__actions">
-        <app-button class="profile__btn btn__edit">Edit</app-button>
+        <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(defaultShippingAddress!)">Edit </app-button>
       </div>
     </div>
   </div>
@@ -133,7 +133,7 @@
   <div modal-header>{{ modalHeader }}</div>
 
   <div modal-body class="address__modal__form-container">
-    <form [formGroup]="newShoppingAddressForm" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="addressForm" (ngSubmit)="onFormSubmit()">
       <fieldset>
         <legend>Personal information</legend>
         <div class="fields__container">
@@ -232,10 +232,10 @@
         label="Save changes"
         type="submit"
         class="profile__btn btn__modal__submit form__button"
-        [disabled]="newShoppingAddressForm.invalid"
+        [disabled]="addressForm.invalid"
         [ngClass]="{
-          form__button_disabled: newShoppingAddressForm.invalid,
-          form__button_visible: !newShoppingAddressForm.invalid,
+          form__button_disabled: addressForm.invalid,
+          form__button_visible: !addressForm.invalid,
         }"
       />
     </form>
