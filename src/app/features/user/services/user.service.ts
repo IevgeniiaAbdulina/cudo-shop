@@ -166,4 +166,27 @@ export class UserService {
 
     return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
   }
+
+  public changeAddress(id: string, version: number, addressId: string, address: Address): Observable<UserResponse> {
+    const body = {
+      version: version,
+      actions: [
+        {
+          action: 'changeAddress',
+          addressId: addressId,
+          address: {
+            id: addressId,
+            firstName: address.firstName,
+            lastName: address.lastName,
+            streetName: address.streetName,
+            postalCode: address.postalCode,
+            city: address.city,
+            country: countryNameCode(address.country),
+          },
+        },
+      ],
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
+  }
 }

@@ -40,12 +40,15 @@ export class AddressesComponent implements OnInit {
 
   public modalHeader: string = '';
   public isShippingAddress: boolean = true;
+  public isEditAddress: boolean = false;
   public showResponseShippingMessage: boolean = false;
   public showResponseBillingMessage: boolean = false;
   public isAddAddressSuccess: boolean = false;
   public isAddBillingAddressSuccess: boolean = false;
   public isModalVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
+  public addressId: string = '';
+  // public defaultCountryOption: string = 'Select a country *';
 
   public newShoppingAddressForm: FormGroup;
   protected readonly ERROR_MSG = ERROR_MSG;
@@ -163,6 +166,32 @@ export class AddressesComponent implements OnInit {
     }
   }
 
+  // Edit Address
+  public setAddressForm(addressData: Address): void {
+    // this.defaultCountryOption = addressData.country;
+
+    this.newShoppingAddressForm = this.fb.group({
+      firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      streetName: [addressData.streetName, Validators.required],
+      postalCode: [addressData.postalCode, [Validators.required, postalCodeValidator()]],
+      city: [addressData.city, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      country: [addressData.country, Validators.required],
+    });
+
+    this.newShoppingAddressForm.get('country')?.valueChanges.subscribe(() => {
+      this.newShoppingAddressForm.get('postalCode')?.updateValueAndValidity();
+    });
+  }
+
+  public openModalEditAddress(address: Address) {
+    this.modalHeader = 'Edit your address';
+    this.isEditAddress = true;
+    this.addressId = address.id;
+    this.setAddressForm(address);
+    this.modeToggle();
+  }
+
   // Add New Shipping Address
   public modeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
@@ -190,58 +219,71 @@ export class AddressesComponent implements OnInit {
     if (this.newShoppingAddressForm.valid) {
       console.log('[shipping address] create new shipping address, form is valid: ', this.newShoppingAddressForm.value);
 
-      this.userService.addAddress(this.user()!.id, this.user()!.version, this.newShoppingAddressForm.value).subscribe({
-        next: (response: UserResponse) => {
-          console.log('[shipping address] add address, response: ', response);
+      if (this.isEditAddress) {
+        this.userService.changeAddress(this.user()!.id, this.user()!.version, this.addressId, this.newShoppingAddressForm.value).subscribe({
+          next: (response: UserResponse) => {
+            this.updateUserdata(response);
+            this.closeNewShippingAddressModal();
+          },
+          error: (error) => {
+            console.error(error);
+            this.closeNewShippingAddressModal();
+          },
+        });
+      } else {
+        this.userService.addAddress(this.user()!.id, this.user()!.version, this.newShoppingAddressForm.value).subscribe({
+          next: (response: UserResponse) => {
+            console.log('[shipping address] add address, response: ', response);
 
-          const address = this.userService.findAddressByKey(response.addresses);
+            const address = this.userService.findAddressByKey(response.addresses);
 
-          console.log('[shipping address] new address with key: ', address);
+            console.log('[shipping address] new address with key: ', address);
 
-          if (this.isShippingAddress) {
-            this.userService.addShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
-              next: (response: UserResponse) => {
-                console.log('[shipping address] set address as a shipping, response: ', response);
+            if (this.isShippingAddress) {
+              this.userService.addShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
+                next: (response: UserResponse) => {
+                  console.log('[shipping address] set address as a shipping, response: ', response);
 
-                this.updateUserdata(response);
-                this.isAddAddressSuccess = true;
-                this.handleResponseMessage('shipping');
-                this.closeNewShippingAddressModal();
-              },
-              error: (error) => {
-                console.error(error);
-                this.isAddAddressSuccess = false;
-                this.handleResponseMessage('shipping');
-                this.closeNewShippingAddressModal();
-              },
-            });
-          } else {
-            console.log('set billing address');
-            this.userService.addBillingAddress(this.user()!.id, response.version, address?.id).subscribe({
-              next: (response: UserResponse) => {
-                console.log('[billing address] set address as billing: ', response);
+                  this.updateUserdata(response);
+                  this.isAddAddressSuccess = true;
+                  this.handleResponseMessage('shipping');
+                  this.closeNewShippingAddressModal();
+                },
+                error: (error) => {
+                  console.error(error);
+                  this.isAddAddressSuccess = false;
+                  this.handleResponseMessage('shipping');
+                  this.closeNewShippingAddressModal();
+                },
+              });
+            } else {
+              console.log('set billing address');
+              this.userService.addBillingAddress(this.user()!.id, response.version, address?.id).subscribe({
+                next: (response: UserResponse) => {
+                  console.log('[billing address] set address as billing: ', response);
 
-                this.updateUserdata(response);
-                this.isAddBillingAddressSuccess = true;
-                this.handleResponseMessage('billing');
-                this.closeNewShippingAddressModal();
-              },
-              error: (error) => {
-                console.error(error);
-                this.isAddBillingAddressSuccess = false;
-                this.handleResponseMessage('billing');
-                this.closeNewShippingAddressModal();
-              },
-            });
-          }
-        },
-        error: (error) => {
-          console.error(error);
-          this.isAddAddressSuccess = false;
-          this.handleResponseMessage('billing');
-          this.closeNewShippingAddressModal();
-        },
-      });
+                  this.updateUserdata(response);
+                  this.isAddBillingAddressSuccess = true;
+                  this.handleResponseMessage('billing');
+                  this.closeNewShippingAddressModal();
+                },
+                error: (error) => {
+                  console.error(error);
+                  this.isAddBillingAddressSuccess = false;
+                  this.handleResponseMessage('billing');
+                  this.closeNewShippingAddressModal();
+                },
+              });
+            }
+          },
+          error: (error) => {
+            console.error(error);
+            this.isAddAddressSuccess = false;
+            this.handleResponseMessage('billing');
+            this.closeNewShippingAddressModal();
+          },
+        });
+      }
     } else {
       console.log('[shipping address] form is invalid');
     }
