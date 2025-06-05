@@ -110,4 +110,18 @@ export class UserService {
 
     return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
   }
+
+  public setDefaultShippingAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
+    const body = {
+      version: version,
+      actions: [
+        {
+          action: 'setDefaultShippingAddress',
+          addressId: addressId,
+        },
+      ],
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
+  }
 }

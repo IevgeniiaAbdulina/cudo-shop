@@ -94,6 +94,12 @@
             <div>{{ item?.country | formatCountry | uppercase }}</div>
           </div>
           <div class="divider"></div>
+          <div class="address__card__set-default">
+            <button (click)="onSubmitDefaultShippingAddress(item.id)">
+              <span class="mark__address"></span>
+              <p>Use as default shipping address</p>
+            </button>
+          </div>
           <div class="address__card__actions">
             <app-button class="profile__btn btn__edit">Edit</app-button>
             <app-button class="profile__btn btn__remove">Remove</app-button>

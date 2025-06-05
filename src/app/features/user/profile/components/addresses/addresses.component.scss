@@ -310,3 +310,35 @@ select option:active {
 }
 
 /* Edit Mode Messages end */
+
+/* Set default address */
+.address__card__set-default button {
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 14px;
+  text-decoration: underline;
+  color: #4f4f4f;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    color: $color-additional;
+
+    .mark__address {
+      background-image: url('../../../../../assets/icons/location_on_16dp_orange.svg');
+    }
+  }
+}
+
+.mark__address {
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../../../assets/icons/location_on_16dp_black.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Set default address end */

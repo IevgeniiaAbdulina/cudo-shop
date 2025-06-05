@@ -114,6 +114,19 @@ export class AddressesComponent implements OnInit {
     }, 3500);
   }
 
+  public onSubmitDefaultShippingAddress(addressId: string): void {
+    if (addressId) {
+      this.userService.setDefaultShippingAddress(this.user()!.id, this.user()!.version, addressId).subscribe({
+        next: (response: UserResponse) => {
+          this.updateUserdata(response);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
+  }
+
   // Add New Shipping Address
   public modeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
