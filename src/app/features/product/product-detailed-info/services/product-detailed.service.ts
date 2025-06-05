@@ -6,13 +6,13 @@ import API_ENDPOINT from '../../../../shared/constants/api-endpoint';
 import { ProductDetailed } from '../interfaces/product-detailed';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductDetailedService {
   private readonly PROJECT_KEY: string = environment.projectKey;
   private readonly API_URL: string = environment.apiUrl;
   protected apiUrlRequest: string = `${this.API_URL}/${this.PROJECT_KEY}/${API_ENDPOINT.PRODUCTS}/key=`;
-  
+
   constructor(private http: HttpClient) {}
 
   public getProductByKey(key: string): Observable<ProductDetailed> {

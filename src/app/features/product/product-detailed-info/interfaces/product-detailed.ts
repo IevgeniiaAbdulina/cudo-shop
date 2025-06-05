@@ -4,38 +4,38 @@ export interface ProductDetailed {
   masterData: {
     current: {
       name: {
-        'en-US': string,
-      },
+        'en-US': string;
+      };
       categories: {
-        typeId: string,
-        id: string,
-      },
+        typeId: string;
+        id: string;
+      };
       description: {
-        'en-US': string,
-      },
+        'en-US': string;
+      };
       masterVariant: {
-        sku: string | number,
-        key: string | number,
+        sku: string | number;
+        key: string | number;
         images: [
           {
-            url: string,
+            url: string;
           },
-        ],
+        ];
         prices: [
           {
             discounted: {
               value: {
-                currencyCode: string,
-                centAmount: number,
-              }
-            },
+                currencyCode: string;
+                centAmount: number;
+              };
+            };
             value: {
-              centAmount: number,
-              currencyCode: string,
-            }
+              centAmount: number;
+              currencyCode: string;
+            };
           },
-        ],
-      },
-    },
+        ];
+      };
+    };
   };
 }
