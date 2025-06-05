@@ -16,7 +16,7 @@ export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
   @Input() public key: string | null = null;
   @Input() public currentImageIndex: number = 0;
-  
+
   @Output() public buttonClickedAddToCart = new EventEmitter();
 
   public products: ProductDetailed[] = [];

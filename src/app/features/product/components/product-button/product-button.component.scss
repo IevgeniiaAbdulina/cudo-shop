@@ -1,0 +1,29 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+
+button {
+  @extend %transition;
+  padding: 1rem;
+  width: 100%;
+  font-size: inherit;
+  font-weight: bold;
+  color: $color-input-search;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background: $color-additional;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $color-button-hover;
+  }
+
+  &:disabled {
+    background-color: $color-button-disable;
+    cursor: not-allowed;
+  }
+}
+
+.filter-button {
+  margin-top: 3rem;
+  width: unset;
+}

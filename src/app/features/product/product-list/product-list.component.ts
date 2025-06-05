@@ -3,8 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
+import { BOOKS_ID, COSMETICS_ID } from '../../../shared/constants/category';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
-import { CategoryResponse } from '../../../core/category/interfaces/category-response';
 import { Category } from '../../../core/category/interfaces/category';
 import { CategoryApiService } from '../../../core/category/category.api.service';
 import { CategoryHelperService } from '../../../core/category/category.helper.service';
@@ -12,23 +12,22 @@ import { ProductProjection } from '../../../core/product/interfaces/product-proj
 import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
 import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
 import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
-import { BriefCardComponent } from './brief-card/brief-card.component';
+import { BriefCardComponent } from '../components/brief-card/brief-card.component';
+import { ProductButtonComponent } from '../components/product-button/product-button.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, BriefCardComponent, RouterLink],
+  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
   public products: ProductProjection[] = [];
-
   public categories: Category[] = [];
-
   public currentRoute: string = '';
-  public selectedCategory: string | null = null;
-  public categoryTitle0: string = '';
-  public categoryTitle1: string = '';
+  public selectedCategory: string = '';
+  public categoryTitle0: string = 'Books';
+  public categoryTitle1: string = 'Cosmetics';
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -48,21 +47,11 @@ export class ProductListComponent implements OnInit {
   }
 
   public loadProducts() {
-    this.productProjectionsApiService.getAllProductProjections().subscribe({
-      next: (response) => {
-        const responseStr = JSON.stringify(response);
-        const productResponse: ProductProjectionsResponse = JSON.parse(responseStr);
-        this.products = [...productResponse.results];
-      },
-      error: (error: HttpErrorResponse) => {
-        // Handle request error
-        this.handleError(error);
-      },
-    });
+    this.filterByCategory(BOOKS_ID);
   }
 
-  public filterByCategory(categoryId: string) {
-    this.selectedCategory = categoryId;
+  public filterByCategory(categoryId: string): void {
+    this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
     this.productProjectionsApiService.getProductProjectionsByCategory(categoryId).subscribe({
       next: (response) => {
         const responseStr = JSON.stringify(response);
@@ -71,7 +60,6 @@ export class ProductListComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => {
         // Handle request error
-        this.loadProducts();
         this.handleError(error);
       },
     });
@@ -88,13 +76,13 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadCategories() {
-    this.categoryApiService.getAllCategories().subscribe({
-      next: (response) => {
-        const responseStr = JSON.stringify(response);
-        const categoryResponse: CategoryResponse = JSON.parse(responseStr);
-        this.categories = [...categoryResponse.results].slice(2);
-        this.categoryTitle0 = this.categoryHelperService.getCategoryName(categoryResponse.results[0]);
-        this.categoryTitle1 = this.categoryHelperService.getCategoryName(categoryResponse.results[1]);
+    this.loadBookSubCategories(); // TODO
+  }
+
+  private loadBookSubCategories(): void {
+    this.categoryApiService.getSubcategories(BOOKS_ID).subscribe({
+      next: (categories: Category[]) => {
+        this.categories = categories;
       },
       error: (error: HttpErrorResponse) => {
         this.handleError(error);

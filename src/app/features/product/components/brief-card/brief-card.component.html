@@ -5,3 +5,5 @@
   <div class="card__title">{{ title }}</div>
   <div class="card__description">{{ description }}</div>
 </div>
+<app-product-price [product]="product"></app-product-price>
+<app-product-button btnClass="product-button" text="Add to cart" [clickBtn]="buttonClickedAddToCart.bind(this)" />

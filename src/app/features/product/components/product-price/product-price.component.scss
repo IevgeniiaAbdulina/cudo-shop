@@ -1,0 +1,37 @@
+@use '../../../../../style/abstract/constant' as *;
+
+:host {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.product-price,
+.product-discount {
+  font-size: 2rem;
+}
+
+.product-currency {
+  font-size: 1.8rem;
+}
+
+.product-old-price {
+  text-decoration: line-through;
+  font-size: 1.8rem;
+}
+
+.product-price,
+.product-discount {
+  font-weight: bold;
+}
+
+.product-price,
+.product-currency,
+.product-old-price {
+  color: $color-old-price;
+}
+
+.product-discount {
+  color: $color-additional;
+}
