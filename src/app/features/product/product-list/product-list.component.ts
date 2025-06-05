@@ -13,10 +13,11 @@ import { ProductProjectionsResponse } from '../../../core/product/interfaces/pro
 import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
 import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
 import { BriefCardComponent } from './brief-card/brief-card.component';
+import { ProductButtonComponent } from '../components/product-button/product-button.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, BriefCardComponent, RouterLink],
+  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -24,7 +25,7 @@ export class ProductListComponent implements OnInit {
   public products: ProductProjection[] = [];
   public categories: Category[] = [];
   public currentRoute: string = '';
-  public selectedCategory: string | null = null;
+  public selectedCategory: string = '';
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
 

@@ -26,7 +26,7 @@
     }
   </ul>
 
-  <button class="filter-button" [disabled]="!selectedCategory" (click)="loadProducts()">Reset filters</button>
+  <app-product-button btnClass="filter-button" text="Reset filters" [clickBtn]="loadProducts.bind(this)" [isDisabled]="!selectedCategory" />
 </aside>
 
 <div class="product-list">

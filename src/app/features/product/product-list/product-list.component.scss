@@ -42,28 +42,6 @@ li {
   }
 }
 
-.filter-button {
-  @extend %transition;
-  margin-top: 2rem;
-  padding: 1rem;
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: $color-input-search;
-  border-radius: 1rem;
-  border: 2px solid transparent;
-  background: $color-additional;
-  cursor: pointer;
-
-  &:hover:not(:disabled) {
-    background: $color-button-hover;
-  }
-
-  &:disabled {
-    background-color: $color-button-disable;
-    cursor: not-allowed;
-  }
-}
-
 .product-list {
   display: flex;
   flex: 1;

@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ProductProjectionsHelperService } from '../../../../core/product/product-projections.helper.service';
-import { ProductPriceComponent } from '../../components/product-price/product-price.component';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
+import { ProductProjectionsHelperService } from '../../../../core/product/product-projections.helper.service';
+import { ProductButtonComponent } from '../../components/product-button/product-button.component';
+import { ProductPriceComponent } from '../../components/product-price/product-price.component';
 
 @Component({
   selector: 'app-brief-card',
-  imports: [ProductPriceComponent],
+  imports: [ProductButtonComponent, ProductPriceComponent],
   templateUrl: './brief-card.component.html',
   styleUrl: './brief-card.component.scss',
 })
@@ -24,4 +25,6 @@ export class BriefCardComponent implements OnInit {
     this.imgUrl = this.productProjectionsHelperService.getProductImg(this.product);
     this.title = this.productProjectionsHelperService.getProductName(this.product);
   }
+
+  public buttonClickedAddToCart(): void {}
 }
