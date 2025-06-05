@@ -101,15 +101,33 @@
   <div modal-header>Add shipping address</div>
 
   <div modal-body class="address__modal__form-container">
-    <form [formGroup]="newShoppingAddressGroup" (ngSubmit)="onFormSubmit()">
+    <form [formGroup]="newShoppingAddressForm" (ngSubmit)="onFormSubmit()">
       <fieldset>
         <legend>Personal information</legend>
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="firstName"><input type="text" id="firstName" formControlName="firstName" placeholder="First name *" /></label>
+            @if (validationCheck(getShippingAddressControlName('firstName')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('firstName')?.errors?.['required']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getShippingAddressControlName('firstName')?.errors?.['pattern']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
           </div>
           <div class="field__wrapper">
             <label for="lastName"><input type="text" id="lastName" formControlName="lastName" placeholder="Last name *" /></label>
+            @if (validationCheck(getShippingAddressControlName('lastName')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('lastName')?.errors?.['required']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getShippingAddressControlName('lastName')?.errors?.['pattern']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
           </div>
         </div>
       </fieldset>
@@ -119,11 +137,18 @@
         <div class="fields__container">
           <div class="field__wrapper">
             <label for="street"><input type="text" id="street" formControlName="street" placeholder="Street *" /></label>
+            @if (validationCheck(getShippingAddressControlName('street')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('street')?.errors?.['required']) {
+                  <span class="error-line"> Street {{ ERROR_MSG.REQUIRED }} </span>
+                }
+              </div>
+            }
           </div>
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset class="code-city__wrapper">
         <div class="fields__container address-info">
           <div class="field__wrapper address-info__item__code">
             <label for="postalCode"><input type="text" id="postalCode" formControlName="postalCode" placeholder="Postal code *" /></label>
@@ -132,16 +157,41 @@
             <label for="city"><input type="text" id="city" formControlName="city" placeholder="City *" /></label>
           </div>
         </div>
+        <div class="code-city__error__wrapper">
+          @if (validationCheck(getShippingAddressControlName('postalCode')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('postalCode')?.errors?.['required']) {
+                <span class="error-line"> Postal code {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getShippingAddressControlName('postalCode')?.errors) {
+                <span class="error-line"> {{ getShippingAddressControlName('postalCode')?.errors?.['message'] }} </span>
+              }
+            </div>
+          }
+          @if (validationCheck(getShippingAddressControlName('city')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('city')?.errors?.['required']) {
+                <span class="error-line"> City {{ ERROR_MSG.REQUIRED }} </span>
+              }
+            </div>
+          }
+        </div>
       </fieldset>
 
       <fieldset>
-        <div class="fields__container">
+        <div class="fields__container country-select">
           <div class="select__wrapper">
             <select id="shipping-country" formControlName="country">
               <option value="" disabled>Select a country *</option>
               <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
             </select>
           </div>
+          @if (validationCheck(getShippingAddressControlName('country')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('country')?.errors?.['required']) {
+                <span class="error-line"> Country {{ ERROR_MSG.REQUIRED }} </span>
+              }
+            </div>
+          }
         </div>
       </fieldset>
 

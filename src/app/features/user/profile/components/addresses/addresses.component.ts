@@ -6,7 +6,11 @@ import { UserModel } from '../../../model/user-model';
 import { Address, UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NAME_REGEX } from '../../../../../shared/constants/regex';
+import { postalCodeValidator } from '../../../../../shared/validator/validate.postal-code';
+import ERROR_MSG from '../../../../../shared/constants/error-message';
+import { ControlService } from '../../../services/control.service';
 
 @Component({
   selector: 'app-addresses',
@@ -34,13 +38,14 @@ export class AddressesComponent implements OnInit {
   public isModalVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
 
-  public newShoppingAddressGroup: FormGroup;
+  public newShoppingAddressForm: FormGroup;
+  protected readonly ERROR_MSG = ERROR_MSG;
 
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
   ) {
-    this.newShoppingAddressGroup = this.fb.group({
+    this.newShoppingAddressForm = this.fb.group({
       firstName: [''],
       lastName: [''],
       street: [''],
@@ -79,12 +84,28 @@ export class AddressesComponent implements OnInit {
     });
   }
 
+  private setNewAddressForm(): void {
+    this.newShoppingAddressForm = this.fb.group({
+      firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
+      street: ['', Validators.required],
+      postalCode: ['', [Validators.required, postalCodeValidator()]],
+      city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
+      country: ['', Validators.required],
+    });
+
+    this.newShoppingAddressForm.get('country')?.valueChanges.subscribe(() => {
+      this.newShoppingAddressForm.get('postalCode')?.updateValueAndValidity();
+    });
+  }
+
   // Add New Shipping Address
   public editModeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
 
   public openModalShippingAddress(): void {
+    this.setNewAddressForm();
     this.editModeToggle();
   }
 
@@ -93,7 +114,11 @@ export class AddressesComponent implements OnInit {
   }
 
   public onFormSubmit(): void {
-    console.log('[shipping address] create new shipping address');
+    if (this.newShoppingAddressForm.valid) {
+      console.log('[shipping address] create new shipping address, form is valid: ', this.newShoppingAddressForm.value);
+    } else {
+      console.log('[shipping address] form is invalid');
+    }
   }
 
   public findDefaultBillingAddress(response: UserResponse): Address | undefined {
@@ -128,5 +153,13 @@ export class AddressesComponent implements OnInit {
     });
 
     return addresses;
+  }
+
+  public validationCheck(control: AbstractControl): boolean | null {
+    return ControlService.validationChecks(control);
+  }
+
+  public getShippingAddressControlName(controlName: string): AbstractControl | null {
+    return ControlService.getFormControl(this.newShoppingAddressForm, controlName);
   }
 }
