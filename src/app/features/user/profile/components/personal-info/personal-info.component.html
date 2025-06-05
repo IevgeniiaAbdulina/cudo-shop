@@ -1,10 +1,7 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>About You</h2>
-    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()">
-      Edit profile
-      <span class="btn__edit__icon"></span>
-    </app-button>
+    <app-button class="profile__btn btn__edit-profile" (buttonClicked)="openModal()"> Edit profile </app-button>
   </header>
   <div class="edit-mode__message__container">
     <div *ngIf="showMessage">
@@ -28,7 +25,140 @@
   </div>
 </section>
 
-<!-- Edit mode Modal -->
+<section class="profile__section password-section">
+  <header class="profile__section__header">
+    <h2>Your password</h2>
+    <app-button class="profile__btn btn__edit-password" (buttonClicked)="openPasswordModal()"> Change Password </app-button>
+  </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="changePasswordErrorMessage">
+      @if (isChangePasswordSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.PASSWORD_SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ERROR }}</p>
+      }
+    </div>
+  </div>
+
+  <div class="password__container">
+    <div class="password__icon"></div>
+    <span>••••••••••</span>
+  </div>
+</section>
+
+<!-- Edit mode Modal Password -->
+<app-edit-mode-modal [isVisible]="isPasswordModalVisible" (closeModalWindow)="closePasswordModal()">
+  <div modal-header>Change Password</div>
+
+  <div modal-body>
+    <div class="edit-mode__message__container">
+      @if (verifyCurrentPasswordError) {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.PASSWORD_ERROR }}</p>
+      }
+    </div>
+    <form [formGroup]="changePasswordForm" (ngSubmit)="onPasswordFormSubmit()" class="edit__form">
+      <div class="fields__container list__wrap">
+        <div class="field__wrapper item__wrap">
+          <label for="currentPassword">
+            <input
+              type="password"
+              id="currentPassword"
+              formControlName="currentPassword"
+              placeholder="Current password *"
+              (input)="onInputChange()"
+              [type]="passwordFieldType"
+            />
+            <div class="input__validator">
+              @if (!getPasswordControlName('currentPassword')?.errors) {
+                @if (showCurrentPasswordConfirmation) {
+                  <span class="input__validator__icon__valid"></span>
+                }
+              }
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+            </div>
+          </label>
+
+          @if (validationCheck(getPasswordControlName('currentPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('currentPassword')?.errors?.['required']) {
+                <span class="error-line"> Current password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('currentPassword')?.errors?.['pattern']) {
+                <span class="error-line"> Current password {{ ERROR_MSG.PASSWORD }} </span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="field__wrapper item__wrap">
+          <label for="newPassword">
+            <input type="password" id="newPassword" formControlName="newPassword" placeholder="New password *" [type]="passwordFieldType" />
+            <div class="input__validator">
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+            </div>
+          </label>
+          @if (validationCheck(getPasswordControlName('newPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('newPassword')?.errors?.['required']) {
+                <span class="error-line"> New password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('newPassword')?.errors?.['pattern']) {
+                <span class="error-line"> New password {{ ERROR_MSG.PASSWORD }} </span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="field__wrapper item__wrap">
+          <label for="confirmNewPassword">
+            <input
+              type="password"
+              id="confirmNewPassword"
+              formControlName="confirmNewPassword"
+              placeholder="Confirm new password *"
+              [type]="passwordFieldType"
+            />
+            <div class="input__validator">
+              @if (!getPasswordControlName('confirmNewPassword')?.errors) {
+                <span class="input__validator__icon__valid"></span>
+              }
+              <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+            </div>
+          </label>
+          @if (validationCheck(getPasswordControlName('confirmNewPassword')!)) {
+            <div class="error__container">
+              @if (getPasswordControlName('confirmNewPassword')?.errors?.['required']) {
+                <span class="error-line"> Confirm new password {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getPasswordControlName('confirmNewPassword')?.errors?.['pattern']) {
+                <span class="error-line"> Confirm new password {{ ERROR_MSG.PASSWORD }} </span>
+              } @else if (getPasswordControlName('confirmNewPassword')?.errors?.['confirmedValidator']) {
+                <span class="error-line"> Passwords do not match </span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <app-button
+        label="Save changes"
+        [disabled]="changePasswordForm.invalid"
+        [ngClass]="{
+          form__button_disabled: changePasswordForm.invalid,
+          form__button_visible: !changePasswordForm.invalid,
+        }"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+      />
+    </form>
+    <app-button
+      label="Cancel"
+      type="button"
+      class="profile__btn btn__modal__submit btn__modal__cansel"
+      (buttonClicked)="closePasswordModal()"
+    />
+  </div>
+</app-edit-mode-modal>
+
+<!-- Edit mode Modal Profile Info -->
 <app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeModal()">
   <div modal-header>Edit Personal info</div>
 

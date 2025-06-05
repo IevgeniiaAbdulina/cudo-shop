@@ -1,7 +1,4 @@
 export interface ProductImage {
+  label: string;
   url: string;
-  dimensions: {
-    w: string;
-    h: string;
-  };
 }

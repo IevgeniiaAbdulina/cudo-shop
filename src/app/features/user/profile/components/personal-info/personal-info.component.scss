@@ -59,10 +59,16 @@ $prf-border-color: #dcdcdcff;
   background: transparent;
   color: #ffffff;
   transition: all 0.5s ease-out;
+
+  &:hover {
+    background: #a93d0b;
+    box-shadow: 0 1px 3px #eee;
+  }
 }
 
 .btn {
-  &__edit-profile {
+  &__edit-profile,
+  &__edit-password {
     background: $prf-color-accent;
   }
 
@@ -138,7 +144,10 @@ input:not(input[type='checkbox']) {
 .btn__modal__submit {
   display: flex;
   align-items: center;
-  background-color: $color-additional;
+
+  &__submit {
+    background-color: $color-additional;
+  }
 }
 
 /* Edit Mode Messages */
@@ -182,7 +191,8 @@ input:not(input[type='checkbox']) {
     }
   }
 
-  &_disabled {
+  &_disabled,
+  &_disabled:hover {
     cursor: not-allowed;
     color: $color-input-search;
     background-color: $color-button-disable;
@@ -197,4 +207,92 @@ input:not(input[type='checkbox']) {
 .error-line {
   font-size: 1rem;
   color: $color-error;
+}
+
+/* Password section */
+.password {
+  &__container {
+    display: flex;
+    align-items: center;
+    gap: $prf-spacing-016;
+
+    span > * {
+      border: 1px solid red;
+    }
+  }
+
+  &__icon {
+    align-self: center;
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    background-image: url('../../../../../assets/icons/lock_24dp.svg');
+  }
+}
+
+label {
+  display: block;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+.list__wrap {
+  margin: 0 0 6rem;
+}
+
+.item__wrap {
+  margin: 2rem 0;
+}
+
+input[type='password'] {
+  height: 48px;
+}
+
+.btn {
+  &__modal {
+    &__cansel {
+      margin-top: 2rem;
+      background-color: #ffffff;
+      border: 1px solid rgba(127, 127, 127, 0.35);
+      color: #7f7f7f;
+
+      &:hover {
+        background-color: rgba(127, 127, 127, 0.15);
+        border: 1px solid #7f7f7f;
+        color: #7f7f7f;
+      }
+    }
+  }
+}
+
+/* Match validator icon */
+.input__validator {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  position: relative;
+  bottom: 28px;
+  right: 8px;
+
+  &__icon {
+    &__valid {
+      width: 24px;
+      height: 24px;
+      padding: 8px;
+      background-image: url('../../../../../assets/icons/check_24dp_green.svg');
+    }
+  }
+}
+
+.edit-mode__message {
+  &__container {
+    height: 32px;
+  }
+}
+
+.toggler {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }

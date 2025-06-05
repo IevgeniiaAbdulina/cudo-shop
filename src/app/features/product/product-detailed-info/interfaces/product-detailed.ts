@@ -1,3 +1,5 @@
+import { ProductImage } from '../../../../core/product/interfaces/product-image';
+
 export interface ProductDetailed {
   id: string;
   key: string;
@@ -16,11 +18,7 @@ export interface ProductDetailed {
       masterVariant: {
         sku: string | number;
         key: string | number;
-        images: [
-          {
-            url: string;
-          },
-        ];
+        images: ProductImage[];
         prices: [
           {
             discounted: {

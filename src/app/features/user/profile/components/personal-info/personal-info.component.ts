@@ -7,10 +7,12 @@ import { UserService } from '../../../services/user.service';
 import { EditModeModalComponent } from '../edit-mode-modal/edit-mode-modal.component';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EDIT_MODE_MSG } from '../../enums/edit-mode-messages';
-import { EMAIL_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex';
+import { EMAIL_REGEX, NAME_REGEX, PASSWORD_REGEX } from '../../../../../shared/constants/regex';
 import { minimumAgeValidator } from '../../../../../shared/validator/validate.dob';
 import { ControlService } from '../../../services/control.service';
 import ERROR_MSG from '../../../../../shared/constants/error-message';
+import { AuthService } from '../../../../../core/auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-personal-info',
@@ -23,15 +25,24 @@ export class PersonalInfoComponent implements OnInit {
   public modalIsClosed = input();
 
   public isModalVisible: boolean = false;
+  public isPasswordModalVisible: boolean = false;
   public profileForm!: FormGroup;
+  public changePasswordForm!: FormGroup;
   public isEditSuccess: boolean = false;
+  public isChangePasswordSuccess: boolean = false;
   public showMessage: boolean = false;
+  public changePasswordErrorMessage: boolean = false;
+  public verifyCurrentPasswordError: boolean = false;
+  public showCurrentPasswordConfirmation: boolean = false;
+  public passwordFieldType: string = 'password';
+  public isPasswordVisible: boolean = false;
 
   protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
   protected readonly ERROR_MSG = ERROR_MSG;
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private fb: FormBuilder,
   ) {
     this.profileForm = this.fb.group({
@@ -39,6 +50,12 @@ export class PersonalInfoComponent implements OnInit {
       firstName: [''],
       lastName: [''],
       dateOfBirth: [''],
+    });
+
+    this.changePasswordForm = this.fb.group({
+      currentPassword: [''],
+      newPassword: [''],
+      confirmNewPassword: [''],
     });
   }
 
@@ -64,6 +81,105 @@ export class PersonalInfoComponent implements OnInit {
     });
   }
 
+  // Change password section
+  public changePasswordModeToggle(): void {
+    this.isPasswordModalVisible = !this.isPasswordModalVisible;
+  }
+
+  public openPasswordModal(): void {
+    this.setPasswordForm();
+    this.changePasswordModeToggle();
+  }
+
+  public closePasswordModal(): void {
+    this.changePasswordForm.reset();
+    this.changePasswordModeToggle();
+  }
+
+  private setPasswordForm(): void {
+    this.changePasswordForm = this.fb.group(
+      {
+        currentPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+        newPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+        confirmNewPassword: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+      },
+      {
+        validators: ControlService.matchValidator('newPassword', 'confirmNewPassword'),
+      },
+    );
+  }
+
+  public onInputChange(): void {
+    this.showCurrentPasswordConfirmation = false;
+  }
+
+  private showChangePasswordErrorMessage(): void {
+    this.changePasswordErrorMessage = true;
+
+    setTimeout(() => {
+      this.changePasswordErrorMessage = false;
+    }, 3500);
+  }
+
+  private showVerificationPasswordError(): void {
+    this.verifyCurrentPasswordError = true;
+    setTimeout(() => {
+      this.verifyCurrentPasswordError = false;
+    }, 3500);
+  }
+
+  public onPasswordFormSubmit(): void {
+    if (this.changePasswordForm.valid) {
+      const currentPassword: string = this.changePasswordForm.controls['currentPassword'].value;
+      const newPassword = this.changePasswordForm.controls['newPassword'].value;
+
+      this.authService
+        .login({
+          email: this.user()!.email,
+          password: currentPassword,
+        })
+        .subscribe({
+          next: () => {
+            this.verifyCurrentPasswordError = false;
+            this.showCurrentPasswordConfirmation = true;
+
+            this.userService.changeUserPassword(this.user()!.id, this.user()!.version, currentPassword, newPassword).subscribe({
+              next: () => {
+                this.authService
+                  .login({
+                    email: this.user()!.email,
+                    password: newPassword,
+                  })
+                  .subscribe({
+                    next: () => {
+                      this.isChangePasswordSuccess = true;
+                      this.showChangePasswordErrorMessage();
+                      this.closePasswordModal();
+                    },
+                    error: (error: HttpErrorResponse) => {
+                      console.error(error);
+                    },
+                  });
+              },
+              error: (err) => {
+                console.error(err);
+                this.isChangePasswordSuccess = false;
+                this.closePasswordModal();
+                this.showChangePasswordErrorMessage();
+              },
+            });
+          },
+          error: (err) => {
+            console.error(err);
+            this.showVerificationPasswordError();
+          },
+        });
+    } else {
+      console.warn('[change password] INVALID form');
+    }
+  }
+
+  // Edit Personal information section
   public editModeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
@@ -134,5 +250,14 @@ export class PersonalInfoComponent implements OnInit {
 
   public getControlName(controlName: string): AbstractControl | null {
     return ControlService.getFormControl(this.profileForm, controlName);
+  }
+
+  public getPasswordControlName(controlName: string): AbstractControl | null {
+    return ControlService.getFormControl(this.changePasswordForm, controlName);
+  }
+
+  public togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
+    this.passwordFieldType = this.isPasswordVisible ? 'text' : 'password';
   }
 }
