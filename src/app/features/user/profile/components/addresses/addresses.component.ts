@@ -1,7 +1,7 @@
 import { Component, signal, WritableSignal, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../../../shared/ui/button/button.component';
 import { FormatCountryPipe } from '../../../pipes/format-country.pipe';
-import { NgForOf, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { NgClass, NgForOf, NgIf, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { UserModel } from '../../../model/user-model';
 import { Address, UserResponse } from '../../../interfaces/user-response';
 import { UserService } from '../../../services/user.service';
@@ -11,6 +11,7 @@ import { NAME_REGEX } from '../../../../../shared/constants/regex';
 import { postalCodeValidator } from '../../../../../shared/validator/validate.postal-code';
 import ERROR_MSG from '../../../../../shared/constants/error-message';
 import { ControlService } from '../../../services/control.service';
+import { EDIT_MODE_MSG } from '../../enums/edit-mode-messages';
 
 @Component({
   selector: 'app-addresses',
@@ -23,6 +24,8 @@ import { ControlService } from '../../../services/control.service';
     FormsModule,
     ReactiveFormsModule,
     NgForOf,
+    NgClass,
+    NgIf,
   ],
   templateUrl: './addresses.component.html',
   styleUrl: './addresses.component.scss',
@@ -35,11 +38,14 @@ export class AddressesComponent implements OnInit {
   public billingAddresses?: Address[];
   public shippingAddresses?: Address[];
 
+  public showResponseMessage: boolean = false;
+  public isAddAddressSuccess: boolean = false;
   public isModalVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
 
   public newShoppingAddressForm: FormGroup;
   protected readonly ERROR_MSG = ERROR_MSG;
+  protected readonly EDIT_MODE_MSG = EDIT_MODE_MSG;
 
   constructor(
     private userService: UserService,
@@ -48,7 +54,7 @@ export class AddressesComponent implements OnInit {
     this.newShoppingAddressForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      street: [''],
+      streetName: [''],
       postalCode: [''],
       city: [''],
       country: [''],
@@ -58,25 +64,7 @@ export class AddressesComponent implements OnInit {
   public ngOnInit(): void {
     this.userService.getUserPersonalInfoByToken().subscribe({
       next: (response: UserResponse) => {
-        console.log('[user profile page] response data: ', response);
-
-        this.user.set(
-          new UserModel(
-            response.version,
-            response.id,
-            response.email,
-            response.firstName,
-            response.lastName,
-            response.dateOfBirth,
-            response.password,
-            response.addresses,
-          ),
-        );
-
-        this.defaultBillingAddress = this.findDefaultBillingAddress(response);
-        this.defaultShippingAddress = this.findDefaultShippingAddress(response);
-        this.billingAddresses = this.findBillingAddresses(response);
-        this.shippingAddresses = this.findShippingAddresses(response);
+        this.updateUserdata(response);
       },
       error: (error) => {
         console.error(error);
@@ -84,11 +72,31 @@ export class AddressesComponent implements OnInit {
     });
   }
 
+  private updateUserdata(response: UserResponse): void {
+    this.user.set(
+      new UserModel(
+        response.version,
+        response.id,
+        response.email,
+        response.firstName,
+        response.lastName,
+        response.dateOfBirth,
+        response.password,
+        response.addresses,
+      ),
+    );
+
+    this.defaultBillingAddress = this.findDefaultBillingAddress(response);
+    this.defaultShippingAddress = this.findDefaultShippingAddress(response);
+    this.billingAddresses = this.findBillingAddresses(response);
+    this.shippingAddresses = this.findShippingAddresses(response);
+  }
+
   private setNewAddressForm(): void {
     this.newShoppingAddressForm = this.fb.group({
       firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
-      street: ['', Validators.required],
+      streetName: ['', Validators.required],
       postalCode: ['', [Validators.required, postalCodeValidator()]],
       city: ['', [Validators.required, Validators.pattern(NAME_REGEX)]],
       country: ['', Validators.required],
@@ -99,23 +107,63 @@ export class AddressesComponent implements OnInit {
     });
   }
 
+  private handleResponseMessage(): void {
+    this.showResponseMessage = true;
+    setTimeout(() => {
+      this.showResponseMessage = false;
+    }, 3500);
+  }
+
   // Add New Shipping Address
-  public editModeToggle(): void {
+  public modeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
 
   public openModalShippingAddress(): void {
     this.setNewAddressForm();
-    this.editModeToggle();
+    this.modeToggle();
   }
 
   public closeNewShippingAddressModal(): void {
-    this.editModeToggle();
+    this.newShoppingAddressForm.reset();
+    this.modeToggle();
   }
 
   public onFormSubmit(): void {
     if (this.newShoppingAddressForm.valid) {
       console.log('[shipping address] create new shipping address, form is valid: ', this.newShoppingAddressForm.value);
+      this.userService.addAddress(this.user()!.id, this.user()!.version, this.newShoppingAddressForm.value).subscribe({
+        next: (response: UserResponse) => {
+          console.log('[shipping address] add address, response: ', response);
+
+          const address = this.userService.findAddressByKey(response.addresses);
+
+          console.log('[shipping address] new address with key: ', address);
+
+          this.userService.setShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
+            next: (response: UserResponse) => {
+              console.log('[shipping address] set address as a shipping, response: ', response);
+
+              this.updateUserdata(response);
+              this.isAddAddressSuccess = true;
+              this.handleResponseMessage();
+              this.closeNewShippingAddressModal();
+            },
+            error: (error) => {
+              console.error(error);
+              this.isAddAddressSuccess = false;
+              this.handleResponseMessage();
+              this.closeNewShippingAddressModal();
+            },
+          });
+        },
+        error: (error) => {
+          console.error(error);
+          this.isAddAddressSuccess = false;
+          this.handleResponseMessage();
+          this.closeNewShippingAddressModal();
+        },
+      });
     } else {
       console.log('[shipping address] form is invalid');
     }

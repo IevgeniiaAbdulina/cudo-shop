@@ -285,3 +285,28 @@ select option:active {
     height: 2rem;
   }
 }
+
+/* Edit Mode Messages */
+.edit-mode__message__container {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edit-mode__message__item {
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+
+  &.error {
+    color: $color-error;
+    background-color: $color-background-error;
+  }
+
+  &.success {
+    color: darkgreen;
+    background-color: lightgreen;
+  }
+}
+
+/* Edit Mode Messages end */

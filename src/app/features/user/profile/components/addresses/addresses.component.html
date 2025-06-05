@@ -25,10 +25,9 @@
     </div>
   </div>
 
-  @for (item of billingAddresses; track item.id) {
-    @if (item?.id !== defaultBillingAddress?.id) {
-      <div class="divider"></div>
-      <div class="address__card__wrapper">
+  <div class="address__card__wrapper">
+    @for (item of billingAddresses; track item.id) {
+      @if (item?.id !== defaultBillingAddress?.id) {
         <div class="address__card">
           <div class="address__card__body">
             <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
@@ -42,9 +41,9 @@
             <app-button class="profile__btn btn__remove">Remove</app-button>
           </div>
         </div>
-      </div>
+      }
     }
-  }
+  </div>
 </section>
 
 <section class="profile__section">
@@ -52,6 +51,16 @@
     <h2>Your Shipping addresses</h2>
     <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress()"> Add a new address </app-button>
   </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="showResponseMessage">
+      @if (isAddAddressSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.ADDRESS_SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ADDRESS_ERROR }}</p>
+      }
+    </div>
+  </div>
 
   <div class="address__card__wrapper">
     <div class="address__card default">
@@ -74,10 +83,9 @@
     </div>
   </div>
 
-  @for (item of shippingAddresses; track item.id) {
-    @if (item?.id !== defaultShippingAddress?.id) {
-      <div class="divider"></div>
-      <div class="address__card__wrapper">
+  <div class="address__card__wrapper">
+    @for (item of shippingAddresses; track item.id) {
+      @if (item?.id !== defaultShippingAddress?.id) {
         <div class="address__card">
           <div class="address__card__body">
             <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
@@ -91,9 +99,9 @@
             <app-button class="profile__btn btn__remove">Remove</app-button>
           </div>
         </div>
-      </div>
+      }
     }
-  }
+  </div>
 </section>
 
 <!-- Add new Billing Address Modal -->
@@ -136,10 +144,10 @@
         <legend>Address details</legend>
         <div class="fields__container">
           <div class="field__wrapper">
-            <label for="street"><input type="text" id="street" formControlName="street" placeholder="Street *" /></label>
-            @if (validationCheck(getShippingAddressControlName('street')!)) {
+            <label for="streetName"><input type="text" id="streetName" formControlName="streetName" placeholder="Street *" /></label>
+            @if (validationCheck(getShippingAddressControlName('streetName')!)) {
               <div class="error__container">
-                @if (getShippingAddressControlName('street')?.errors?.['required']) {
+                @if (getShippingAddressControlName('streetName')?.errors?.['required']) {
                   <span class="error-line"> Street {{ ERROR_MSG.REQUIRED }} </span>
                 }
               </div>
@@ -195,7 +203,16 @@
         </div>
       </fieldset>
 
-      <app-button label="Save changes" type="submit" class="profile__btn btn__modal__submit form__button" />
+      <app-button
+        label="Save changes"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+        [disabled]="newShoppingAddressForm.invalid"
+        [ngClass]="{
+          form__button_disabled: newShoppingAddressForm.invalid,
+          form__button_visible: !newShoppingAddressForm.invalid,
+        }"
+      />
     </form>
   </div>
 </app-edit-mode-modal>
