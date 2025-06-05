@@ -15,11 +15,13 @@ import { ModalComponent } from './modal/modal/modal.component';
 export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
   @Input() public key: string | null = null;
+  @Input() public currentImageIndex: number = 0;
+  
+  @Output() public buttonClickedAddToCart = new EventEmitter();
+
   public products: ProductDetailed[] = [];
   public productImages: ProductImage[] = [];
-  public currentImageIndex: number = 0;
   public isModalOpen: boolean = false;
-  public modalStartIndex: number = 0;
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
@@ -39,12 +41,6 @@ export class ProductDetailedInfoComponent implements OnInit {
       });
     }
   }
-
-  // public getProductImage(product: ProductDetailed): string {
-  //   const productImage = product.masterData.current.masterVariant.images[0].url;
-
-  //   return productImage;
-  // }
 
   public getProductName(product: ProductDetailed): string {
     const productName = product.masterData.current.name['en-US'];
@@ -82,8 +78,6 @@ export class ProductDetailedInfoComponent implements OnInit {
     return productCurrency;
   }
 
-  @Output() public buttonClickedAddToCart = new EventEmitter();
-
   public getProductDescription(product: ProductDetailed): string {
     const productDescription = product.masterData.current.description['en-US'];
 
@@ -92,7 +86,6 @@ export class ProductDetailedInfoComponent implements OnInit {
 
   public getProductImages(product: ProductDetailed): ProductImage[] {
     this.productImages = product.masterData.current.masterVariant.images;
-    console.log('productImages', this.productImages);
 
     return this.productImages;
   }
@@ -121,10 +114,8 @@ export class ProductDetailedInfoComponent implements OnInit {
     this.isModalOpen = true;
   }
 
-  // public onKeydown(event: KeyboardEvent): void {
-  //   if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
-  //     event.preventDefault();
-  //     this.openImageInModal();
-  //   }
-  // }
+  public onCloseModal(index: number): void {
+    this.currentImageIndex = index;
+    this.isModalOpen = false;
+  }
 }
