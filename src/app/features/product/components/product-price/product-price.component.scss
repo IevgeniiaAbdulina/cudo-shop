@@ -1,4 +1,5 @@
 @use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/mixins' as *;
 
 :host {
   display: flex;
@@ -10,15 +11,33 @@
 .product-price,
 .product-discount {
   font-size: 2rem;
+  @include media-tablet {
+    font-size: 1.6rem;
+  }
+  @include media-mobile-big {
+    font-size: 1.4rem;
+  }
 }
 
 .product-currency {
   font-size: 1.8rem;
+  @include media-tablet {
+    font-size: 1.6rem;
+  }
+  @include media-mobile-big {
+    font-size: 1.4rem;
+  }
 }
 
 .product-old-price {
   text-decoration: line-through;
   font-size: 1.8rem;
+  @include media-tablet {
+    font-size: 1.6rem;
+  }
+  @include media-mobile-big {
+    font-size: 1.4rem;
+  }
 }
 
 .product-price,

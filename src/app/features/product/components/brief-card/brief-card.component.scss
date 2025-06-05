@@ -1,5 +1,6 @@
 @use '../../../../../style/abstract/constant' as *;
 @use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
 
 :host {
   display: flex;
@@ -22,6 +23,16 @@
       color: $color-primary;
     }
   }
+  @include media-laptop-tablet {
+    width: 23rem;
+    margin: 1rem;
+  }
+  @include media-tablet {
+    width: 18rem;
+  }
+  @include media-mobile-big {
+    width: 15rem;
+  }
 }
 
 .card__img {
@@ -33,6 +44,10 @@
     width: 16rem;
     height: 20rem;
     @extend %transition;
+    @include media-tablet {
+      width: 10rem;
+      height: 16rem;
+    }
   }
 }
 
@@ -46,14 +61,39 @@
   min-height: 5rem;
   font-size: 1.25em;
   font-weight: bold;
+  @include media-laptop-tablet {
+    font-size: 1em;
+  }
+  @include media-tablet {
+    font-size: 0.9em;
+  }
+  @include media-mobile-big {
+    font-size: 0.6em;
+    min-height: 3rem;
+  }
 }
 
 .card__description {
   min-height: 6rem;
   font-size: 1.4rem;
   color: $color-card-text;
+  @include media-laptop-tablet {
+    font-size: 1.2rem;
+  }
+  @include media-tablet {
+    font-size: 1rem;
+  }
+  @include media-mobile-big {
+    min-height: 4rem;
+  }
 }
 
 app-product-button {
   font-size: 1.6rem;
+  @include media-tablet {
+    font-size: 1.4rem;
+  }
+  @include media-mobile-big {
+    font-size: 1.2rem;
+  }
 }
