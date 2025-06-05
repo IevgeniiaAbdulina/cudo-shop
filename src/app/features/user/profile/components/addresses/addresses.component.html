@@ -31,7 +31,6 @@
       </div>
       <div class="address__card__actions">
         <app-button class="profile__btn btn__edit">Edit</app-button>
-        <app-button class="profile__btn btn__remove">Remove</app-button>
       </div>
     </div>
   </div>
@@ -55,7 +54,7 @@
           </div>
           <div class="address__card__actions">
             <app-button class="profile__btn btn__edit">Edit</app-button>
-            <app-button class="profile__btn btn__remove">Remove</app-button>
+            <app-button class="profile__btn btn__remove" (buttonClicked)="onRemoveClick(item.id)"> Remove </app-button>
           </div>
         </div>
       }
@@ -98,7 +97,6 @@
       </div>
       <div class="address__card__actions">
         <app-button class="profile__btn btn__edit">Edit</app-button>
-        <app-button class="profile__btn btn__remove">Remove</app-button>
       </div>
     </div>
   </div>
@@ -122,7 +120,7 @@
           </div>
           <div class="address__card__actions">
             <app-button class="profile__btn btn__edit">Edit</app-button>
-            <app-button class="profile__btn btn__remove">Remove</app-button>
+            <app-button class="profile__btn btn__remove" (buttonClicked)="onRemoveClick(item.id)"> Remove </app-button>
           </div>
         </div>
       }

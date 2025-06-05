@@ -126,6 +126,17 @@ export class AddressesComponent implements OnInit {
     }
   }
 
+  public onRemoveClick(addressId: string): void {
+    this.userService.removeAddress(this.user()!.id, this.user()!.version, addressId).subscribe({
+      next: (response) => {
+        this.updateUserdata(response);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
   public onSubmitDefaultShippingAddress(addressId: string): void {
     if (addressId) {
       this.userService.setDefaultShippingAddress(this.user()!.id, this.user()!.version, addressId).subscribe({

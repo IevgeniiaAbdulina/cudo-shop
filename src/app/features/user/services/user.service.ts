@@ -152,4 +152,18 @@ export class UserService {
 
     return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
   }
+
+  public removeAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
+    const body = {
+      version: version,
+      actions: [
+        {
+          action: 'removeAddress',
+          addressId: addressId,
+        },
+      ],
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
+  }
 }
