@@ -1,0 +1,7 @@
+<p class="product-currency">{{ helperService.getProductCurrency(product) }}</p>
+<ng-container *ngIf="helperService.hasDiscount(product)">
+  <p class="product-discount">{{ helperService.getProductDiscount(product) }}</p>
+</ng-container>
+<p [ngClass]="{ 'product-old-price': helperService.hasDiscount(product), 'product-price': !helperService.hasDiscount(product) }">
+  {{ helperService.getProductPrice(product) }}
+</p>

@@ -33,11 +33,7 @@
   @for (product of products; track $index) {
     @if (product.key) {
       <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-        <app-brief-card
-          [title]="productProjectionsHelperService.getProductName(product)"
-          [imgUrl]="productProjectionsHelperService.getProductImg(product)"
-          [description]="productProjectionsHelperService.getShortProductDescription(product)"
-        ></app-brief-card>
+        <app-brief-card [product]="product"></app-brief-card>
       </div>
     }
   }
