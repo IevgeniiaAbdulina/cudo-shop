@@ -4,19 +4,24 @@ import { ProductDetailedService } from './services/product-detailed.service';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { CommonModule } from '@angular/common';
 import { ProductImage } from '../../../core/product/interfaces/product-image';
+import { ModalComponent } from './modal/modal/modal.component';
 
 @Component({
   selector: 'app-product-detailed-info',
-  imports: [ButtonComponent, CommonModule],
+  imports: [ButtonComponent, CommonModule, ModalComponent],
   templateUrl: './product-detailed-info.component.html',
   styleUrl: './product-detailed-info.component.scss',
 })
 export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
   @Input() public key: string | null = null;
+  @Input() public currentImageIndex: number = 0;
+  
+  @Output() public buttonClickedAddToCart = new EventEmitter();
+
   public products: ProductDetailed[] = [];
   public productImages: ProductImage[] = [];
-  public currentImageIndex: number = 0;
+  public isModalOpen: boolean = false;
 
   constructor(private productDetailedService: ProductDetailedService) {}
 
@@ -35,12 +40,6 @@ export class ProductDetailedInfoComponent implements OnInit {
         },
       });
     }
-  }
-
-  public getProductImage(product: ProductDetailed): string {
-    const productImage = product.masterData.current.masterVariant.images[0].url;
-
-    return productImage;
   }
 
   public getProductName(product: ProductDetailed): string {
@@ -79,8 +78,6 @@ export class ProductDetailedInfoComponent implements OnInit {
     return productCurrency;
   }
 
-  @Output() public buttonClickedAddToCart = new EventEmitter();
-
   public getProductDescription(product: ProductDetailed): string {
     const productDescription = product.masterData.current.description['en-US'];
 
@@ -89,7 +86,6 @@ export class ProductDetailedInfoComponent implements OnInit {
 
   public getProductImages(product: ProductDetailed): ProductImage[] {
     this.productImages = product.masterData.current.masterVariant.images;
-    console.log('productImages', this.productImages);
 
     return this.productImages;
   }
@@ -112,5 +108,14 @@ export class ProductDetailedInfoComponent implements OnInit {
     }
 
     return null;
+  }
+
+  public openImageInModal(): void {
+    this.isModalOpen = true;
+  }
+
+  public onCloseModal(index: number): void {
+    this.currentImageIndex = index;
+    this.isModalOpen = false;
   }
 }

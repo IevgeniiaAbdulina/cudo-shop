@@ -1,0 +1,12 @@
+<div class="modal__wrapper" *ngIf="isModalOpen">
+  <div class="modal">
+    <app-button label="X" (buttonClicked)="closeModal()" class="modal__button" />
+    <div class="modal__window">
+      <app-button label="<" (buttonClicked)="onClickLeft()" class="modal__left" />
+      <div *ngIf="getCurrentImage() as currentImage" class="modal__image-container">
+        <img [src]="currentImage.url" [alt]="currentImage.label" />
+      </div>
+      <app-button label=">" (buttonClicked)="onClickRight()" class="modal__right" />
+    </div>
+  </div>
+</div>
