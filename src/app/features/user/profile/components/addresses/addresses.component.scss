@@ -38,23 +38,6 @@ $prf-border-color: #dcdcdcff;
   border: 1px solid #606060;
   border-radius: 0.7rem;
 
-  &__badge {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    span {
-      width: max(100px);
-      text-align: center;
-      padding: $prf-spacing-vr $prf-spacing-hr;
-      background: deepskyblue;
-      border-radius: 24px;
-      color: white;
-    }
-  }
-
   &__body {
     padding: $prf-spacing-016 0;
     line-height: 140%;
@@ -312,13 +295,20 @@ select option:active {
 /* Edit Mode Messages end */
 
 /* Set default address */
+.mark__address__wrapper,
+.address__card__set-default {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .address__card__set-default button {
   padding: 1rem 0;
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 14px;
   text-decoration: underline;
+  font-size: 14px;
   color: #4f4f4f;
   cursor: pointer;
   border: none;
@@ -339,6 +329,16 @@ select option:active {
   background-image: url('../../../../../assets/icons/location_on_16dp_black.svg');
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.mark__address__wrapper {
+  font-size: 14px;
+  padding: 1rem 0;
+  color: #75fb4c;
+
+  .icon__default {
+    background-image: url('../../../../../assets/icons/check_24dp_green.svg');
+  }
 }
 
 /* Set default address end */

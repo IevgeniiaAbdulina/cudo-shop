@@ -5,7 +5,7 @@ export const countryNameCode = (countryName: string) => {
       country = 'PL';
       break;
     case 'Germany':
-      country = 'GE';
+      country = 'DE';
       break;
     case 'USA':
       country = 'US';

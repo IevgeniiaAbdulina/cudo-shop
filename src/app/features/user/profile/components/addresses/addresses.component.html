@@ -1,16 +1,21 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>Your Billing addresses</h2>
-    <app-button class="profile__btn btn__add-address">Add a new address</app-button>
+    <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress('billing')">Add a new address </app-button>
   </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="showResponseBillingMessage">
+      @if (isAddBillingAddressSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.ADDRESS_SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ADDRESS_ERROR }}</p>
+      }
+    </div>
+  </div>
 
   <div class="address__card__wrapper">
     <div class="address__card default">
-      @if (defaultBillingAddress) {
-        <div class="address__card__badge">
-          <span>Default</span>
-        </div>
-      }
       <div class="address__card__body">
         <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
         <div>{{ defaultBillingAddress?.streetName | titlecase }}</div>
@@ -18,6 +23,12 @@
         <div>{{ defaultBillingAddress?.country | formatCountry | uppercase }}</div>
       </div>
       <div class="divider"></div>
+      <div class="address__card__set-default">
+        <div class="mark__address__wrapper">
+          <span class="mark__address icon__default"></span>
+          <p>Default billing address</p>
+        </div>
+      </div>
       <div class="address__card__actions">
         <app-button class="profile__btn btn__edit">Edit</app-button>
         <app-button class="profile__btn btn__remove">Remove</app-button>
@@ -36,6 +47,12 @@
             <div>{{ item?.country | formatCountry | uppercase }}</div>
           </div>
           <div class="divider"></div>
+          <div class="address__card__set-default">
+            <button (click)="onSubmitDefaultBillingAddress(item.id)">
+              <span class="mark__address"></span>
+              <p>Use as default shipping address</p>
+            </button>
+          </div>
           <div class="address__card__actions">
             <app-button class="profile__btn btn__edit">Edit</app-button>
             <app-button class="profile__btn btn__remove">Remove</app-button>
@@ -49,11 +66,13 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>Your Shipping addresses</h2>
-    <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress()"> Add a new address </app-button>
+    <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress('shipping')">
+      Add a new address
+    </app-button>
   </header>
 
   <div class="edit-mode__message__container">
-    <div *ngIf="showResponseMessage">
+    <div *ngIf="showResponseShippingMessage">
       @if (isAddAddressSuccess) {
         <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.ADDRESS_SUCCESS }}</p>
       } @else {
@@ -64,11 +83,6 @@
 
   <div class="address__card__wrapper">
     <div class="address__card default">
-      @if (defaultShippingAddress) {
-        <div class="address__card__badge">
-          <span>Default</span>
-        </div>
-      }
       <div class="address__card__body">
         <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
         <div>{{ defaultShippingAddress?.streetName | titlecase }}</div>
@@ -76,6 +90,12 @@
         <div>{{ defaultShippingAddress?.country | formatCountry | uppercase }}</div>
       </div>
       <div class="divider"></div>
+      <div class="address__card__set-default">
+        <div class="mark__address__wrapper">
+          <span class="mark__address icon__default"></span>
+          <p>Default shipping address</p>
+        </div>
+      </div>
       <div class="address__card__actions">
         <app-button class="profile__btn btn__edit">Edit</app-button>
         <app-button class="profile__btn btn__remove">Remove</app-button>
@@ -112,7 +132,7 @@
 
 <!-- Add new Billing Address Modal -->
 <app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeNewShippingAddressModal()">
-  <div modal-header>Add shipping address</div>
+  <div modal-header>{{ modalHeader }}</div>
 
   <div modal-body class="address__modal__form-container">
     <form [formGroup]="newShoppingAddressForm" (ngSubmit)="onFormSubmit()">

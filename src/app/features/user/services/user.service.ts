@@ -97,7 +97,7 @@ export class UserService {
     return addresses.find((addresses: Address) => addresses.key === this.UUID);
   }
 
-  public setShippingAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
+  public addShippingAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
     const body = {
       version: version,
       actions: [
@@ -117,6 +117,34 @@ export class UserService {
       actions: [
         {
           action: 'setDefaultShippingAddress',
+          addressId: addressId,
+        },
+      ],
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
+  }
+
+  public addBillingAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
+    const body = {
+      version: version,
+      actions: [
+        {
+          action: 'addBillingAddressId',
+          addressId: addressId,
+        },
+      ],
+    };
+
+    return this.http.post<UserResponse>(`${this.baseUrl}/customers/${id}`, JSON.stringify(body));
+  }
+
+  public setDefaultBillingAddress(id: string, version: number, addressId: string | undefined): Observable<UserResponse> {
+    const body = {
+      version: version,
+      actions: [
+        {
+          action: 'setDefaultBillingAddress',
           addressId: addressId,
         },
       ],

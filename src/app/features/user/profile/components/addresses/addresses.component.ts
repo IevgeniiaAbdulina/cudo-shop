@@ -38,8 +38,12 @@ export class AddressesComponent implements OnInit {
   public billingAddresses?: Address[];
   public shippingAddresses?: Address[];
 
-  public showResponseMessage: boolean = false;
+  public modalHeader: string = '';
+  public isShippingAddress: boolean = true;
+  public showResponseShippingMessage: boolean = false;
+  public showResponseBillingMessage: boolean = false;
   public isAddAddressSuccess: boolean = false;
+  public isAddBillingAddressSuccess: boolean = false;
   public isModalVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
 
@@ -107,11 +111,19 @@ export class AddressesComponent implements OnInit {
     });
   }
 
-  private handleResponseMessage(): void {
-    this.showResponseMessage = true;
-    setTimeout(() => {
-      this.showResponseMessage = false;
-    }, 3500);
+  private handleResponseMessage(addressType: string): void {
+    if (addressType === 'billing') {
+      this.showResponseBillingMessage = true;
+      setTimeout(() => {
+        this.showResponseBillingMessage = false;
+      }, 3500);
+    }
+    if (addressType === 'shipping') {
+      this.showResponseShippingMessage = true;
+      setTimeout(() => {
+        this.showResponseShippingMessage = false;
+      }, 3500);
+    }
   }
 
   public onSubmitDefaultShippingAddress(addressId: string): void {
@@ -127,12 +139,33 @@ export class AddressesComponent implements OnInit {
     }
   }
 
+  public onSubmitDefaultBillingAddress(addressId: string): void {
+    if (addressId) {
+      this.userService.setDefaultBillingAddress(this.user()!.id, this.user()!.version, addressId).subscribe({
+        next: (response: UserResponse) => {
+          this.updateUserdata(response);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
+  }
+
   // Add New Shipping Address
   public modeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
 
-  public openModalShippingAddress(): void {
+  public openModalShippingAddress(addressType: string): void {
+    if (addressType === 'billing') {
+      this.modalHeader = 'Add billing address';
+      this.isShippingAddress = false;
+    }
+    if (addressType === 'shipping') {
+      this.modalHeader = 'Add shipping address';
+      this.isShippingAddress = true;
+    }
     this.setNewAddressForm();
     this.modeToggle();
   }
@@ -145,6 +178,7 @@ export class AddressesComponent implements OnInit {
   public onFormSubmit(): void {
     if (this.newShoppingAddressForm.valid) {
       console.log('[shipping address] create new shipping address, form is valid: ', this.newShoppingAddressForm.value);
+
       this.userService.addAddress(this.user()!.id, this.user()!.version, this.newShoppingAddressForm.value).subscribe({
         next: (response: UserResponse) => {
           console.log('[shipping address] add address, response: ', response);
@@ -153,27 +187,47 @@ export class AddressesComponent implements OnInit {
 
           console.log('[shipping address] new address with key: ', address);
 
-          this.userService.setShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
-            next: (response: UserResponse) => {
-              console.log('[shipping address] set address as a shipping, response: ', response);
+          if (this.isShippingAddress) {
+            this.userService.addShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
+              next: (response: UserResponse) => {
+                console.log('[shipping address] set address as a shipping, response: ', response);
 
-              this.updateUserdata(response);
-              this.isAddAddressSuccess = true;
-              this.handleResponseMessage();
-              this.closeNewShippingAddressModal();
-            },
-            error: (error) => {
-              console.error(error);
-              this.isAddAddressSuccess = false;
-              this.handleResponseMessage();
-              this.closeNewShippingAddressModal();
-            },
-          });
+                this.updateUserdata(response);
+                this.isAddAddressSuccess = true;
+                this.handleResponseMessage('shipping');
+                this.closeNewShippingAddressModal();
+              },
+              error: (error) => {
+                console.error(error);
+                this.isAddAddressSuccess = false;
+                this.handleResponseMessage('shipping');
+                this.closeNewShippingAddressModal();
+              },
+            });
+          } else {
+            console.log('set billing address');
+            this.userService.addBillingAddress(this.user()!.id, response.version, address?.id).subscribe({
+              next: (response: UserResponse) => {
+                console.log('[billing address] set address as billing: ', response);
+
+                this.updateUserdata(response);
+                this.isAddBillingAddressSuccess = true;
+                this.handleResponseMessage('billing');
+                this.closeNewShippingAddressModal();
+              },
+              error: (error) => {
+                console.error(error);
+                this.isAddBillingAddressSuccess = false;
+                this.handleResponseMessage('billing');
+                this.closeNewShippingAddressModal();
+              },
+            });
+          }
         },
         error: (error) => {
           console.error(error);
           this.isAddAddressSuccess = false;
-          this.handleResponseMessage();
+          this.handleResponseMessage('billing');
           this.closeNewShippingAddressModal();
         },
       });
