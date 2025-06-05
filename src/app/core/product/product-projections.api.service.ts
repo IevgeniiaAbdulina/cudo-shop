@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment.dev';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
-import { ProductProjection } from './interfaces/product-projection';
+import { ProductProjectionsResponse } from './interfaces/product-projections-response';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +15,9 @@ export class ProductProjectionsApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllProductProjections(): Observable<ProductProjection> {
-    return this.http.get<ProductProjection>(this.SEARCH_URL);
-  }
+  public getProductProjectionsByCategory(categoryId: string): Observable<ProductProjectionsResponse> {
+    const params = new HttpParams().set('filter', `categories.id:subtree("${categoryId}")`);
 
-  public getProductProjectionsByCategory(categoryId: string): Observable<ProductProjection> {
-    const params = new HttpParams().set('filter.query', `categories.id:"${categoryId}"`);
-
-    return this.http.get<ProductProjection>(this.SEARCH_URL, { params });
+    return this.http.get<ProductProjectionsResponse>(this.SEARCH_URL, { params });
   }
 }

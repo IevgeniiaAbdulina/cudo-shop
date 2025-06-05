@@ -44,6 +44,5 @@ export class ModalComponent {
 
   public closeModal(): void {
     this.closeModalWindow.emit(this.currentIndex);
-
   }
 }
