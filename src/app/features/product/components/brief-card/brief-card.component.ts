@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
 import { ProductProjectionsHelperService } from '../../../../core/product/product-projections.helper.service';
-import { ProductButtonComponent } from '../../components/product-button/product-button.component';
-import { ProductPriceComponent } from '../../components/product-price/product-price.component';
+import { ProductButtonComponent } from '../product-button/product-button.component';
+import { ProductPriceComponent } from '../product-price/product-price.component';
 
 @Component({
   selector: 'app-brief-card',

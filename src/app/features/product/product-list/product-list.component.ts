@@ -12,7 +12,7 @@ import { ProductProjection } from '../../../core/product/interfaces/product-proj
 import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
 import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
 import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
-import { BriefCardComponent } from './brief-card/brief-card.component';
+import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 
 @Component({
