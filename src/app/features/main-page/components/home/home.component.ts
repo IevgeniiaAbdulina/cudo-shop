@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { ProductListComponent } from '../../../product/product-list/product-list.component';
+
 @Component({
   selector: 'app-home',
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, ProductListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
