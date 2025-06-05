@@ -1,1 +1,1 @@
-<button type="button" [ngClass]="btnClass" (click)="clickBtn()" [disabled]="isDisabled">{{ text }}</button>
+<button type="button" [ngClass]="btnClass" (click)="handleClick($event)" [disabled]="isDisabled">{{ text }}</button>

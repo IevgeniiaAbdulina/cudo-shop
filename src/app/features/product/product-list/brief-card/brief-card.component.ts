@@ -26,5 +26,10 @@ export class BriefCardComponent implements OnInit {
     this.title = this.productProjectionsHelperService.getProductName(this.product);
   }
 
-  public buttonClickedAddToCart(): void {}
+  public buttonClickedAddToCart(event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+      console.log('Product added to cart:', this.title);
+    }
+  }
 }
