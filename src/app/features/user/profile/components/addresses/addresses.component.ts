@@ -48,7 +48,6 @@ export class AddressesComponent implements OnInit {
   public isModalVisible: boolean = false;
   public validCountries: string[] = ['Poland', 'Germany', 'USA'];
   public addressId: string = '';
-  // public defaultCountryOption: string = 'Select a country *';
 
   public addressForm: FormGroup;
   protected readonly ERROR_MSG = ERROR_MSG;
@@ -166,17 +165,14 @@ export class AddressesComponent implements OnInit {
     }
   }
 
-  // Edit Address
   public setAddressForm(addressData: Address): void {
-    // this.defaultCountryOption = addressData.country;
-
     this.addressForm = this.fb.group({
       firstName: [this.user()?.firstName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       lastName: [this.user()?.lastName, [Validators.required, Validators.pattern(NAME_REGEX)]],
       streetName: [addressData.streetName, Validators.required],
       postalCode: [addressData.postalCode, [Validators.required, postalCodeValidator()]],
       city: [addressData.city, [Validators.required, Validators.pattern(NAME_REGEX)]],
-      country: [addressData.country, Validators.required],
+      country: ['', Validators.required],
     });
 
     this.addressForm.get('country')?.valueChanges.subscribe(() => {
@@ -192,7 +188,6 @@ export class AddressesComponent implements OnInit {
     this.modeToggle();
   }
 
-  // Add New Shipping Address
   public modeToggle(): void {
     this.isModalVisible = !this.isModalVisible;
   }
@@ -217,8 +212,6 @@ export class AddressesComponent implements OnInit {
 
   public onFormSubmit(): void {
     if (this.addressForm.valid) {
-      console.log('[shipping address] create new shipping address, form is valid: ', this.addressForm.value);
-
       if (this.isEditAddress) {
         this.userService.changeAddress(this.user()!.id, this.user()!.version, this.addressId, this.addressForm.value).subscribe({
           next: (response: UserResponse) => {
@@ -233,17 +226,11 @@ export class AddressesComponent implements OnInit {
       } else {
         this.userService.addAddress(this.user()!.id, this.user()!.version, this.addressForm.value).subscribe({
           next: (response: UserResponse) => {
-            console.log('[shipping address] add address, response: ', response);
-
             const address = this.userService.findAddressByKey(response.addresses);
-
-            console.log('[shipping address] new address with key: ', address);
 
             if (this.isShippingAddress) {
               this.userService.addShippingAddress(this.user()!.id, response.version, address?.id).subscribe({
                 next: (response: UserResponse) => {
-                  console.log('[shipping address] set address as a shipping, response: ', response);
-
                   this.updateUserdata(response);
                   this.isAddAddressSuccess = true;
                   this.handleResponseMessage('shipping');
@@ -257,11 +244,8 @@ export class AddressesComponent implements OnInit {
                 },
               });
             } else {
-              console.log('set billing address');
               this.userService.addBillingAddress(this.user()!.id, response.version, address?.id).subscribe({
                 next: (response: UserResponse) => {
-                  console.log('[billing address] set address as billing: ', response);
-
                   this.updateUserdata(response);
                   this.isAddBillingAddressSuccess = true;
                   this.handleResponseMessage('billing');
@@ -284,8 +268,6 @@ export class AddressesComponent implements OnInit {
           },
         });
       }
-    } else {
-      console.log('[shipping address] form is invalid');
     }
   }
 
