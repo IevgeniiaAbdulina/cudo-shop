@@ -11,7 +11,13 @@
 .product-list__wrapper{
   display: flex;
   column-gap: 3rem;
-  padding: 2rem 0;
+  padding: 2rem 1.5rem;
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+  }
+  @include media-mobile-big {
+    flex-direction: column;
+  }
 }
 
 aside {
@@ -28,7 +34,6 @@ aside {
   }
   @include media-laptop-tablet {
     width: 23rem;
-    margin-right: 1rem;
     padding-right: 1rem;
     h2 {
       font-size: 1.8rem;
@@ -47,7 +52,7 @@ aside {
     }
    }
    @include media-mobile-big {
-    width: 98%;
+    width: 97%;
     margin: 0.5rem;
     padding: 1rem;
     h2,
@@ -96,7 +101,14 @@ li {
 .product-list {
   display: flex;
   row-gap: 2rem;
+  column-gap: 2rem;
   flex: 1;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+  }
+  @include media-tablet {
+    column-gap: 1rem;
+  }
 }

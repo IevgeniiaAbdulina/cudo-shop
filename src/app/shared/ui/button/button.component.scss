@@ -11,7 +11,7 @@ button {
   border: solid 1px transparent;
   cursor: inherit;
   background: transparent;
-  width: -webkit-fill-available;
+  width: inherit;
   @extend %transition;
   color: currentColor;
   @include media-laptop-tablet {
