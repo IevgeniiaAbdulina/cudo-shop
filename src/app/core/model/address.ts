@@ -3,5 +3,8 @@ export interface Address {
   city: string;
   postalCode: string;
   country: string;
+  firstName?: string;
+  lastName?: string;
+  key?: string;
   id?: string;
 }
