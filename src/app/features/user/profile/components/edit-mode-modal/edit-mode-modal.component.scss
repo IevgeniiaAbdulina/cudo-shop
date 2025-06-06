@@ -18,8 +18,8 @@
   background-color: #ffffff;
   padding: 2rem;
   width: 35vw;
-  overflow-x: scroll;
-  overflow-y: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
   @include media-laptop {
     width: 50vw;
@@ -34,7 +34,7 @@
 }
 
 .modal-header {
-  font-size: clamp(16px, 2vw, 28px);
+  font-size: clamp(16px, 2vw, 24px);
   font-weight: bold;
 }
 

@@ -1,16 +1,21 @@
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>Your Billing addresses</h2>
-    <app-button class="profile__btn btn__add-address">Add a new address</app-button>
+    <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress('billing')">Add a new address </app-button>
   </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="showResponseBillingMessage">
+      @if (isAddBillingAddressSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.ADDRESS_SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ADDRESS_ERROR }}</p>
+      }
+    </div>
+  </div>
 
   <div class="address__card__wrapper">
     <div class="address__card default">
-      @if (defaultBillingAddress) {
-        <div class="address__card__badge">
-          <span>Default</span>
-        </div>
-      }
       <div class="address__card__body">
         <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
         <div>{{ defaultBillingAddress?.streetName | titlecase }}</div>
@@ -18,17 +23,21 @@
         <div>{{ defaultBillingAddress?.country | formatCountry | uppercase }}</div>
       </div>
       <div class="divider"></div>
+      <div class="address__card__set-default">
+        <div class="mark__address__wrapper">
+          <span class="mark__address icon__default"></span>
+          <p>Default billing address</p>
+        </div>
+      </div>
       <div class="address__card__actions">
-        <app-button class="profile__btn btn__edit">Edit</app-button>
-        <app-button class="profile__btn btn__remove">Remove</app-button>
+        <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(defaultBillingAddress!)">Edit </app-button>
       </div>
     </div>
   </div>
 
-  @for (item of billingAddresses; track item.id) {
-    @if (item?.id !== defaultBillingAddress?.id) {
-      <div class="divider"></div>
-      <div class="address__card__wrapper">
+  <div class="address__card__wrapper">
+    @for (item of billingAddresses; track item.id) {
+      @if (item?.id !== defaultBillingAddress?.id) {
         <div class="address__card">
           <div class="address__card__body">
             <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
@@ -37,29 +46,42 @@
             <div>{{ item?.country | formatCountry | uppercase }}</div>
           </div>
           <div class="divider"></div>
+          <div class="address__card__set-default">
+            <button (click)="onSubmitDefaultBillingAddress(item.id)">
+              <span class="mark__address"></span>
+              <p>Use as default shipping address</p>
+            </button>
+          </div>
           <div class="address__card__actions">
-            <app-button class="profile__btn btn__edit">Edit</app-button>
-            <app-button class="profile__btn btn__remove">Remove</app-button>
+            <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(item)"> Edit </app-button>
+            <app-button class="profile__btn btn__remove" (buttonClicked)="onRemoveClick(item.id)"> Remove </app-button>
           </div>
         </div>
-      </div>
+      }
     }
-  }
+  </div>
 </section>
 
 <section class="profile__section">
   <header class="profile__section__header">
     <h2>Your Shipping addresses</h2>
-    <app-button class="profile__btn btn__add-address">Add a new address</app-button>
+    <app-button class="profile__btn btn__add-address" (buttonClicked)="openModalShippingAddress('shipping')">
+      Add a new address
+    </app-button>
   </header>
+
+  <div class="edit-mode__message__container">
+    <div *ngIf="showResponseShippingMessage">
+      @if (isAddAddressSuccess) {
+        <p class="edit-mode__message__item success">{{ EDIT_MODE_MSG.ADDRESS_SUCCESS }}</p>
+      } @else {
+        <p class="edit-mode__message__item error">{{ EDIT_MODE_MSG.ADDRESS_ERROR }}</p>
+      }
+    </div>
+  </div>
 
   <div class="address__card__wrapper">
     <div class="address__card default">
-      @if (defaultShippingAddress) {
-        <div class="address__card__badge">
-          <span>Default</span>
-        </div>
-      }
       <div class="address__card__body">
         <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
         <div>{{ defaultShippingAddress?.streetName | titlecase }}</div>
@@ -67,17 +89,21 @@
         <div>{{ defaultShippingAddress?.country | formatCountry | uppercase }}</div>
       </div>
       <div class="divider"></div>
+      <div class="address__card__set-default">
+        <div class="mark__address__wrapper">
+          <span class="mark__address icon__default"></span>
+          <p>Default shipping address</p>
+        </div>
+      </div>
       <div class="address__card__actions">
-        <app-button class="profile__btn btn__edit">Edit</app-button>
-        <app-button class="profile__btn btn__remove">Remove</app-button>
+        <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(defaultShippingAddress!)">Edit </app-button>
       </div>
     </div>
   </div>
 
-  @for (item of shippingAddresses; track item.id) {
-    @if (item?.id !== defaultShippingAddress?.id) {
-      <div class="divider"></div>
-      <div class="address__card__wrapper">
+  <div class="address__card__wrapper">
+    @for (item of shippingAddresses; track item.id) {
+      @if (item?.id !== defaultShippingAddress?.id) {
         <div class="address__card">
           <div class="address__card__body">
             <div class="address__card__name">{{ user()?.firstName | titlecase }} {{ user()?.lastName | titlecase }}</div>
@@ -86,12 +112,131 @@
             <div>{{ item?.country | formatCountry | uppercase }}</div>
           </div>
           <div class="divider"></div>
+          <div class="address__card__set-default">
+            <button (click)="onSubmitDefaultShippingAddress(item.id)">
+              <span class="mark__address"></span>
+              <p>Use as default shipping address</p>
+            </button>
+          </div>
           <div class="address__card__actions">
-            <app-button class="profile__btn btn__edit">Edit</app-button>
-            <app-button class="profile__btn btn__remove">Remove</app-button>
+            <app-button class="profile__btn btn__edit" (buttonClicked)="openModalEditAddress(item)"> Edit </app-button>
+            <app-button class="profile__btn btn__remove" (buttonClicked)="onRemoveClick(item.id)"> Remove </app-button>
           </div>
         </div>
-      </div>
+      }
     }
-  }
+  </div>
 </section>
+
+<!-- Add new Billing Address Modal -->
+<app-edit-mode-modal [isVisible]="isModalVisible" (closeModalWindow)="closeNewShippingAddressModal()">
+  <div modal-header>{{ modalHeader }}</div>
+
+  <div modal-body class="address__modal__form-container">
+    <form [formGroup]="addressForm" (ngSubmit)="onFormSubmit()">
+      <fieldset>
+        <legend>Personal information</legend>
+        <div class="fields__container">
+          <div class="field__wrapper">
+            <label for="firstName"><input type="text" id="firstName" formControlName="firstName" placeholder="First name *" /></label>
+            @if (validationCheck(getShippingAddressControlName('firstName')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('firstName')?.errors?.['required']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getShippingAddressControlName('firstName')?.errors?.['pattern']) {
+                  <span class="error-line"> First name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
+          </div>
+          <div class="field__wrapper">
+            <label for="lastName"><input type="text" id="lastName" formControlName="lastName" placeholder="Last name *" /></label>
+            @if (validationCheck(getShippingAddressControlName('lastName')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('lastName')?.errors?.['required']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.REQUIRED }} </span>
+                } @else if (getShippingAddressControlName('lastName')?.errors?.['pattern']) {
+                  <span class="error-line"> Last name {{ ERROR_MSG.NAME }} </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Address details</legend>
+        <div class="fields__container">
+          <div class="field__wrapper">
+            <label for="streetName"><input type="text" id="streetName" formControlName="streetName" placeholder="Street *" /></label>
+            @if (validationCheck(getShippingAddressControlName('streetName')!)) {
+              <div class="error__container">
+                @if (getShippingAddressControlName('streetName')?.errors?.['required']) {
+                  <span class="error-line"> Street {{ ERROR_MSG.REQUIRED }} </span>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="code-city__wrapper">
+        <div class="fields__container address-info">
+          <div class="field__wrapper address-info__item__code">
+            <label for="postalCode"><input type="text" id="postalCode" formControlName="postalCode" placeholder="Postal code *" /></label>
+          </div>
+          <div class="field__wrapper address-info__item__city">
+            <label for="city"><input type="text" id="city" formControlName="city" placeholder="City *" /></label>
+          </div>
+        </div>
+        <div class="code-city__error__wrapper">
+          @if (validationCheck(getShippingAddressControlName('postalCode')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('postalCode')?.errors?.['required']) {
+                <span class="error-line"> Postal code {{ ERROR_MSG.REQUIRED }} </span>
+              } @else if (getShippingAddressControlName('postalCode')?.errors) {
+                <span class="error-line"> {{ getShippingAddressControlName('postalCode')?.errors?.['message'] }} </span>
+              }
+            </div>
+          }
+          @if (validationCheck(getShippingAddressControlName('city')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('city')?.errors?.['required']) {
+                <span class="error-line"> City {{ ERROR_MSG.REQUIRED }} </span>
+              }
+            </div>
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="fields__container country-select">
+          <div class="select__wrapper">
+            <select id="shipping-country" formControlName="country">
+              <option value="" disabled>Select a country *</option>
+              <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
+            </select>
+          </div>
+          @if (validationCheck(getShippingAddressControlName('country')!)) {
+            <div class="error__container">
+              @if (getShippingAddressControlName('country')?.errors?.['required']) {
+                <span class="error-line"> Country {{ ERROR_MSG.REQUIRED }} </span>
+              }
+            </div>
+          }
+        </div>
+      </fieldset>
+
+      <app-button
+        label="Save changes"
+        type="submit"
+        class="profile__btn btn__modal__submit form__button"
+        [disabled]="addressForm.invalid"
+        [ngClass]="{
+          form__button_disabled: addressForm.invalid,
+          form__button_visible: !addressForm.invalid,
+        }"
+      />
+    </form>
+  </div>
+</app-edit-mode-modal>

@@ -1,3 +1,6 @@
+@use '../../../../../../style/abstract/constant' as *;
+@use '../../../../../../style/abstract/mixins' as *;
+@use '../../../../../../style/abstract/placeholders' as *;
 $prf-spacing-vr: 8px;
 $prf-spacing-hr: 16px;
 $prf-spacing-016: 1rem;
@@ -34,23 +37,6 @@ $prf-border-color: #dcdcdcff;
   padding: $prf-spacing-016;
   border: 1px solid #606060;
   border-radius: 0.7rem;
-
-  &__badge {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    span {
-      width: max(100px);
-      text-align: center;
-      padding: $prf-spacing-vr $prf-spacing-hr;
-      background: deepskyblue;
-      border-radius: 24px;
-      color: white;
-    }
-  }
 
   &__body {
     padding: $prf-spacing-016 0;
@@ -104,10 +90,6 @@ $prf-border-color: #dcdcdcff;
 }
 
 .btn {
-  &__edit-profile {
-    background: $prf-color-accent;
-  }
-
   &__add-address {
     background: $prf-color-accent;
     color: #fff;
@@ -135,3 +117,228 @@ button:hover {
   background: #a93d0b;
   box-shadow: 0 1px 3px #eee;
 }
+
+/* Modal Form style */
+fieldset {
+  border: none;
+  margin: $prf-spacing-032 0 6rem;
+}
+
+legend {
+  margin-bottom: $prf-spacing-016;
+}
+
+.field__wrapper {
+  width: 100%;
+  height: 40px;
+}
+
+.fields__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+}
+
+.address__modal {
+  &__form-container {
+    input,
+    select {
+      position: relative;
+      width: 100%;
+      height: 48px;
+    }
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
+}
+
+.select__wrapper {
+  position: relative;
+  width: 100%;
+  border: 2px solid $color-additional;
+}
+
+.select__wrapper select {
+  width: 100%;
+  height: 48px;
+  padding: 0 10px;
+  background: transparent;
+  border: 0;
+  color: $color-overlay;
+
+  &:checked {
+    border: none;
+  }
+}
+
+select option:active {
+  background-color: $color-additional;
+}
+
+.btn__modal {
+  &__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $color-additional;
+  }
+}
+
+.form__button {
+  align-self: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  @extend %transition;
+
+  &_visible {
+    color: $color-input-search;
+    background: $color-additional;
+
+    &:hover:enabled {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+  }
+
+  &_disabled,
+  &_disabled:hover {
+    cursor: not-allowed;
+    color: $color-input-search;
+    background-color: $color-button-disable;
+  }
+}
+
+.address-info {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  gap: 2rem;
+  margin-bottom: 1rem;
+
+  &__item {
+    &__code {
+      flex: 2;
+    }
+
+    &__city {
+      flex: 4;
+    }
+  }
+}
+
+/* error message */
+
+.error__container {
+  height: max-content;
+  padding: 0 10px;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: $color-error;
+}
+
+.fields__container.country-select {
+  gap: 1rem;
+}
+
+.code-city__wrapper {
+  margin-bottom: 2rem;
+}
+
+.code-city {
+  &__error__wrapper {
+    height: 2rem;
+  }
+}
+
+/* Edit Mode Messages */
+.edit-mode__message__container {
+  height: 36px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.edit-mode__message__item {
+  padding: 0.5rem 2rem;
+  width: 100%;
+  text-align: center;
+
+  &.error {
+    color: $color-error;
+    background-color: $color-background-error;
+  }
+
+  &.success {
+    color: darkgreen;
+    background-color: lightgreen;
+  }
+}
+
+/* Edit Mode Messages end */
+
+/* Set default address */
+.mark__address__wrapper,
+.address__card__set-default {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.address__card__set-default button {
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: underline;
+  font-size: 14px;
+  color: #4f4f4f;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+
+  &:hover {
+    color: $color-additional;
+
+    .mark__address {
+      background-image: url('../../../../../assets/icons/location_on_16dp_orange.svg');
+    }
+  }
+}
+
+.mark__address {
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../../../assets/icons/location_on_16dp_black.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mark__address__wrapper {
+  font-size: 14px;
+  padding: 1rem 0;
+  color: #3dbd16;
+
+  .icon__default {
+    background-image: url('../../../../../assets/icons/check_24dp_green.svg');
+  }
+}
+
+/* Set default address end */

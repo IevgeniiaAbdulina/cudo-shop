@@ -145,7 +145,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         country = 'PL';
         break;
       case 'Germany':
-        country = 'GE';
+        country = 'DE';
         break;
       case 'USA':
         country = 'US';
