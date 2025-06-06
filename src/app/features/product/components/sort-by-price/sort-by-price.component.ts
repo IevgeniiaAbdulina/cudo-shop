@@ -13,8 +13,19 @@ export class SortByPriceComponent {
 
   constructor(private sortingService: SortingService) {}
 
+  public sortProductsPopular(): void {
+    this.sortingService.sortProductsPopular().subscribe({
+      next: (data) => {
+        this.sortedProducts.emit(data.results);
+      },
+      error: (error) => {
+        console.error(`Loading error: ${error}`);
+      },
+    });
+  }
+
   public sortProductsAsc(): void {
-    this.sortingService.sortProductsAsc().subscribe({
+    this.sortingService.sortProductsByPriceAsc().subscribe({
       next: (data) => {
         this.sortedProducts.emit(data.results);
       },
@@ -25,7 +36,7 @@ export class SortByPriceComponent {
   }
 
   public sortProductsDesc(): void {
-    this.sortingService.sortProductsDesc().subscribe({
+    this.sortingService.sortProductsByPriceDesc().subscribe({
       next: (data) => {
         this.sortedProducts.emit(data.results);
       },

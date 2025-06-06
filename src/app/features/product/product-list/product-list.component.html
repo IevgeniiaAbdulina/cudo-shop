@@ -33,7 +33,7 @@
   <app-sort-by-price (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
   <br />
   <hr />
-  <app-sort-by-alphabetical></app-sort-by-alphabetical>
+  <app-sort-by-alphabetical (sortedProducts)="getSortedProducts($event)"></app-sort-by-alphabetical>
 
   <app-product-button
         btnClass="filter-button"

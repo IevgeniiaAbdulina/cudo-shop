@@ -15,14 +15,26 @@ export class SortingService {
 
   constructor(private http: HttpClient) {}
 
-  public sortProductsAsc(): Observable<ProductProjectionsResponse> {
+  public sortProductsByPriceAsc(): Observable<ProductProjectionsResponse> {
     const params = new HttpParams({ fromString: 'sort=price asc' });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
-  public sortProductsDesc(): Observable<ProductProjectionsResponse> {
+  public sortProductsByPriceDesc(): Observable<ProductProjectionsResponse> {
     const params = new HttpParams({ fromString: 'sort=price desc' });
+
+    return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
+  }
+
+  public sortProductsAlphabeticallyAsc(): Observable<ProductProjectionsResponse> {
+    const params = new HttpParams({ fromString: 'sort=name.en-US asc' });
+
+    return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
+  }
+
+  public sortProductsAlphabeticallyDesc(): Observable<ProductProjectionsResponse> {
+    const params = new HttpParams({ fromString: 'sort=name.en-US desc' });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
