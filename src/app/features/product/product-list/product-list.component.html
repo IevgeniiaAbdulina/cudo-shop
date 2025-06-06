@@ -1,40 +1,48 @@
-<aside class="categories">
-  <button (click)="goBack()">Go Back</button>
-  @if (currentRoute === '/books') {
-    <ul>
-      <li>book title</li>
-    </ul>
-  }
-  @if (currentRoute === '/cosmetics') {
-    <ul>
-      <li>cosmetics title</li>
-    </ul>
-  }
+<div class="wrapper">
+  <div class="product-list__wrapper">
+    <aside class="categories">
+      <button (click)="goBack()">Go Back</button>
+      @if (currentRoute === '/books') {
+        <ul>
+          <li>book title</li>
+        </ul>
+      }
+      @if (currentRoute === '/cosmetics') {
+        <ul>
+          <li>cosmetics title</li>
+        </ul>
+      }
 
-  <h2>Filter by category</h2>
-  <h3>{{ categoryTitle0 }}</h3>
-  <ul>
-    @for (category of categories; track $index) {
-      <li
-        tabindex="0"
-        (click)="filterByCategory(category.id)"
-        (keyup)="onKeyUpFilter($event, category.id)"
-        [ngClass]="{ selected: selectedCategory === category.id }"
-      >
-        {{ categoryHelperService.getCategoryName(category) }}
-      </li>
-    }
-  </ul>
+      <h2>Filter by category</h2>
+      <h3>{{ categoryTitle0 }}</h3>
+      <ul>
+        @for (category of categories; track $index) {
+          <li
+            tabindex="0"
+            (click)="filterByCategory(category.id)"
+            (keyup)="onKeyUpFilter($event, category.id)"
+            [ngClass]="{ selected: selectedCategory === category.id }"
+          >
+            {{ categoryHelperService.getCategoryName(category) }}
+          </li>
+        }
+      </ul>
 
-  <app-product-button btnClass="filter-button" text="Reset filters" [clickBtn]="loadProducts.bind(this)" [isDisabled]="!selectedCategory" />
-</aside>
-
-<div class="product-list">
-  @for (product of products; track $index) {
-    @if (product.key) {
-      <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-        <app-brief-card [product]="product"></app-brief-card>
-      </div>
-    }
-  }
+      <app-product-button
+        btnClass="filter-button"
+        text="Reset filters"
+        [clickBtn]="loadProducts.bind(this)"
+        [isDisabled]="!selectedCategory"
+      />
+    </aside>
+    <div class="product-list">
+      @for (product of products; track $index) {
+        @if (product.key) {
+          <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+            <app-brief-card [product]="product"></app-brief-card>
+          </div>
+        }
+      }
+    </div>
+  </div>
 </div>

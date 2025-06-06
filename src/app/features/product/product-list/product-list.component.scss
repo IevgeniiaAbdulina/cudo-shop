@@ -8,9 +8,13 @@
     flex-direction: column;
   }
 }
+.product-list__wrapper{
+  display: flex;
+  column-gap: 3rem;
+  padding: 2rem 0;
+}
 
 aside {
-  margin: 1.5rem;
   padding: 2rem;
   width: 29rem;
   border-radius: 1rem;
@@ -91,7 +95,8 @@ li {
 
 .product-list {
   display: flex;
+  row-gap: 2rem;
   flex: 1;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
