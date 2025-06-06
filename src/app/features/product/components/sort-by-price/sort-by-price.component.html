@@ -5,11 +5,11 @@
   <div class="sort__body">
     <div class="filter__section__sorting">
       <div class="filter__section__sorting__item price_ascending">
-        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-1" />
+        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-1" (click)="sortProductsAsc()" />
         <label for="filterSectionSorting-1">Lowest Price</label>
       </div>
       <div class="filter__section__sorting__item price_descending">
-        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-2" />
+        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-2" (click)="sortProductsDesc()" />
         <label for="filterSectionSorting-2">Highest Price</label>
       </div>
     </div>

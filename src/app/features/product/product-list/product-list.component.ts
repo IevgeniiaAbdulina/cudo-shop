@@ -48,6 +48,12 @@ export class ProductListComponent implements OnInit {
     this.loadCategories();
   }
 
+  public getSortedProducts(sortedProducts: ProductProjection[]): void {
+    if (sortedProducts) {
+      this.products = [...sortedProducts];
+    }
+  }
+
   public loadProducts() {
     this.filterByCategory(BOOKS_ID);
   }
