@@ -14,10 +14,12 @@ import { ProductProjectionsApiService } from '../../../core/product/product-proj
 import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
 import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
+import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
+import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink],
+  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
