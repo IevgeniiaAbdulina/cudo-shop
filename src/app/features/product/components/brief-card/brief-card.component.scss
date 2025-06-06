@@ -26,11 +26,11 @@
   }
 
   @include media-laptop-tablet {
-    margin: 1rem;
+    width: 24rem;
   }
 
-  @include media-tablet {
-    width: 26rem;
+  @include media-mobile-big {
+    width: 18rem;
   }
 }
 
@@ -43,6 +43,7 @@
     width: 16rem;
     height: 20rem;
     @extend %transition;
+    
     @include media-tablet {
       width: 10rem;
       height: 16rem;
@@ -89,7 +90,7 @@
   }
 
   @include media-mobile-big {
-    min-height: 4rem;
+    min-height: 5rem;
   }
 }
 

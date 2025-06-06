@@ -38,9 +38,11 @@ header {
   &:hover {
     color: $color-button-hover;
   }
+
   @include media-tablet {
     font-size: 1.7rem;
   }
+
   @include media-mobile-big {
     font-size: 1.5rem;
     grid-row: 1 / span 1;
@@ -59,6 +61,7 @@ header {
   padding: 0.5rem 1rem 0.5rem 0.5rem;
   background-color: $color-input-search;
   margin-left: 1rem;
+
   @include media-tablet {
     width: auto;
     margin-left: 0.5rem;
@@ -93,6 +96,7 @@ input[type='search'] {
   justify-content: start;
   grid-column: 2 / span 1;
   grid-row: 2 / span 1;
+
   @include media-mobile-big {
     grid-column: 1 / span 1;
   }
@@ -104,9 +108,11 @@ input[type='search'] {
   &:hover {
     color: $color-input-search;
   }
+
   @include media-tablet {
     font-size: 1.6rem;
   }
+
   @include media-mobile-big {
     font-size: 1.4rem;
   }
@@ -127,10 +133,12 @@ input[type='search'] {
   font-weight: 600;
   cursor: pointer;
   @extend %transition;
+  
   &:hover {
     background: $color-button-hover;
     box-shadow: 0 1px 3px $color-input-search;
   }
+
   @include media-mobile {
     font-weight: 400;
   }
