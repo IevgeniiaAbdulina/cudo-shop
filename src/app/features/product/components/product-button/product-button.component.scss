@@ -1,5 +1,6 @@
 @use '../../../../../style/abstract/constant' as *;
 @use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
 
 button {
   @extend %transition;
@@ -26,4 +27,8 @@ button {
 .filter-button {
   margin-top: 3rem;
   width: unset;
+  @include media-mobile-big {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
 }

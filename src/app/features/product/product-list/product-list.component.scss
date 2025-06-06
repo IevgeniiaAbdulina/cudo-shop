@@ -1,14 +1,18 @@
 @use '../../../../style/abstract/constant' as *;
 @use '../../../../style/abstract/placeholders' as *;
+@use '../../../../style/abstract/mixins' as *;
 
 :host {
   display: flex;
+  @include media-mobile-big {
+    flex-direction: column;
+  }
 }
 
 aside {
-  margin: 2rem;
+  margin: 1.5rem;
   padding: 2rem;
-  width: 30rem;
+  width: 29rem;
   border-radius: 1rem;
   border: 2px solid $color-input-search;
   box-shadow: 0 3px 9px 5px $color-input-search;
@@ -17,6 +21,43 @@ aside {
   h3 {
     margin-top: 2rem;
     margin-bottom: 2rem;
+  }
+  @include media-laptop-tablet {
+    width: 23rem;
+    margin-right: 1rem;
+    padding-right: 1rem;
+    h2 {
+      font-size: 1.8rem;
+    }
+    h3 {
+      font-size: 1.6rem;
+    }
+  }
+  @include media-tablet {
+    width: 18rem;
+    h2 {
+      font-size: 1.4rem;
+    }
+    h3 {
+      font-size: 1.2rem;
+    }
+   }
+   @include media-mobile-big {
+    width: 98%;
+    margin: 0.5rem;
+    padding: 1rem;
+    h2,
+    h3 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+   }
+}
+
+ul {
+  @include media-mobile-big {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
@@ -39,6 +80,12 @@ li {
     &:hover {
       cursor: default;
     }
+  }
+  @include media-tablet {
+    font-size: 1.2rem;
+  }
+  @include media-mobile-big {
+    font-size: 1rem;
   }
 }
 
