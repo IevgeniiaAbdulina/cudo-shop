@@ -32,14 +32,18 @@
   right: 1rem;
   align-self: flex-end;
   font-size: 3.6rem;
-  color: $color-input-search;
   cursor: pointer;
+}
+
+.modal__close {
+  width: 30px;
+  height: 30px;
   @extend %transition;
+  background-position: center;
+  background-image: url('../../../../../assets/icons/close_24dp.svg');
+
   &:hover {
-    color: $color-primary;
-  }
-  @include media-mobile-big {
-    font-size: 2.4rem;
+    background-image: url('../../../../../assets/icons/close_24dp_color.svg');
   }
 }
 
@@ -64,21 +68,34 @@
   @include media-mobile-big {
     height: 50rem;
     width: 30rem;
-   }
+  }
   @include media-mobile {
     height: 40rem;
     width: 20rem;
-   }
+  }
 }
 
 .modal__left,
 .modal__right {
-  font-size: 3.6rem;
-  color: $color-input-search;
-  background-color: $color-button-disable;
   cursor: pointer;
+}
+
+.arrow {
+  width: 24px;
+  height: 24px;
   @extend %transition;
-  &:hover {
-    color: $color-primary;
+  &__left {
+    background-image: url('../../../../../assets/icons/arrow_back.svg');
+
+    &:hover {
+      background-image: url('../../../../../assets/icons/arrow_back_hover.svg');
+    }
+  }
+  &__right {
+    background-image: url('../../../../../assets/icons/arrow_forward.svg');
+
+    &:hover {
+      background-image: url('../../../../../assets/icons/arrow_forward_hover.svg');
+    }
   }
 }
