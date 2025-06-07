@@ -15,26 +15,53 @@ export class SortingService {
 
   constructor(private http: HttpClient) {}
 
-  public sortProductsByPriceAsc(): Observable<ProductProjectionsResponse> {
-    const params = new HttpParams({ fromString: 'sort=price asc' });
+  public sortProductsPopular(categoryId: string): Observable<ProductProjectionsResponse> {
+    let filterByCategory = '';
+    if (categoryId) {
+      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
+    }
+    const params = new HttpParams({ fromString: `${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
-  public sortProductsByPriceDesc(): Observable<ProductProjectionsResponse> {
-    const params = new HttpParams({ fromString: 'sort=price desc' });
+  public sortProductsByPriceAsc(categoryId: string): Observable<ProductProjectionsResponse> {
+    let filterByCategory = '';
+    if (categoryId) {
+      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
+    }
+
+    const params = new HttpParams({ fromString: `sort=price asc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
-  public sortProductsAlphabeticallyAsc(): Observable<ProductProjectionsResponse> {
-    const params = new HttpParams({ fromString: 'sort=name.en-US asc' });
+  public sortProductsByPriceDesc(categoryId: string): Observable<ProductProjectionsResponse> {
+    let filterByCategory = '';
+    if (categoryId) {
+      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
+    }
+    const params = new HttpParams({ fromString: `sort=price desc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
-  public sortProductsAlphabeticallyDesc(): Observable<ProductProjectionsResponse> {
-    const params = new HttpParams({ fromString: 'sort=name.en-US desc' });
+  public sortProductsAlphabeticallyAsc(categoryId: string): Observable<ProductProjectionsResponse> {
+    let filterByCategory = '';
+    if (categoryId) {
+      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
+    }
+    const params = new HttpParams({ fromString: `sort=name.en-US asc${filterByCategory}` });
+
+    return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
+  }
+
+  public sortProductsAlphabeticallyDesc(categoryId: string): Observable<ProductProjectionsResponse> {
+    let filterByCategory = '';
+    if (categoryId) {
+      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
+    }
+    const params = new HttpParams({ fromString: `sort=name.en-US desc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }

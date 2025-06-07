@@ -37,6 +37,7 @@ input[type='radio'] {
   border-radius: 50%;
   outline: max(2px, 0.1em) solid $color-additional;
   outline-offset: max(2px, 0.1em);
+  accent-color: $color-additional;
 }
 
 input[type='radio']:before {
@@ -49,8 +50,9 @@ input[type='radio']:before {
   background-color: $color-additional;
 }
 
-input[type='radio']:checked:before {
+input[type='radio']:checked {
   transform: scale(1);
+  background-color: $color-additional;
 }
 
 input[type='radio']:focus {

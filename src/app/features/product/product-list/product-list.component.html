@@ -1,20 +1,19 @@
 <div class="wrapper">
   <div class="product-list__wrapper">
     <aside class="categories">
-      <button (click)="goBack()">Go Back</button>
       @if (currentRoute === '/books') {
-        <ul>
-          <li>book title</li>
-        </ul>
-      }
-      @if (currentRoute === '/cosmetics') {
-        <ul>
-          <li>cosmetics title</li>
-        </ul>
-      }
+    <ul>
+      <li>book title</li>
+    </ul>
+  }
+  @if (currentRoute === '/cosmetics') {
+    <ul>
+      <li>cosmetics title</li>
+    </ul>
+  }
 
-      <h2>Filter by category</h2>
-      <h3>{{ categoryTitle0 }}</h3>
+      <h2>Filters</h2>
+      <h3>Filter by category</h3>
       <ul>
         @for (category of categories; track $index) {
           <li
@@ -28,28 +27,24 @@
         }
       </ul>
 
-      <br />
-  <hr />
-  <app-sort-by-price (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
-  <br />
-  <hr />
-  <app-sort-by-alphabetical (sortedProducts)="getSortedProducts($event)"></app-sort-by-alphabetical>
+  <app-product-button btnClass="filter-button" text="Reset filters" [clickBtn]="loadProducts.bind(this)" [isDisabled]="!selectedCategory" />
 
-  <app-product-button
-        btnClass="filter-button"
-        text="Reset filters"
-        [clickBtn]="loadProducts.bind(this)"
-        [isDisabled]="!selectedCategory"
-      />
-    </aside>
-    <div class="product-list">
-      @for (product of products; track $index) {
-        @if (product.key) {
-          <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-            <app-brief-card [product]="product"></app-brief-card>
-          </div>
-        }
-      }
-    </div>
+  <div class="filter__section__sorting">
+    <br />
+    <hr />
+    <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+    <br />
+    <hr />
+    <app-sort-by-alphabetical [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-alphabetical>
   </div>
+</aside>
+
+<div class="product-list">
+  @for (product of products; track $index) {
+    @if (product.key) {
+      <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+        <app-brief-card [product]="product"></app-brief-card>
+      </div>
+    }
+  }
 </div>
