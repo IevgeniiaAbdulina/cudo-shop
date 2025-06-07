@@ -4,7 +4,15 @@
       <div class="product-image">
         <app-button label="<" (buttonClicked)="onClickLeft()" class="image__button" />
         <div *ngIf="getCurrentImage() as currentImage">
-          <img [src]="currentImage.url" [alt]="currentImage.label" (click)="openImageInModal()" />
+          <img
+            [src]="currentImage.url"
+            [alt]="currentImage.label"
+            (click)="openImageInModal()"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="openImageInModal()"
+            (keydown.space)="openImageInModal()"
+          />
           <app-modal
             [isModalOpen]="isModalOpen"
             [images]="productImages"
