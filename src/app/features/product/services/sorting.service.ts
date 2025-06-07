@@ -15,52 +15,45 @@ export class SortingService {
 
   constructor(private http: HttpClient) {}
 
-  public sortProductsPopular(categoryId: string): Observable<ProductProjectionsResponse> {
+  private createFilterParams(categoryId: string): string {
     let filterByCategory = '';
     if (categoryId) {
       filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
     }
+
+    return filterByCategory;
+  }
+
+  public sortProductsPopular(categoryId: string): Observable<ProductProjectionsResponse> {
+    const filterByCategory = this.createFilterParams(categoryId);
     const params = new HttpParams({ fromString: `${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
   public sortProductsByPriceAsc(categoryId: string): Observable<ProductProjectionsResponse> {
-    let filterByCategory = '';
-    if (categoryId) {
-      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
-    }
-
+    const filterByCategory = this.createFilterParams(categoryId);
     const params = new HttpParams({ fromString: `sort=price asc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
   public sortProductsByPriceDesc(categoryId: string): Observable<ProductProjectionsResponse> {
-    let filterByCategory = '';
-    if (categoryId) {
-      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
-    }
+    const filterByCategory = this.createFilterParams(categoryId);
     const params = new HttpParams({ fromString: `sort=price desc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
   public sortProductsAlphabeticallyAsc(categoryId: string): Observable<ProductProjectionsResponse> {
-    let filterByCategory = '';
-    if (categoryId) {
-      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
-    }
+    const filterByCategory = this.createFilterParams(categoryId);
     const params = new HttpParams({ fromString: `sort=name.en-US asc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
   }
 
   public sortProductsAlphabeticallyDesc(categoryId: string): Observable<ProductProjectionsResponse> {
-    let filterByCategory = '';
-    if (categoryId) {
-      filterByCategory = `&filter=categories.id:subtree("${categoryId}")`;
-    }
+    const filterByCategory = this.createFilterParams(categoryId);
     const params = new HttpParams({ fromString: `sort=name.en-US desc${filterByCategory}` });
 
     return this.http.post<ProductProjectionsResponse>(this.baseUrl, params);
