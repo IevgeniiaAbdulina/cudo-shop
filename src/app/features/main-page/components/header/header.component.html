@@ -1,9 +1,12 @@
 <header class="wrapper">
   <app-button label="Cudo-shop" (buttonClicked)="buttonClickedGoToHome.emit()" class="header__name" />
-
   <div class="header__search">
     <svg class="header-search"></svg>
     <input type="search" name="search" id="search" placeholder="Search..." />
+  </div>
+  <div class="navigation__container">
+    <app-button label="Books" (buttonClicked)="buttonClickedBooks.emit()" class="header__navigation__button" />
+    <app-button label="Cosmetics" (buttonClicked)="buttonClickedCosmetics.emit()" class="header__navigation__button" />
   </div>
   <div class="header__buttons">
     @if ((isLogin$ | async) === false) {

@@ -29,23 +29,30 @@
 @mixin rwd-font18-size {
   font-size: 1.8rem;
 
-  @include media-tablet {
+  @include media-laptop-tablet {
     font-size: 1.6rem;
   }
 
-  @include media-mobile-big {
+  @include media-tablet {
     font-size: 1.4rem;
+  }
+  @include media-mobile-big {
+    font-size: 1.2rem;
   }
 }
 
 @mixin rwd-font16-size {
   font-size: 1.6rem;
 
-  @include media-tablet {
+  @include media-laptop-tablet {
     font-size: 1.4rem;
   }
 
-  @include media-mobile-big {
+  @include media-tablet {
     font-size: 1.2rem;
+  }
+
+  @include media-mobile-big {
+    font-size: 1rem;
   }
 }

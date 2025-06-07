@@ -19,4 +19,6 @@ export class HeaderComponent {
   protected buttonClickedCart = output();
   public buttonClickedGoToHome = output();
   public buttonClickedProfile = output();
+  public buttonClickedBooks = output();
+  public buttonClickedCosmetics = output(); 
 }
