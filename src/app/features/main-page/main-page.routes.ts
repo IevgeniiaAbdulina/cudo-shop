@@ -11,10 +11,12 @@ export const mainRoutes: Routes = [
     path: '',
     title: 'Cudo Shop',
     component: MainPageComponent,
+    data: { breadcrumb: 'Cudo-Shop' },
     children: [
       {
         path: 'main',
         component: HomeComponent,
+        data: { breadcrumb: '' },
       },
       {
         path: 'registration',
@@ -29,10 +31,12 @@ export const mainRoutes: Routes = [
       {
         path: 'books',
         loadChildren: () => import('../product/product.routes').then((c) => c.productRoutes),
+        data: { breadcrumb: 'Books' },
       },
       {
         path: 'cosmetics',
         loadChildren: () => import('../product/product.routes').then((c) => c.productRoutes),
+        data: { breadcrumb: 'Cosmetics' },
       },
       {
         path: 'profile',

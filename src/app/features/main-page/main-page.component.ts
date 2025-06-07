@@ -6,10 +6,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavigateToSpecificRouteService } from '../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { AuthService } from '../../core/auth/auth.service';
+import { BreadcrumbComponent } from '../product/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-main-page',
-  imports: [HeaderComponent, FooterComponent, RouterOutlet],
+  imports: [HeaderComponent, FooterComponent, RouterOutlet, BreadcrumbComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })

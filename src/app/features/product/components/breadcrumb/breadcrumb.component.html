@@ -1,0 +1,11 @@
+<div class="nav__wrapper">
+  <nav aria-label="breadcrumb" class="header__nav">
+    <div class="header__nav__icon__books"></div>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs$ | async">
+        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a
+        ><span>/</span>
+      </li>
+    </ol>
+  </nav>
+</div>
