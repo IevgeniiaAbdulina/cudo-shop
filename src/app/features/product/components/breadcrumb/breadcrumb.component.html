@@ -3,8 +3,8 @@
     <div class="header__nav__icon__books"></div>
     <ol class="breadcrumb">
       <li class="breadcrumb-item" *ngFor="let breadcrumb of breadcrumbs$ | async">
-        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a
-        ><span>/</span>
+        <span>/</span>
+        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
       </li>
     </ol>
   </nav>
