@@ -38,6 +38,11 @@ input[type='radio'] {
   outline: max(2px, 0.1em) solid $color-additional;
   outline-offset: max(2px, 0.1em);
   accent-color: $color-additional;
+  cursor: pointer;
+}
+
+.radio__label {
+  cursor: pointer;
 }
 
 input[type='radio']:before {
