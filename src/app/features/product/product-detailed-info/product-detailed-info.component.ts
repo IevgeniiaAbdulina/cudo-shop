@@ -72,6 +72,17 @@ export class ProductDetailedInfoComponent implements OnInit {
     return isSale;
   }
 
+  public getDiscountValue(product: ProductDetailed): number {
+    if (product && this.hasDiscount(product)) {
+      const discountPrice = Number.parseFloat(this.getProductDiscount(product));
+      const regularPrice = Number.parseFloat(this.getProductPrice(product));
+
+      return Math.round((1 - discountPrice / regularPrice) * 100);
+    }
+
+    return 0;
+  }
+
   public getProductCurrency(product: ProductDetailed): string {
     const productCurrency = product.masterData.current.masterVariant.prices[0].value.currencyCode;
 
