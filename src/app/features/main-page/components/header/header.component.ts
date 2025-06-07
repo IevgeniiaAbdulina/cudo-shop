@@ -2,10 +2,11 @@ import { Component, inject, output } from '@angular/core';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AsyncPipe } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [ButtonComponent, AsyncPipe],
+  imports: [ButtonComponent, AsyncPipe, RouterLinkActive, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -20,5 +21,5 @@ export class HeaderComponent {
   public buttonClickedGoToHome = output();
   public buttonClickedProfile = output();
   public buttonClickedBooks = output();
-  public buttonClickedCosmetics = output(); 
+  public buttonClickedCosmetics = output();
 }
