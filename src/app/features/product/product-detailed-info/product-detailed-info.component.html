@@ -2,9 +2,19 @@
   @for (product of products; track product.id) {
     <div class="product__wrapper">
       <div class="product-image">
-        <app-button label="<" (buttonClicked)="onClickLeft()" class="image__button" />
+        <app-button (buttonClicked)="onClickLeft()" class="image__button">
+          <div class="arrow arrow__left"></div>
+        </app-button>
         <div *ngIf="getCurrentImage() as currentImage">
-          <img [src]="currentImage.url" [alt]="currentImage.label" (click)="openImageInModal()" />
+          <img
+            [src]="currentImage.url"
+            [alt]="currentImage.label"
+            (click)="openImageInModal()"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="openImageInModal()"
+            (keydown.space)="openImageInModal()"
+          />
           <app-modal
             [isModalOpen]="isModalOpen"
             [images]="productImages"
@@ -14,18 +24,21 @@
             (closeModalWindow)="onCloseModal($event)"
           ></app-modal>
         </div>
-        <app-button label=">" (buttonClicked)="onClickRight()" class="image__button" />
+        <app-button (buttonClicked)="onClickRight()" class="image__button">
+          <div class="arrow arrow__right"></div>
+        </app-button>
       </div>
       <div class="product-information">
         <h2 class="product-title">{{ getProductName(product) }}</h2>
         <div class="product-price__container">
+          <p class="product-currency">{{ getProductCurrency(product) }}</p>
           <p [ngClass]="{ 'product-old-price': hasDiscount(product), 'product-price': !hasDiscount(product) }">
             {{ getProductPrice(product) }}
           </p>
           <ng-container *ngIf="hasDiscount(product)">
             <p class="product-discount">{{ getProductDiscount(product) }}</p>
+            <p class="product-discount-value">{{ getDiscountValue(product) }} off</p>
           </ng-container>
-          <p class="product-currency">{{ getProductCurrency(product) }}</p>
         </div>
         <app-button label="Add to cart" (buttonClicked)="buttonClickedAddToCart.emit()" class="product__button" />
         <p class="product-description">{{ getProductDescription(product) }}</p>
