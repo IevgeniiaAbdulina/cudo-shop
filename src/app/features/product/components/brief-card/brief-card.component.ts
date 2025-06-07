@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
-import { ProductProjectionsHelperService } from '../../../../core/product/product-projections.helper.service';
+import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 import { ProductButtonComponent } from '../product-button/product-button.component';
 import { ProductPriceComponent } from '../product-price/product-price.component';
 

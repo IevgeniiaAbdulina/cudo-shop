@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment.dev';
-import API_ENDPOINT from '../../shared/constants/api-endpoint';
-import { ProductProjectionsResponse } from './interfaces/product-projections-response';
+import { environment } from '../../../../environments/environment';
+import API_ENDPOINT from '../../../shared/constants/api-endpoint';
+import { ProductProjectionsResponse } from '../interfaces/product-projections-response';
 
 @Injectable({
   providedIn: 'root',

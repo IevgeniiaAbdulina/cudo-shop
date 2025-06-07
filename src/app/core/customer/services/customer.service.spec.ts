@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { CustomerService } from './customer.service';
-import { UserResponse } from '../auth/interfaces/user-response';
-import { CustomerAction } from './interfaces/customer-action';
-import { environment } from '../../../environments/environment.dev';
-import API_ENDPOINT from '../../shared/constants/api-endpoint';
+import { UserResponse } from '../../auth/interfaces/user-response';
+import { CustomerAction } from '../interfaces/customer-action';
+import { environment } from '../../../../environments/environment.dev';
+import API_ENDPOINT from '../../../shared/constants/api-endpoint';
 
 describe('CustomerService', () => {
   let service: CustomerService;

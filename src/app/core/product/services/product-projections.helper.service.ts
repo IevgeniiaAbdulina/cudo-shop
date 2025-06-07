@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { getLangKey } from '../../shared/utils/utils';
-import { ProductProjection } from './interfaces/product-projection';
-import { ProductImage } from './interfaces/product-image';
+import { getLangKey } from '../../../shared/utils/utils';
+import { ProductImage } from '../interfaces/product-image';
+import { ProductProjection } from '../interfaces/product-projection';
 
 @Injectable({
   providedIn: 'root',
