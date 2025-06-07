@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { BOOKS_ID, COSMETICS_ID } from '../../../shared/constants/category';
@@ -14,9 +15,9 @@ import { ProductProjectionsApiService } from '../../../core/product/services/pro
 import { ProductProjectionsHelperService } from '../../../core/product/services/product-projections.helper.service';
 import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
+import { ProductSearchComponent } from '../components/product-search/product-search.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-list',
@@ -24,10 +25,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     BriefCardComponent,
     ProductButtonComponent,
+    ProductSearchComponent,
+    ReactiveFormsModule,
     RouterLink,
     SortByPriceComponent,
     SortByAlphabeticalComponent,
-    ReactiveFormsModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
