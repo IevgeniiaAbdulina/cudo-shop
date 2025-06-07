@@ -1,50 +1,184 @@
 <div class="wrapper">
   <div class="product-list__wrapper">
-    <aside class="categories">
-      @if (currentRoute === '/books') {
-    <ul>
-      <li>book title</li>
-    </ul>
-  }
-  @if (currentRoute === '/cosmetics') {
-    <ul>
-      <li>cosmetics title</li>
-    </ul>
-  }
+    @if (currentRoute === '/main') {
+      <!--      <div class="product-page__header">-->
+      <!--        <div class="product-page__header__icon-books"></div>-->
+      <!--        <a routerLink="/">-->
+      <!--          <h4>CUDO-SHOP</h4>-->
+      <!--        </a>-->
+      <!--        <span>/</span>-->
+      <!--        <h5>books</h5>-->
+      <!--      </div>-->
 
-      <h2>Filters</h2>
-      <h3>Filter by category</h3>
-      <ul>
-        @for (category of categories; track $index) {
-          <li
-            tabindex="0"
-            (click)="filterByCategory(category.id)"
-            (keyup)="onKeyUpFilter($event, category.id)"
-            [ngClass]="{ selected: selectedCategory === category.id }"
-          >
-            {{ categoryHelperService.getCategoryName(category) }}
-          </li>
-        }
-      </ul>
+      <div class="product-list__container">
+        <aside class="categories">
+          <h2>Filters</h2>
+          <h3>Filter by category</h3>
+          <ul>
+            @for (category of categories; track $index) {
+              <li
+                tabindex="0"
+                (click)="filterByCategory(category.id)"
+                (keyup)="onKeyUpFilter($event, category.id)"
+                [ngClass]="{ selected: selectedCategory === category.id }"
+              >
+                {{ categoryHelperService.getCategoryName(category) }}
+              </li>
+            }
+          </ul>
 
-  <app-product-button btnClass="filter-button" text="Reset filters" [clickBtn]="loadProducts.bind(this)" [isDisabled]="!selectedCategory" />
+          <app-product-button
+            btnClass="filter-button"
+            text="Reset filters"
+            [clickBtn]="loadProducts.bind(this)"
+            [isDisabled]="!selectedCategory"
+          />
 
-  <div class="filter__section__sorting">
-    <br />
-    <hr />
-    <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
-    <br />
-    <hr />
-    <app-sort-by-alphabetical [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-alphabetical>
-  </div>
-</aside>
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
 
-<div class="product-list">
-  @for (product of products; track $index) {
-    @if (product.key) {
-      <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-        <app-brief-card [product]="product"></app-brief-card>
+        <div class="product-list">
+          @for (product of products; track $index) {
+            @if (product.key) {
+              <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+                <app-brief-card [product]="product"></app-brief-card>
+              </div>
+            }
+          }
+        </div>
       </div>
     }
-  }
+
+    @if (currentRoute === '/books') {
+      <div class="product-page__header">
+        <div class="product-page__header__icon-books"></div>
+        <a routerLink="/">
+          <h4>CUDO-SHOP</h4>
+        </a>
+        <span>/</span>
+        <h5>books</h5>
+      </div>
+
+      <div class="product-list__container">
+        <aside class="categories">
+          <h2>Filters</h2>
+          <h3>Filter by category</h3>
+          <ul>
+            @for (category of categories; track $index) {
+              <li
+                tabindex="0"
+                (click)="filterByCategory(category.id)"
+                (keyup)="onKeyUpFilter($event, category.id)"
+                [ngClass]="{ selected: selectedCategory === category.id }"
+              >
+                {{ categoryHelperService.getCategoryName(category) }}
+              </li>
+            }
+          </ul>
+
+          <app-product-button
+            btnClass="filter-button"
+            text="Reset filters"
+            [clickBtn]="loadProducts.bind(this)"
+            [isDisabled]="!selectedCategory"
+          />
+
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
+
+        <div class="product-list">
+          @for (product of products; track $index) {
+            @if (product.key) {
+              <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+                <app-brief-card [product]="product"></app-brief-card>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    @if (currentRoute === '/cosmetics') {
+      <div class="product-page__header">
+        <div class="product-page__header__icon-cosmetics"></div>
+        <a routerLink="/">
+          <h4>CUDO-SHOP</h4>
+        </a>
+        <span>/</span>
+        <h5>cosmetics</h5>
+      </div>
+
+      <div class="product-list__container">
+        <aside class="categories">
+          <h2>Filters</h2>
+          <h3>Filter by category</h3>
+          <!--          <ul>-->
+          <!--            @for (category of categories; track $index) {-->
+          <!--              <li-->
+          <!--                tabindex="0"-->
+          <!--                (click)="filterByCategory(category.id)"-->
+          <!--                (keyup)="onKeyUpFilter($event, category.id)"-->
+          <!--                [ngClass]="{ selected: selectedCategory === category.id }"-->
+          <!--              >-->
+          <!--                {{ categoryHelperService.getCategoryName(category) }}-->
+          <!--              </li>-->
+          <!--            }-->
+          <!--          </ul>-->
+
+          <!--          <app-product-button-->
+          <!--            btnClass="filter-button"-->
+          <!--            text="Reset filters"-->
+          <!--            [clickBtn]="loadProducts.bind(this)"-->
+          <!--            [isDisabled]="!selectedCategory"-->
+          <!--          />-->
+
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
+
+        <div class="product-list default">
+          <p>We're sorry, this page is not available now. We are working hard to make more products available to you.</p>
+        </div>
+
+        <!--        <div class="product-list">-->
+        <!--          @for (product of products; track $index) {-->
+        <!--            @if (product.key) {-->
+        <!--              <div [routerLink]="['/books', product.key]" class="product-list__item-link">-->
+        <!--                <app-brief-card [product]="product"></app-brief-card>-->
+        <!--              </div>-->
+        <!--            }-->
+        <!--          }-->
+        <!--        </div>-->
+      </div>
+    }
+  </div>
 </div>

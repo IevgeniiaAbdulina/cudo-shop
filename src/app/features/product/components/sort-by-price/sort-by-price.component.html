@@ -6,11 +6,11 @@
     <div class="filter__section__sorting">
       <div class="filter__section__sorting__item price_ascending">
         <input type="radio" name="filterSectionSorting" id="filterSectionSorting-1" (click)="sortProductsAsc()" />
-        <label for="filterSectionSorting-1">Lowest Price</label>
+        <label class="radio__label" for="filterSectionSorting-1">Lowest Price</label>
       </div>
       <div class="filter__section__sorting__item price_descending">
         <input type="radio" name="filterSectionSorting" id="filterSectionSorting-2" (click)="sortProductsDesc()" />
-        <label for="filterSectionSorting-2">Highest Price</label>
+        <label class="radio__label" for="filterSectionSorting-2">Highest Price</label>
       </div>
       <div class="filter__section__sorting__item price_ascending">
         <input
@@ -20,7 +20,7 @@
           (click)="sortProductsPopular()"
           [checked]="selectedCategory === ''"
         />
-        <label for="filterSectionSorting-5">Popular</label>
+        <label class="radio__label" for="filterSectionSorting-5">Popular</label>
       </div>
     </div>
   </div>

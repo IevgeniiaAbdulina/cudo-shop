@@ -37,7 +37,7 @@
           </p>
           <ng-container *ngIf="hasDiscount(product)">
             <p class="product-discount">{{ getProductDiscount(product) }}</p>
-            <p class="product-discount-value">{{ getDiscountValue(product) }} off</p>
+            <p class="product-discount-value">{{ getDiscountValue(product) }}% off</p>
           </ng-container>
         </div>
         <app-button label="Add to cart" (buttonClicked)="buttonClickedAddToCart.emit()" class="product__button" />
