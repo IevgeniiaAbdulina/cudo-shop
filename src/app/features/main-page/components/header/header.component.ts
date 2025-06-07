@@ -20,5 +20,5 @@ export class HeaderComponent {
   public buttonClickedGoToHome = output();
   public buttonClickedProfile = output();
   public buttonClickedBooks = output();
-  public buttonClickedCosmetics = output(); 
+  public buttonClickedCosmetics = output();
 }

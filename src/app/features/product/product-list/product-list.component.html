@@ -2,15 +2,15 @@
   <div class="product-list__wrapper">
     <aside class="categories">
       @if (currentRoute === '/books') {
-    <ul>
-      <li>book title</li>
-    </ul>
-  }
-  @if (currentRoute === '/cosmetics') {
-    <ul>
-      <li>cosmetics title</li>
-    </ul>
-  }
+        <ul>
+          <li>book title</li>
+        </ul>
+      }
+      @if (currentRoute === '/cosmetics') {
+        <ul>
+          <li>cosmetics title</li>
+        </ul>
+      }
 
       <h2>Filters</h2>
       <h3>Filter by category</h3>
@@ -27,24 +27,34 @@
         }
       </ul>
 
-  <app-product-button btnClass="filter-button" text="Reset filters" [clickBtn]="loadProducts.bind(this)" [isDisabled]="!selectedCategory" />
+      <app-product-button
+        btnClass="filter-button"
+        text="Reset filters"
+        [clickBtn]="loadProducts.bind(this)"
+        [isDisabled]="!selectedCategory"
+      />
 
-  <div class="filter__section__sorting">
-    <br />
-    <hr />
-    <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
-    <br />
-    <hr />
-    <app-sort-by-alphabetical [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-alphabetical>
-  </div>
-</aside>
-
-<div class="product-list">
-  @for (product of products; track $index) {
-    @if (product.key) {
-      <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-        <app-brief-card [product]="product"></app-brief-card>
+      <div class="filter__section__sorting">
+        <br />
+        <hr />
+        <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+        <br />
+        <hr />
+        <app-sort-by-alphabetical
+          [selectedCategory]="selectedCategory"
+          (sortedProducts)="getSortedProducts($event)"
+        ></app-sort-by-alphabetical>
       </div>
-    }
-  }
+    </aside>
+
+    <div class="product-list">
+      @for (product of products; track $index) {
+        @if (product.key) {
+          <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+            <app-brief-card [product]="product"></app-brief-card>
+          </div>
+        }
+      }
+    </div>
+  </div>
 </div>
