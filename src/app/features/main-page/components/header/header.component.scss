@@ -125,6 +125,7 @@ input[type='search'] {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+  width: max-content;
   @extend %transition;
 
   &:hover {
