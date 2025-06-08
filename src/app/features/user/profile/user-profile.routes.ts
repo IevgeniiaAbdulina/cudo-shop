@@ -5,6 +5,7 @@ export const profileRoutes: Routes = [
   {
     path: '',
     component: ProfileComponent,
+    data: { breadcrumb: '' },
     children: [
       {
         path: '',

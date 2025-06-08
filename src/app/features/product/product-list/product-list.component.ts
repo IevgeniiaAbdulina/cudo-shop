@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
 
     public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
-    private breadcrumbService: BreadcrumbService,
+    public breadcrumbService: BreadcrumbService,
   ) {
     effect(() => {
       const searchTerm = this.productProjectionsHelperService.searchTermSignal();
