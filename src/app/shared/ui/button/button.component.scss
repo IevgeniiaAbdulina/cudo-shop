@@ -11,15 +11,18 @@ button {
   border: solid 1px transparent;
   cursor: inherit;
   background: transparent;
-  width: -webkit-fill-available;
+  width: inherit;
   @extend %transition;
   color: currentColor;
+
   @include media-laptop-tablet {
     padding: 0.5rem 0.7rem;
   }
+
   @include media-tablet {
     padding: 0.3rem 0.5rem;
   }
+  
   @include media-mobile {
     padding: 0.2rem 1rem;
   }

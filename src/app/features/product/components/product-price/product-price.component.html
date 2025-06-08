@@ -1,0 +1,10 @@
+<span class="currency">{{ helperService.getProductCurrency(product) }}</span>
+@if (helperService.hasDiscount(product)) {
+  <span class="discount">{{ helperService.getProductDiscount(product) }}</span>
+}
+<span [ngClass]="{ 'old-price': helperService.hasDiscount(product), price: !helperService.hasDiscount(product) }">
+  {{ helperService.getProductPrice(product) }}
+</span>
+@if (helperService.hasDiscount(product)) {
+  <span class="discount-value">{{ getDiscountValue() }}% off</span>
+}

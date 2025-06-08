@@ -1,0 +1,27 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/mixins' as *;
+
+:host {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: 2px solid $color-additional;
+  background-color: $color-input-search;
+}
+
+input[type='search'] {
+  padding: 5px;
+  width: 100%;
+  border: none;
+  outline: none;
+  background-color: $color-input-search;
+}
+
+.search-icon {
+  background: url('../../../../assets/icons/search.svg');
+  background-size: cover;
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+}

@@ -1,0 +1,27 @@
+<section>
+  <div class="sorting__header">
+    <h3>Sort by price</h3>
+  </div>
+  <div class="sort__body">
+    <div class="filter__section__sorting">
+      <div class="filter__section__sorting__item price_ascending">
+        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-1" (click)="sortProductsAsc()" />
+        <label class="radio__label" for="filterSectionSorting-1">Lowest Price</label>
+      </div>
+      <div class="filter__section__sorting__item price_descending">
+        <input type="radio" name="filterSectionSorting" id="filterSectionSorting-2" (click)="sortProductsDesc()" />
+        <label class="radio__label" for="filterSectionSorting-2">Highest Price</label>
+      </div>
+      <div class="filter__section__sorting__item price_ascending">
+        <input
+          type="radio"
+          name="filterSectionSorting"
+          id="filterSectionSorting-5"
+          (click)="sortProductsPopular()"
+          [checked]="selectedCategory === ''"
+        />
+        <label class="radio__label" for="filterSectionSorting-5">Popular</label>
+      </div>
+    </div>
+  </div>
+</section>

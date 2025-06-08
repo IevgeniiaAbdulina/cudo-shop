@@ -111,7 +111,7 @@ export default tseslint.config(
       "@angular-eslint/template/no-negated-async": "error",
       "@angular-eslint/template/cyclomatic-complexity": [
         "error", {
-        maxComplexity: 5
+          maxComplexity: 5,
       }],
       "prettier/prettier": "error",
     },

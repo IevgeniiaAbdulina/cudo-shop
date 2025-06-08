@@ -4,7 +4,6 @@ import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from '../auth/registration/registration.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { authGuard } from '../../core/auth/auth.guard';
-import { ProfileComponent } from '../user/profile/profile.component';
 import { isLoggedGuard } from '../../core/auth/is-logged.guard';
 
 export const mainRoutes: Routes = [
@@ -12,6 +11,7 @@ export const mainRoutes: Routes = [
     path: '',
     title: 'Cudo Shop',
     component: MainPageComponent,
+    data: { breadcrumb: 'Home' },
     children: [
       {
         path: 'main',
@@ -21,33 +21,40 @@ export const mainRoutes: Routes = [
         path: 'registration',
         component: RegistrationComponent,
         canActivate: [isLoggedGuard],
+        data: { breadcrumb: 'Registration' },
       },
       {
         path: 'login',
         component: LoginComponent,
         canActivate: [isLoggedGuard],
+        data: { breadcrumb: 'Login' },
       },
       {
         path: 'books',
         loadChildren: () => import('../product/product.routes').then((c) => c.productRoutes),
+        data: { breadcrumb: 'Books' },
       },
       {
         path: 'cosmetics',
         loadChildren: () => import('../product/product.routes').then((c) => c.productRoutes),
+        data: { breadcrumb: 'Cosmetics' },
       },
       {
         path: 'profile',
-        component: ProfileComponent,
+        loadChildren: () => import('../user/profile/user-profile.routes').then((c) => c.profileRoutes),
         canActivate: [authGuard],
+        data: { breadcrumb: 'Profile' },
       },
       {
         path: 'cart',
         loadComponent: () => import('../cart/cart-page/cart-page.component').then((c) => c.CartPageComponent),
         canActivate: [authGuard],
+        data: { breadcrumb: 'Cart' },
       },
       {
         path: '404',
         loadComponent: () => import('../page-not-found/page-not-found.component').then((c) => c.PageNotFoundComponent),
+        data: { breadcrumb: '' },
       },
     ],
   },

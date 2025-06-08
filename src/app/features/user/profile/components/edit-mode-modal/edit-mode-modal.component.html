@@ -1,0 +1,20 @@
+<div class="modal" *ngIf="isVisible()" (mousedown)="closeModal($event)">
+  <div class="modal-dialog">
+    <div class="modal-header modal__header">
+      <h2>
+        <ng-content select="[modal-header]"></ng-content>
+      </h2>
+      <button (click)="closeModal($event)" class="close btn__modal__close">
+        <div class="btn__modal__close__icon"></div>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <ng-content select="[modal-body]"></ng-content>
+    </div>
+
+    <div class="modal-footer">
+      <ng-content select="[modal-footer]"></ng-content>
+    </div>
+  </div>
+</div>

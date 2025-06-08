@@ -1,12 +1,129 @@
-<p>product-list works!</p>
-<button (click)="goBack()">Go Back</button>
-@if (currentRoute === '/books') {
-  <ul>
-    <li>book title</li>
-  </ul>
-}
-@if (currentRoute === '/cosmetics') {
-  <ul>
-    <li>cosmetics title</li>
-  </ul>
-}
+<div class="wrapper">
+  <div class="product-list__wrapper">
+    @if (currentRoute === '/main') {
+      <h1>Books {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
+      <div class="product-list__container">
+        <aside class="categories">
+          <h3>Filter by category</h3>
+          <ul>
+            @for (category of categories; track $index) {
+              <li
+                tabindex="0"
+                (click)="setCurrentCategory(category)"
+                (keyup)="onKeyUpFilter($event, category.id)"
+                [ngClass]="{ selected: selectedCategory === category.id }"
+              >
+                {{ categoryHelperService.getCategoryName(category) }}
+              </li>
+            }
+          </ul>
+
+          <app-product-button
+            btnClass="filter-button"
+            text="Reset filters"
+            [clickBtn]="loadProducts.bind(this)"
+            [isDisabled]="!selectedCategory"
+          />
+
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
+
+        <div class="product-list">
+          @for (product of products; track $index) {
+            @if (product.key) {
+              <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    @if (currentRoute === '/books') {
+      <h1>Books {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
+      <div class="product-list__container">
+        <aside class="categories">
+          <h3>Filter by category</h3>
+          <ul>
+            @for (category of categories; track $index) {
+              <li
+                tabindex="0"
+                (click)="setCurrentCategory(category)"
+                (keyup)="onKeyUpFilter($event, category.id)"
+                [ngClass]="{ selected: selectedCategory === category.id }"
+              >
+                {{ categoryHelperService.getCategoryName(category) }}
+              </li>
+            }
+          </ul>
+
+          <app-product-button
+            btnClass="filter-button"
+            text="Reset filters"
+            [clickBtn]="loadProducts.bind(this)"
+            [isDisabled]="!selectedCategory"
+          />
+
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
+
+        <div class="product-list">
+          @for (product of products; track $index) {
+            @if (product.key) {
+              <div [routerLink]="['/books', product.key]" class="product-list__item-link">
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    }
+
+    @if (currentRoute === '/cosmetics') {
+      <h1>Cosmetics {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
+      <div class="product-list__container">
+        <aside class="categories">
+          <h2>Filters</h2>
+          <h3>Filter by category</h3>
+
+          <div class="filter__section__sorting">
+            <br />
+            <hr />
+            <app-sort-by-price [selectedCategory]="selectedCategory" (sortedProducts)="getSortedProducts($event)"></app-sort-by-price>
+            <br />
+            <hr />
+            <app-sort-by-alphabetical
+              [selectedCategory]="selectedCategory"
+              (sortedProducts)="getSortedProducts($event)"
+            ></app-sort-by-alphabetical>
+          </div>
+        </aside>
+
+        <div class="product-list default">
+          <p>We're sorry, this page is not available now. We are working hard to make more products available to you.</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

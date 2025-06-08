@@ -1,11 +1,14 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { AsyncPipe } from '@angular/common';
+import { ProductSearchComponent } from '../../../product/components/product-search/product-search.component';
 
 @Component({
   selector: 'app-header',
-  imports: [ButtonComponent, AsyncPipe],
+  imports: [AsyncPipe, ButtonComponent, ProductSearchComponent, RouterLinkActive, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -19,4 +22,6 @@ export class HeaderComponent {
   protected buttonClickedCart = output();
   public buttonClickedGoToHome = output();
   public buttonClickedProfile = output();
+  public buttonClickedBooks = output();
+  public buttonClickedCosmetics = output();
 }
