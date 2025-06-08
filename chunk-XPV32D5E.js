@@ -1,1 +1,0 @@
-import{Ea as n,Xa as o,Ya as a,lb as p}from"./chunk-DYUFSG5A.js";var m=(()=>{class e{static \u0275fac=function(t){return new(t||e)};static \u0275cmp=n({type:e,selectors:[["app-cart-page"]],decls:2,vars:0,template:function(t,i){t&1&&(o(0,"p"),p(1,"cart-page works!"),a())},encapsulation:2})}return e})();export{m as CartPageComponent};

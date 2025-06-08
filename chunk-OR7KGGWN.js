@@ -1,0 +1,1 @@
+import{$a as o,Ia as n,ab as a,pb as p}from"./chunk-WGNV74NA.js";var m=(()=>{class e{static \u0275fac=function(t){return new(t||e)};static \u0275cmp=n({type:e,selectors:[["app-cart-page"]],decls:2,vars:0,template:function(t,i){t&1&&(o(0,"p"),p(1,"cart-page works!"),a())},encapsulation:2})}return e})();export{m as CartPageComponent};

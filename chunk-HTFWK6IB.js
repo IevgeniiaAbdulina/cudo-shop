@@ -1,0 +1,1 @@
+var e={production:!1,enableDebug:!0,projectKey:"cudo-shop",clientId:"gzCfTDcoMQjsBkhKzA_D_BWW",clientSecret:"Zfa09bN7vdeWIXhSVlEbPvEpsdsjCtB3",authUrl:"https://auth.europe-west1.gcp.commercetools.com",apiUrl:"https://api.europe-west1.gcp.commercetools.com",scopes:["manage_project:cudo-shop"]};export{e as a};

@@ -1,0 +1,1 @@
+import{O as o,h as r}from"./chunk-WGNV74NA.js";var n=(()=>{class e{routeSource=new r;routeName$=this.routeSource.asObservable();setRoute(t){this.routeSource.next(t)}static \u0275fac=function(c){return new(c||e)};static \u0275prov=o({token:e,factory:e.\u0275fac,providedIn:"root"})}return e})();export{n as a};
