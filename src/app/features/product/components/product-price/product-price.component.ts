@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
-import { ProductProjectionsHelperService } from '../../../../core/product/product-projections.helper.service';
+import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 
 @Component({
   selector: 'app-product-price',

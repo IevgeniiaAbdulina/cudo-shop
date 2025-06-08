@@ -3,7 +3,6 @@
     @if (currentRoute === '/main') {
       <div class="product-list__container">
         <aside class="categories">
-          <h2>Filters</h2>
           <h3>Filter by category</h3>
           <ul>
             @for (category of categories; track $index) {
@@ -42,7 +41,7 @@
           @for (product of products; track $index) {
             @if (product.key) {
               <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-                <app-brief-card [product]="product"></app-brief-card>
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
               </div>
             }
           }
@@ -53,7 +52,6 @@
     @if (currentRoute === '/books') {
       <div class="product-list__container">
         <aside class="categories">
-          <h2>Filters</h2>
           <h3>Filter by category</h3>
           <ul>
             @for (category of categories; track $index) {
@@ -92,7 +90,7 @@
           @for (product of products; track $index) {
             @if (product.key) {
               <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-                <app-brief-card [product]="product"></app-brief-card>
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
               </div>
             }
           }
@@ -105,25 +103,6 @@
         <aside class="categories">
           <h2>Filters</h2>
           <h3>Filter by category</h3>
-          <!--          <ul>-->
-          <!--            @for (category of categories; track $index) {-->
-          <!--              <li-->
-          <!--                tabindex="0"-->
-          <!--                (click)="filterByCategory(category.id)"-->
-          <!--                (keyup)="onKeyUpFilter($event, category.id)"-->
-          <!--                [ngClass]="{ selected: selectedCategory === category.id }"-->
-          <!--              >-->
-          <!--                {{ categoryHelperService.getCategoryName(category) }}-->
-          <!--              </li>-->
-          <!--            }-->
-          <!--          </ul>-->
-
-          <!--          <app-product-button-->
-          <!--            btnClass="filter-button"-->
-          <!--            text="Reset filters"-->
-          <!--            [clickBtn]="loadProducts.bind(this)"-->
-          <!--            [isDisabled]="!selectedCategory"-->
-          <!--          />-->
 
           <div class="filter__section__sorting">
             <br />
@@ -141,16 +120,6 @@
         <div class="product-list default">
           <p>We're sorry, this page is not available now. We are working hard to make more products available to you.</p>
         </div>
-
-        <!--        <div class="product-list">-->
-        <!--          @for (product of products; track $index) {-->
-        <!--            @if (product.key) {-->
-        <!--              <div [routerLink]="['/books', product.key]" class="product-list__item-link">-->
-        <!--                <app-brief-card [product]="product"></app-brief-card>-->
-        <!--              </div>-->
-        <!--            }-->
-        <!--          }-->
-        <!--        </div>-->
       </div>
     }
   </div>

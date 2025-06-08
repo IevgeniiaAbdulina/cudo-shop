@@ -19,10 +19,8 @@
         />
       </div>
 
-      <div class="header__search header__nav__item__search">
-        <svg class="header-search"></svg>
-        <input type="search" name="search" id="search" placeholder="Search..." />
-      </div>
+      <app-product-search class="header__nav__item__search" />
+
       <div class="header__buttons header__nav__item__navigation">
         @if ((isLogin$ | async) === false) {
           <app-button

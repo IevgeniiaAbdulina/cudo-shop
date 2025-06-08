@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { getLangKey } from '../../shared/utils/utils';
-import { Category } from './interfaces/category';
+import { getLangKey } from '../../../shared/utils/utils';
+import { Category } from '../interfaces/category';
 
 @Injectable({
   providedIn: 'root',

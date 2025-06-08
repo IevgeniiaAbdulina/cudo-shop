@@ -43,7 +43,7 @@
     width: 16rem;
     height: 20rem;
     @extend %transition;
-    
+
     @include media-tablet {
       width: 10rem;
       height: 16rem;

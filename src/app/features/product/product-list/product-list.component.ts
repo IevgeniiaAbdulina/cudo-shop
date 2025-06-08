@@ -1,46 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, effect } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BOOKS_ID, COSMETICS_ID } from '../../../shared/constants/category';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { Category } from '../../../core/category/interfaces/category';
-import { CategoryApiService } from '../../../core/category/category.api.service';
-import { CategoryHelperService } from '../../../core/category/category.helper.service';
+import { CategoryApiService } from '../../../core/category/services/category.api.service';
+import { CategoryHelperService } from '../../../core/category/services/category.helper.service';
 import { ProductProjection } from '../../../core/product/interfaces/product-projection';
 import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
-import { ProductProjectionsApiService } from '../../../core/product/product-projections.api.service';
-import { ProductProjectionsHelperService } from '../../../core/product/product-projections.helper.service';
+import { ProductProjectionsApiService } from '../../../core/product/services/product-projections.api.service';
+import { ProductProjectionsHelperService } from '../../../core/product/services/product-projections.helper.service';
+import { BreadcrumbService } from '../components/breadcrumb/breadcrumb.service';
 import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BreadcrumbService } from '../components/breadcrumb/breadcrumb.service';
 
 @Component({
   selector: 'app-product-list',
-  imports: [
-    CommonModule,
-    BriefCardComponent,
-    ProductButtonComponent,
-    RouterLink,
-    SortByPriceComponent,
-    SortByAlphabeticalComponent,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
+  standalone: true,
+  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   public products: ProductProjection[] = [];
   public categories: Category[] = [];
   public currentRoute: string = '';
   public selectedCategory: string = '';
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
+  public searchTerm: string = '';
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -51,7 +47,12 @@ export class ProductListComponent implements OnInit {
     public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
     private breadcrumbService: BreadcrumbService,
-  ) {}
+  ) {
+    effect(() => {
+      const searchTerm = this.productProjectionsHelperService.searchTermSignal();
+      this.onSearch(searchTerm);
+    });
+  }
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
@@ -78,17 +79,20 @@ export class ProductListComponent implements OnInit {
 
   public filterByCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
-    this.productProjectionsApiService.getProductProjectionsByCategory(categoryId).subscribe({
-      next: (response) => {
-        const responseStr = JSON.stringify(response);
-        const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
-        this.products = [...productProjectionsResponse.results];
-      },
-      error: (error: HttpErrorResponse) => {
-        // Handle request error
-        this.handleError(error);
-      },
-    });
+    this.productProjectionsApiService
+      .getProductProjectionsByCategory(categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const responseStr = JSON.stringify(response);
+          const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+          this.products = [...productProjectionsResponse.results];
+        },
+        error: (error: HttpErrorResponse) => {
+          // Handle request error
+          this.handleError(error);
+        },
+      });
   }
 
   public setCurrentCategory(category: Category) {
@@ -102,6 +106,25 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  public onSearch(searchTerm: string): void {
+    this.searchTerm = searchTerm;
+    if (searchTerm) {
+      this.productProjectionsApiService
+        .searchProducts(searchTerm)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response) => {
+            const responseStr = JSON.stringify(response);
+            const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+            this.products = [...productProjectionsResponse.results];
+          },
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          },
+        });
+    }
+  }
+
   public goBack(): void {
     this.navigateToSpecificRouteService.setRoute('.');
   }
@@ -111,14 +134,17 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadBookSubCategories(): void {
-    this.categoryApiService.getSubcategories(BOOKS_ID).subscribe({
-      next: (categories: Category[]) => {
-        this.categories = categories;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.handleError(error);
-      },
-    });
+    this.categoryApiService
+      .getSubcategories(BOOKS_ID)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (categories: Category[]) => {
+          this.categories = categories;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        },
+      });
   }
 
   private handleError(error: HttpErrorResponse): Error {

@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../environments/environment.dev';
-import API_ENDPOINT from '../../shared/constants/api-endpoint';
-import { ProductProjectionsResponse } from './interfaces/product-projections-response';
+import { environment } from '../../../../environments/environment';
+import API_ENDPOINT from '../../../shared/constants/api-endpoint';
+import { getLangKey } from '../../../shared/utils/utils';
+import { ProductProjectionsResponse } from '../interfaces/product-projections-response';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,12 @@ export class ProductProjectionsApiService {
 
   public getProductProjectionsByCategory(categoryId: string): Observable<ProductProjectionsResponse> {
     const params = new HttpParams().set('filter', `categories.id:subtree("${categoryId}")`);
+
+    return this.http.get<ProductProjectionsResponse>(this.SEARCH_URL, { params });
+  }
+
+  public searchProducts(searchTerm: string): Observable<ProductProjectionsResponse> {
+    const params = new HttpParams().set(`text.${getLangKey()}`, searchTerm).set('fuzzy', true);
 
     return this.http.get<ProductProjectionsResponse>(this.SEARCH_URL, { params });
   }
