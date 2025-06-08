@@ -16,7 +16,8 @@ import { BriefCardComponent } from '../components/brief-card/brief-card.componen
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BreadcrumbService } from '../components/breadcrumb/breadcrumb.service';
 
 @Component({
   selector: 'app-product-list',
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SortByPriceComponent,
     SortByAlphabeticalComponent,
     ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -48,6 +50,7 @@ export class ProductListComponent implements OnInit {
 
     public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
+    private breadcrumbService: BreadcrumbService,
   ) {}
 
   public ngOnInit() {
@@ -65,6 +68,7 @@ export class ProductListComponent implements OnInit {
 
   public resetFilters(): void {
     this.selectedCategory = '';
+    this.breadcrumbService.resetCurrentCategory();
   }
 
   public loadProducts() {
@@ -85,6 +89,11 @@ export class ProductListComponent implements OnInit {
         this.handleError(error);
       },
     });
+  }
+
+  public setCurrentCategory(category: Category) {
+    this.breadcrumbService.setCategory(category.name['en-US']);
+    this.filterByCategory(category.id);
   }
 
   public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {

@@ -52,42 +52,6 @@
   }
 }
 
-.product-page__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: #999999;
-  font-size: 1.5rem;
-
-  a {
-    text-decoration: none;
-    color: #b7b7b7;
-    font-size: 1.5rem;
-
-    &:hover {
-      color: $color-additional;
-    }
-  }
-
-  &__icon-books {
-    width: 24px;
-    height: 24px;
-    background-image: url('../../../assets/icons/menu_book_24dp.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-  }
-
-  &__icon-cosmetics {
-    width: 24px;
-    height: 24px;
-    background-image: url('../../../assets/icons/spa_24dp.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-  }
-}
-
 aside {
   padding: 2rem;
   width: 29rem;

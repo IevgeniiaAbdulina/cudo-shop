@@ -6,9 +6,11 @@ export const productRoutes: Routes = [
   {
     path: '',
     component: ProductListComponent,
+    data: { breadcrumb: '' },
   },
   {
     path: ':key',
     component: ProductDetailedInfoComponent,
+    data: { breadcrumb: 'Product Details' },
   },
 ];

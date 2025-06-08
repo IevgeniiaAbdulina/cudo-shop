@@ -1,15 +1,6 @@
 <div class="wrapper">
   <div class="product-list__wrapper">
     @if (currentRoute === '/main') {
-      <!--      <div class="product-page__header">-->
-      <!--        <div class="product-page__header__icon-books"></div>-->
-      <!--        <a routerLink="/">-->
-      <!--          <h4>CUDO-SHOP</h4>-->
-      <!--        </a>-->
-      <!--        <span>/</span>-->
-      <!--        <h5>books</h5>-->
-      <!--      </div>-->
-
       <div class="product-list__container">
         <aside class="categories">
           <h2>Filters</h2>
@@ -18,7 +9,7 @@
             @for (category of categories; track $index) {
               <li
                 tabindex="0"
-                (click)="filterByCategory(category.id)"
+                (click)="setCurrentCategory(category)"
                 (keyup)="onKeyUpFilter($event, category.id)"
                 [ngClass]="{ selected: selectedCategory === category.id }"
               >
@@ -60,15 +51,6 @@
     }
 
     @if (currentRoute === '/books') {
-      <div class="product-page__header">
-        <div class="product-page__header__icon-books"></div>
-        <a routerLink="/">
-          <h4>CUDO-SHOP</h4>
-        </a>
-        <span>/</span>
-        <h5>books</h5>
-      </div>
-
       <div class="product-list__container">
         <aside class="categories">
           <h2>Filters</h2>
@@ -77,7 +59,7 @@
             @for (category of categories; track $index) {
               <li
                 tabindex="0"
-                (click)="filterByCategory(category.id)"
+                (click)="setCurrentCategory(category)"
                 (keyup)="onKeyUpFilter($event, category.id)"
                 [ngClass]="{ selected: selectedCategory === category.id }"
               >
@@ -119,15 +101,6 @@
     }
 
     @if (currentRoute === '/cosmetics') {
-      <div class="product-page__header">
-        <div class="product-page__header__icon-cosmetics"></div>
-        <a routerLink="/">
-          <h4>CUDO-SHOP</h4>
-        </a>
-        <span>/</span>
-        <h5>cosmetics</h5>
-      </div>
-
       <div class="product-list__container">
         <aside class="categories">
           <h2>Filters</h2>
