@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -32,8 +31,6 @@ import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/
     RouterLink,
     SortByPriceComponent,
     SortByAlphabeticalComponent,
-    ReactiveFormsModule,
-    FormsModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',

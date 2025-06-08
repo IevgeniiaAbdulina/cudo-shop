@@ -54,7 +54,8 @@
     @if (currentRoute === '/books') {
       <div class="product-list__container">
         <aside class="categories">
-          <h2>Filters</h2>
+          <app-product-search (productSearch)="onSearch($event)"></app-product-search>
+
           <h3>Filter by category</h3>
           <ul>
             @for (category of categories; track $index) {
@@ -93,7 +94,7 @@
           @for (product of products; track $index) {
             @if (product.key) {
               <div [routerLink]="['/books', product.key]" class="product-list__item-link">
-                <app-brief-card [product]="product"></app-brief-card>
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
               </div>
             }
           }
