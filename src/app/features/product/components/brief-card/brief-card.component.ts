@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
+import { HighlightSearchTermPipe } from '../../../../core/product/pipes/highlight-search-term.pipe';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
 import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 import { ProductButtonComponent } from '../product-button/product-button.component';
@@ -7,12 +8,13 @@ import { ProductPriceComponent } from '../product-price/product-price.component'
 
 @Component({
   selector: 'app-brief-card',
-  imports: [ProductButtonComponent, ProductPriceComponent],
+  imports: [HighlightSearchTermPipe, ProductButtonComponent, ProductPriceComponent],
   templateUrl: './brief-card.component.html',
   styleUrl: './brief-card.component.scss',
 })
 export class BriefCardComponent implements OnInit, OnChanges {
   @Input() public product!: ProductProjection;
+  @Input() public searchTerm: string = '';
 
   public description: string = '';
   public imgUrl: string = '';

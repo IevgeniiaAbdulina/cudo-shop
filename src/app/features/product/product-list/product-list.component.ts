@@ -43,6 +43,7 @@ export class ProductListComponent implements OnInit {
   public selectedCategory: string = '';
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
+  public searchTerm: string = '';
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -101,6 +102,7 @@ export class ProductListComponent implements OnInit {
   }
 
   public onSearch(searchTerm: string): void {
+    this.searchTerm = searchTerm;
     if (searchTerm) {
       this.productProjectionsApiService
         .searchProducts(searchTerm)
