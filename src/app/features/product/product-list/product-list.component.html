@@ -12,7 +12,8 @@
         </ul>
       }
 
-      <app-product-search />
+      <app-product-search (productSearch)="onSearch($event)"></app-product-search>
+
       <h3>Filter by category</h3>
       <ul>
         @for (category of categories; track $index) {

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BOOKS_ID, COSMETICS_ID } from '../../../shared/constants/category';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
@@ -26,7 +27,6 @@ import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/
     BriefCardComponent,
     ProductButtonComponent,
     ProductSearchComponent,
-    ReactiveFormsModule,
     RouterLink,
     SortByPriceComponent,
     SortByAlphabeticalComponent,
@@ -35,6 +35,8 @@ import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/
   styleUrl: './product-list.component.scss',
 })
 export class ProductListComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
+
   public products: ProductProjection[] = [];
   public categories: Category[] = [];
   public currentRoute: string = '';
@@ -76,22 +78,43 @@ export class ProductListComponent implements OnInit {
 
   public filterByCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
-    this.productProjectionsApiService.getProductProjectionsByCategory(categoryId).subscribe({
-      next: (response) => {
-        const responseStr = JSON.stringify(response);
-        const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
-        this.products = [...productProjectionsResponse.results];
-      },
-      error: (error: HttpErrorResponse) => {
-        // Handle request error
-        this.handleError(error);
-      },
-    });
+    this.productProjectionsApiService
+      .getProductProjectionsByCategory(categoryId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          const responseStr = JSON.stringify(response);
+          const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+          this.products = [...productProjectionsResponse.results];
+        },
+        error: (error: HttpErrorResponse) => {
+          // Handle request error
+          this.handleError(error);
+        },
+      });
   }
 
   public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
     if (event.key === 'Enter') {
       this.filterByCategory(categoryId);
+    }
+  }
+
+  public onSearch(searchTerm: string): void {
+    if (searchTerm) {
+      this.productProjectionsApiService
+        .searchProducts(searchTerm)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response) => {
+            const responseStr = JSON.stringify(response);
+            const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
+            this.products = [...productProjectionsResponse.results];
+          },
+          error: (error: HttpErrorResponse) => {
+            this.handleError(error);
+          },
+        });
     }
   }
 
@@ -104,14 +127,17 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadBookSubCategories(): void {
-    this.categoryApiService.getSubcategories(BOOKS_ID).subscribe({
-      next: (categories: Category[]) => {
-        this.categories = categories;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.handleError(error);
-      },
-    });
+    this.categoryApiService
+      .getSubcategories(BOOKS_ID)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (categories: Category[]) => {
+          this.categories = categories;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.handleError(error);
+        },
+      });
   }
 
   private handleError(error: HttpErrorResponse): Error {
