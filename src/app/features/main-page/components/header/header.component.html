@@ -19,6 +19,8 @@
         />
       </div>
 
+      <app-product-search class="header__nav__item__search" />
+
       <div class="header__buttons header__nav__item__navigation">
         @if ((isLogin$ | async) === false) {
           <app-button

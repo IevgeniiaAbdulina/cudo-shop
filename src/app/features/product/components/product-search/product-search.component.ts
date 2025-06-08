@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 
 @Component({
   selector: 'app-product-search',
@@ -17,12 +18,12 @@ export class ProductSearchComponent {
 
   public searchControl = new FormControl('');
 
-  constructor() {
+  constructor(private productProjectionsHelperService: ProductProjectionsHelperService) {
     this.searchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         if (value !== null) {
-          this.productSearch.emit(value);
+          this.productProjectionsHelperService.searchTermSignal.set(value);
         }
       });
   }

@@ -3,8 +3,6 @@
     @if (currentRoute === '/main') {
       <div class="product-list__container">
         <aside class="categories">
-          <app-product-search (productSearch)="onSearch($event)"></app-product-search>
-
           <h3>Filter by category</h3>
           <ul>
             @for (category of categories; track $index) {
@@ -54,8 +52,6 @@
     @if (currentRoute === '/books') {
       <div class="product-list__container">
         <aside class="categories">
-          <app-product-search (productSearch)="onSearch($event)"></app-product-search>
-
           <h3>Filter by category</h3>
           <ul>
             @for (category of categories; track $index) {

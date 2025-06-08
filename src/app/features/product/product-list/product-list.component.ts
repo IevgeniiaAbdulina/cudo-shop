@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, effect } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,21 +17,13 @@ import { ProductProjectionsHelperService } from '../../../core/product/services/
 import { BreadcrumbService } from '../components/breadcrumb/breadcrumb.service';
 import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
-import { ProductSearchComponent } from '../components/product-search/product-search.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [
-    CommonModule,
-    BriefCardComponent,
-    ProductButtonComponent,
-    ProductSearchComponent,
-    RouterLink,
-    SortByPriceComponent,
-    SortByAlphabeticalComponent,
-  ],
+  standalone: true,
+  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -55,7 +47,12 @@ export class ProductListComponent implements OnInit {
     public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
     private breadcrumbService: BreadcrumbService,
-  ) {}
+  ) {
+    effect(() => {
+      const searchTerm = this.productProjectionsHelperService.searchTermSignal();
+      this.onSearch(searchTerm);
+    });
+  }
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
