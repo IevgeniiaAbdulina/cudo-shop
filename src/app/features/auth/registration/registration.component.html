@@ -36,7 +36,7 @@
   <div class="field">
     <label for="firstName"></label>
     <div class="input-container">
-      <input id="firstName" formControlName="firstName" placeholder="First nsme *" />
+      <input id="firstName" formControlName="firstName" placeholder="First Name *" />
       <div class="error__container">
         <div *ngIf="isFieldInvalid('firstName')">
           <span class="error-line">
@@ -80,7 +80,7 @@
       <h3>Billing Address</h3>
 
       <div class="field field_checkbox tooltip" [ngClass]="{ field_checkbox_highlighted: isBillingAddressValid() }">
-        <span class="tooltiptext">Check it if your billing and shipping addreses are the same</span>
+        <span class="tooltiptext">Check it if your billing and shipping addresses are the same</span>
         <input type="checkbox" id="shippingAddressCheckbox" formControlName="useAsShippingAddress" (change)="copyBillingToShipping()" />
         <label class="label_checkbox" for="shippingAddressCheckbox">Use the same as Shipping Address</label>
       </div>

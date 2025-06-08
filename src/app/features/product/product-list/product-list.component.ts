@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,6 +15,7 @@ import { ProductProjection } from '../../../core/product/interfaces/product-proj
 import { ProductProjectionsResponse } from '../../../core/product/interfaces/product-projections-response';
 import { ProductProjectionsApiService } from '../../../core/product/services/product-projections.api.service';
 import { ProductProjectionsHelperService } from '../../../core/product/services/product-projections.helper.service';
+import { BreadcrumbService } from '../components/breadcrumb/breadcrumb.service';
 import { BriefCardComponent } from '../components/brief-card/brief-card.component';
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 import { ProductSearchComponent } from '../components/product-search/product-search.component';
@@ -30,6 +32,8 @@ import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/
     RouterLink,
     SortByPriceComponent,
     SortByAlphabeticalComponent,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
@@ -53,6 +57,7 @@ export class ProductListComponent implements OnInit {
 
     public productProjectionsHelperService: ProductProjectionsHelperService,
     public categoryHelperService: CategoryHelperService,
+    private breadcrumbService: BreadcrumbService,
   ) {}
 
   public ngOnInit() {
@@ -70,6 +75,7 @@ export class ProductListComponent implements OnInit {
 
   public resetFilters(): void {
     this.selectedCategory = '';
+    this.breadcrumbService.resetCurrentCategory();
   }
 
   public loadProducts() {
@@ -93,6 +99,11 @@ export class ProductListComponent implements OnInit {
           this.handleError(error);
         },
       });
+  }
+
+  public setCurrentCategory(category: Category) {
+    this.breadcrumbService.setCategory(category.name['en-US']);
+    this.filterByCategory(category.id);
   }
 
   public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
