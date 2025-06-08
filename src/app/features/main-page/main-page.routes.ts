@@ -11,12 +11,11 @@ export const mainRoutes: Routes = [
     path: '',
     title: 'Cudo Shop',
     component: MainPageComponent,
-    data: { breadcrumb: 'Cudo-Shop' },
+    data: { breadcrumb: 'Home' },
     children: [
       {
         path: 'main',
         component: HomeComponent,
-        data: { breadcrumb: '' },
       },
       {
         path: 'registration',

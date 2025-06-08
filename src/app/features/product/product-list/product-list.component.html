@@ -9,7 +9,7 @@
             @for (category of categories; track $index) {
               <li
                 tabindex="0"
-                (click)="filterByCategory(category.id)"
+                (click)="setCurrentCategory(category)"
                 (keyup)="onKeyUpFilter($event, category.id)"
                 [ngClass]="{ selected: selectedCategory === category.id }"
               >
@@ -59,7 +59,7 @@
             @for (category of categories; track $index) {
               <li
                 tabindex="0"
-                (click)="filterByCategory(category.id)"
+                (click)="setCurrentCategory(category)"
                 (keyup)="onKeyUpFilter($event, category.id)"
                 [ngClass]="{ selected: selectedCategory === category.id }"
               >
