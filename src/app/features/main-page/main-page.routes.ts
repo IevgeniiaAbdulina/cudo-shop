@@ -21,11 +21,13 @@ export const mainRoutes: Routes = [
         path: 'registration',
         component: RegistrationComponent,
         canActivate: [isLoggedGuard],
+        data: { breadcrumb: 'Registration' },
       },
       {
         path: 'login',
         component: LoginComponent,
         canActivate: [isLoggedGuard],
+        data: { breadcrumb: 'Login' },
       },
       {
         path: 'books',
@@ -41,15 +43,18 @@ export const mainRoutes: Routes = [
         path: 'profile',
         loadChildren: () => import('../user/profile/user-profile.routes').then((c) => c.profileRoutes),
         canActivate: [authGuard],
+        data: { breadcrumb: 'Profile' },
       },
       {
         path: 'cart',
         loadComponent: () => import('../cart/cart-page/cart-page.component').then((c) => c.CartPageComponent),
         canActivate: [authGuard],
+        data: { breadcrumb: 'Cart' },
       },
       {
         path: '404',
         loadComponent: () => import('../page-not-found/page-not-found.component').then((c) => c.PageNotFoundComponent),
+        data: { breadcrumb: '' },
       },
     ],
   },

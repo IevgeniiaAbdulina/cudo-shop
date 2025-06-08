@@ -1,6 +1,7 @@
 <div class="wrapper">
   <div class="product-list__wrapper">
     @if (currentRoute === '/main') {
+      <h1>Books {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
       <div class="product-list__container">
         <aside class="categories">
           <h3>Filter by category</h3>
@@ -50,6 +51,7 @@
     }
 
     @if (currentRoute === '/books') {
+      <h1>Books {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
       <div class="product-list__container">
         <aside class="categories">
           <h3>Filter by category</h3>
@@ -99,6 +101,7 @@
     }
 
     @if (currentRoute === '/cosmetics') {
+      <h1>Cosmetics {{ breadcrumbService.selectedCategoryName() | titlecase }}</h1>
       <div class="product-list__container">
         <aside class="categories">
           <h2>Filters</h2>

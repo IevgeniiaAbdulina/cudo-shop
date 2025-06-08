@@ -41,7 +41,7 @@ export class BreadcrumbService {
   }
 
   public setLastBreadcrumb(category: string): void {
-    this._breadcrumbs$.value.push({ label: category, url: '/' });
+    this._breadcrumbs$.value.push({ label: category, url: '/main' });
   }
 
   public removeLastBreadcrumb(): void {
