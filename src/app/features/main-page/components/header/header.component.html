@@ -29,13 +29,19 @@
           routerLink="about-us"
           routerLinkActive="active"
         />
-        <app-button
-          label="Cart"
-          (buttonClicked)="buttonClickedCart.emit()"
-          class="header__button"
-          routerLink="cart"
-          routerLinkActive="active"
-        />
+
+        <div class="btn__cart__container">
+          <app-button
+            label=""
+            (buttonClicked)="buttonClickedCart.emit()"
+            class="header__button btn__cart"
+            routerLink="cart"
+            routerLinkActive="active"
+            ><span class="btn__cart__icon"></span
+          ></app-button>
+          <app-badge [label]="'3'" [isActive]="true"></app-badge>
+        </div>
+
         @if ((isLogin$ | async) === false) {
           <app-button
             label="Register"
