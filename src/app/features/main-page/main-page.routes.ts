@@ -54,7 +54,6 @@ export const mainRoutes: Routes = [
       {
         path: 'cart',
         loadComponent: () => import('../cart/cart-page/cart-page.component').then((c) => c.CartPageComponent),
-        canActivate: [authGuard],
         data: { breadcrumb: 'Cart' },
       },
       {
