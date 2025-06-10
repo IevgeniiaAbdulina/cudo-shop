@@ -6,9 +6,4 @@
   <div class="card__description" [innerHTML]="description | highlightSearchTerm: searchTerm"></div>
 </div>
 <app-product-price [product]="product"></app-product-price>
-<app-product-button
-  btnClass="product-button add-to-cart"
-  [text]="btnText"
-  [clickBtn]="buttonClickedAddToCart.bind(this)"
-  [isDisabled]="isAdded"
-/>
+<app-add-to-cart-button [text]="btnText" [isDisabled]="isAdded" [productTitle]="title" />
