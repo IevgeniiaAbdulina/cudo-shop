@@ -171,3 +171,21 @@ header {
     }
   }
 }
+
+/* Cart button */
+.btn__cart {
+  &__container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    background-image: url('../../../../assets/icons/shopping_cart_24dp_white.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+  }
+}

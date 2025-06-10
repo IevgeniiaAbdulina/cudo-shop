@@ -5,10 +5,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ProductSearchComponent } from '../../../product/components/product-search/product-search.component';
+import { BadgeComponent } from '../../../../shared/ui/badge/badge.component';
 
 @Component({
   selector: 'app-header',
-  imports: [AsyncPipe, ButtonComponent, ProductSearchComponent, RouterLinkActive, RouterLink],
+  imports: [AsyncPipe, ButtonComponent, ProductSearchComponent, RouterLinkActive, RouterLink, BadgeComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -24,4 +25,5 @@ export class HeaderComponent {
   public buttonClickedProfile = output();
   public buttonClickedBooks = output();
   public buttonClickedCosmetics = output();
+  public buttonClickedAboutUs = output();
 }

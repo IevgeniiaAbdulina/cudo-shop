@@ -1,0 +1,26 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.btn__cart {
+  &__badge {
+    position: relative;
+    right: 10px;
+    margin-right: -10px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 16px;
+    padding: 0 4px;
+    background-color: $color-error;
+    color: #ffffff;
+    font-size: 12px;
+  }
+}
+
+.badge_inactive {
+  display: none;
+}
