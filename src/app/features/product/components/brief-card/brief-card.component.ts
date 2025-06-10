@@ -19,6 +19,8 @@ export class BriefCardComponent implements OnInit, OnChanges {
   public description: string = '';
   public imgUrl: string = '';
   public title: string = '';
+  public btnText: string = '';
+  public isAdded: boolean = false;
 
   constructor(public productProjectionsHelperService: ProductProjectionsHelperService) {}
 
@@ -28,6 +30,7 @@ export class BriefCardComponent implements OnInit, OnChanges {
 
   public ngOnChanges() {
     this.setProductData();
+    this.btnText = `Add${this.isAdded ? 'ed' : ''} to cart`;
   }
 
   private setProductData(): void {
