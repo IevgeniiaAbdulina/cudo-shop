@@ -1,9 +1,11 @@
 @use '../../../../../style/abstract/constant' as *;
 @use '../../../../../style/abstract/placeholders' as *;
-@use '../../../../../style/abstract/mixins' as *;
 
 button {
   @extend %transition;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem;
   width: 100%;
   font-size: inherit;
@@ -14,6 +16,16 @@ button {
   background-color: $color-additional;
   cursor: pointer;
 
+  .material-symbols-outlined {
+    margin-right: 0.5rem;
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    color: $color-input-search;
+  }
+
   &:hover:not(:disabled) {
     background-color: $color-button-hover;
   }
@@ -21,30 +33,9 @@ button {
   &:disabled {
     background-color: $color-button-disable;
     cursor: not-allowed;
-  }
-}
 
-.filter-button {
-  margin-top: 3rem;
-  width: unset;
-
-  @include media-mobile-big {
-    margin-top: 1rem;
-    font-size: 1.2rem;
-  }
-}
-
-.add-to-cart {
-  background-image: url('../../../../../app/assets/icons/cart-shopping.svg');
-  background-position-x: 1rem;
-  background-repeat: no-repeat;
-  background-size: contain;
-
-  &:hover:not(:disabled) {
-    background-position-x: 89%;
-  }
-
-  &:disabled {
-    background-image: unset;
+    .material-symbols-outlined {
+      display: none;
+    }
   }
 }

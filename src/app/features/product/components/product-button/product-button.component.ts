@@ -10,8 +10,8 @@ type ClickHandler = (event?: MouseEvent) => void;
   styleUrl: './product-button.component.scss',
 })
 export class ProductButtonComponent {
-  @Input() public btnClass!: string;
-  @Input() public text!: string;
+  @Input() public btnClass: string = '';
+  @Input() public text: string = '';
   @Input() public clickBtn!: ClickHandler;
 
   @Input() public isDisabled: boolean = false;

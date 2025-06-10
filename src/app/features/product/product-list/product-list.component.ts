@@ -22,7 +22,6 @@ import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/
 
 @Component({
   selector: 'app-product-list',
-  standalone: true,
   imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
