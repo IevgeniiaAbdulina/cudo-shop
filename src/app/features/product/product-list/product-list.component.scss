@@ -27,9 +27,10 @@
 
 .product-list__wrapper {
   display: flex;
-  column-gap: 3rem;
+  flex-direction: column;
+  gap: 3rem;
   padding: 2rem 1.5rem;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 124px);
 
   @include media-laptop-tablet {
     column-gap: 1.5rem;
