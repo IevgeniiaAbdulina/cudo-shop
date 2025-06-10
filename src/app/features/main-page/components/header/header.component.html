@@ -22,6 +22,13 @@
       <app-product-search class="header__nav__item__search" />
 
       <div class="header__buttons header__nav__item__navigation">
+        <app-button
+          label="Cart"
+          (buttonClicked)="buttonClickedCart.emit()"
+          class="header__button"
+          routerLink="cart"
+          routerLinkActive="active"
+        />
         @if ((isLogin$ | async) === false) {
           <app-button
             label="Register"
@@ -38,13 +45,6 @@
             routerLinkActive="active"
           />
         } @else {
-          <app-button
-            label="Cart"
-            (buttonClicked)="buttonClickedCart.emit()"
-            class="header__button"
-            routerLink="cart"
-            routerLinkActive="active"
-          />
           <app-button
             label="Profile"
             (buttonClicked)="buttonClickedProfile.emit()"

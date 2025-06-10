@@ -11,9 +11,11 @@
 
   @include media-laptop-tablet {
     column-gap: 1.5rem;
+    min-height: calc(100vh - 152px);
   }
 
   @include media-mobile-big {
     flex-direction: column;
+    min-height: calc(100vh - 228px);
   }
 }
