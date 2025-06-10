@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { StorageService } from './storage.service';
-import { CustomerService } from '../customer/customer.service';
+import { CustomerService } from '../customer/services/customer.service';
 import { UserResponse } from './interfaces/user-response';
 import { CustomerResponse } from '../customer/interfaces/customer-response';
 import { environment } from '../../../environments/environment';

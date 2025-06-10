@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CustomerService } from './customer.service';
 import { UserResponse } from '../../auth/interfaces/user-response';
 import { CustomerAction } from '../interfaces/customer-action';
-import { environment } from '../../../../environments/environment.dev';
+import { environment } from '../../../../environments/environment';
 import API_ENDPOINT from '../../../shared/constants/api-endpoint';
 
 describe('CustomerService', () => {
@@ -61,7 +61,8 @@ describe('CustomerService', () => {
       expect(response).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne(`${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CUSTOMERS}/123`);
+    const expectedURL = `${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CUSTOMERS}/123`;
+    const req = httpMock.expectOne(`${expectedURL}`);
     expect(req.request.method).toBe('POST');
     expect(req.request.headers.get('Content-Type')).toBe('application/json');
     expect(req.request.body).toEqual({ version: 1, actions: customerActions });
