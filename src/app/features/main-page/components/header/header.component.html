@@ -23,6 +23,13 @@
 
       <div class="header__buttons header__nav__item__navigation">
         <app-button
+          label="About Us"
+          (buttonClicked)="buttonClickedAboutUs.emit()"
+          class="header__button"
+          routerLink="about-us"
+          routerLinkActive="active"
+        />
+        <app-button
           label="Cart"
           (buttonClicked)="buttonClickedCart.emit()"
           class="header__button"
