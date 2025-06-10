@@ -1,1 +1,9 @@
-<p>cart-page works!</p>
+<div class="wrapper">
+  @if (count === 0) {
+    <div class="cart cart__empty">
+      <div class="cart__empty-cart"></div>
+      <p class="cart__message">Your cart is empty. Continue your shopping</p>
+      <app-button label="Go to catalog" (buttonClicked)="buttonGoToCatalog()" class="cart__button" />
+    </div>
+  }
+</div>

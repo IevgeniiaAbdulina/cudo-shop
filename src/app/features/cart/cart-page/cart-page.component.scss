@@ -1,0 +1,49 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.cart {
+  padding: 1rem 3rem;
+  text-align: center;
+  font-size: 1.8rem;
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+  }
+
+  &__empty-cart {
+    background-image: url('../../../assets/images/empty-shopping-cart.png');
+    width: 30rem;
+    height: 25rem;
+    background-repeat: round;
+    align-self: center;
+  }
+
+  &__message {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: $color-primary;
+  }
+
+  &__button {
+    color: $color-input-search;
+    background: $color-additional;
+    border-radius: 10px;
+    font-weight: 600;
+    align-self: center;
+    cursor: pointer;
+    width: max-content;
+    @extend %transition;
+
+    &:hover {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+
+    @include media-mobile {
+      font-weight: 400;
+    }
+  }
+}
