@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
@@ -12,6 +12,7 @@ import API_ENDPOINT from '../../../shared/constants/api-endpoint';
 })
 export class CartApiService {
   private readonly CARTS_URL = `${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CARTS}`;
+  private readonly ME_CARTS_URL = `${environment.apiUrl}/${environment.projectKey}/me/${API_ENDPOINT.CARTS}`;
 
   constructor(private http: HttpClient) {}
 
@@ -21,7 +22,7 @@ export class CartApiService {
         if (error.status === 404) {
           console.log(`User ${customerId} does not have a cart yet. Creating a new cart...`);
 
-          return this.createCartForCustomer(customerId);
+          return this.createMyCart();
         } else {
           return throwError(() => error);
         }
@@ -29,9 +30,22 @@ export class CartApiService {
     );
   }
 
-  private createCartForCustomer(customerId: string): Observable<unknown> {
+  private createMyCart(): Observable<unknown> {
     console.warn('Creating the cart...');
+    const payload = {
+      currency: this.getCurrency(),
+    };
 
-    return of();
+    return this.http.post(this.ME_CARTS_URL, payload).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error creating cart:', error);
+
+        return throwError(() => error);
+      }),
+    );
+  }
+
+  private getCurrency(): string {
+    return 'EUR';
   }
 }

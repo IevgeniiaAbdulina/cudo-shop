@@ -29,17 +29,16 @@ export class AddToCartButtonComponent {
   }
 
   private getCart(): void {
-    console.log('[33]cart');
     this.cartApiService
       .getCartByCustomerId(this.getCustomerId())
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response) => {
-          console.log('[41]cart', response);
+        next: (response: unknown) => {
+          console.log('[39]cart', response);
         },
         error: (error: HttpErrorResponse) => {
           // Handle unexpected errors
-          console.warn('[52]cart', error.message);
+          console.log('[getCart]', error.message);
           this.handleError(error);
         },
       });
