@@ -18,8 +18,7 @@
     "test:coverage": "jest --coverage",
     "lint": "ng lint",
     "lint:fix": "eslint --fix \"src/**/*.{ts,html}\"",
-    "format": "prettier --write \"src/**/*.{ts,html,scss}\"",
-    "prepare": "husky install"
+    "format": "prettier --write \"src/**/*.{ts,html,scss}\""
   },
   "lint-staged": {
     "*.ts": [
