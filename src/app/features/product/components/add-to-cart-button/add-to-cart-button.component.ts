@@ -38,10 +38,11 @@ export class AddToCartButtonComponent {
       next: (cart) => {
         if (cart) {
           console.log('[41]cart', cart);
-          // Handle the case where the cart exists
+          // Cart exists, add item to the cart
+          this.addItemToCart(cart.id);
         } else {
           console.log('No cart found, creating a new cart...');
-          // Handle the case where no cart exists (create a new cart)
+          // No cart exists, create a new cart
           this.createCart();
         }
       },
@@ -52,11 +53,26 @@ export class AddToCartButtonComponent {
     });
 }
 
+private addItemToCart(cartId: string) {
+  // Implement the logic to add an item to the cart
+  console.log('Adding item to cart:', cartId);
+  // Example implementation
+  // this.cartApiService.addItemToCart(cartId, this.productId).subscribe(...);
+}
+
 private createCart() {
   // Implement the logic to create a new cart
   console.log('Creating a new cart...');
   // Example implementation
-  // this.cartApiService.createCart(this.getCustomerId()).subscribe(...);
+  // this.cartApiService.createCart(this.getCustomerId()).subscribe({
+  //   next: (newCart) => {
+  //     console.log('New cart created:', newCart);
+  //     this.addItemToCart(newCart.id);
+  //   },
+  //   error: (error: HttpErrorResponse) => {
+  //     this.handleError(error);
+  //   },
+  // });
 }
 
   private getCustomerId(): string {
