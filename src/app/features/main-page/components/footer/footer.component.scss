@@ -1,5 +1,6 @@
 @use '../../../../../style/abstract/constant' as *;
 @use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
 
 footer {
   box-shadow: 0 0 10px 5px $color-input-search;
@@ -95,5 +96,12 @@ footer {
         background-image: url('../../../../assets//images/rs-school-logo-hov.png');
       }
     }
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    row-gap: 1.5rem;
+    align-items: start;
+    padding: 1.5rem;
   }
 }
