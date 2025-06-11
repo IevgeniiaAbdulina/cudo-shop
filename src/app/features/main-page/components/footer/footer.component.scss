@@ -22,7 +22,6 @@ footer {
 
     .header {
       font-size: 1.6rem;
-      text-decoration: underline;
     }
 
     &__developers {
@@ -34,7 +33,7 @@ footer {
       > a {
         color: $color-additional;
         font-weight: bold;
-        text-decoration: none;
+        text-decoration: underline;
         @extend %transition;
 
         &:hover {
@@ -72,9 +71,14 @@ footer {
     &__button {
       cursor: pointer;
       @extend %transition;
+      text-decoration: underline;
 
       &:hover {
         color: $color-button-hover;
+      }
+
+      .underline-text {
+        text-decoration: underline;
       }
     }
 

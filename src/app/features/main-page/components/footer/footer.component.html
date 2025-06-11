@@ -27,7 +27,9 @@
       </div>
       <div class="footer__information">
         <div class="footer__information__button">
-          <app-button label="About us" (buttonClicked)="buttonClickedAboutUs()" />
+          <app-button (buttonClicked)="buttonClickedAboutUs()">
+            <span class="underline-text">About us</span>
+          </app-button>
         </div>
         <a href="https://rs.school/" target="_blank">
           <div class="footer__information__logo"></div>
