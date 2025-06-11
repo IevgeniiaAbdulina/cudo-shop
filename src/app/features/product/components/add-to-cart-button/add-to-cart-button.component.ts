@@ -30,23 +30,34 @@ export class AddToCartButtonComponent {
   }
 
   private getCart() {
-    console.log('[33]cart');
-    this.cartApiService
-      .getCartByCustomerId(this.getCustomerId()) // TODO for anonimous session
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response) => {
-          const responseStr = JSON.stringify(response);
-          const cart: Cart = JSON.parse(responseStr);
+  console.log('[33]cart');
+  this.cartApiService
+    .getCartByCustomerId(this.getCustomerId())
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: (cart) => {
+        if (cart) {
           console.log('[41]cart', cart);
-          // this.products = [...productProjectionsResponse.results];
-        },
-        error: (error: HttpErrorResponse) => {
-          // Handle request error
-          this.handleError(error);
-        },
-      });
-  }
+          // Handle the case where the cart exists
+        } else {
+          console.log('No cart found, creating a new cart...');
+          // Handle the case where no cart exists (create a new cart)
+          this.createCart();
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        // Handle unexpected errors
+        this.handleError(error);
+      },
+    });
+}
+
+private createCart() {
+  // Implement the logic to create a new cart
+  console.log('Creating a new cart...');
+  // Example implementation
+  // this.cartApiService.createCart(this.getCustomerId()).subscribe(...);
+}
 
   private getCustomerId(): string {
     return '8e43f958-3582-4a2c-90a9-96dceda7c57f'; // TODO
