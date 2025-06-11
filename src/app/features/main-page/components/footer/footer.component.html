@@ -1,3 +1,24 @@
-<footer class="wrapper">
-  <p>Footer component place here</p>
+<footer>
+  <div class="wrapper">
+    <div class="footer">
+      <div class="footer__contacts">
+        <div class="text">Project created by:</div>
+        <div class="developers">
+          <p>Alena Popruha</p>
+          <p>Ivgeniia Abdulina</p>
+          <p>Olga Rekun</p>
+        </div>
+      </div>
+      <p>|</p>
+      <div class="footer__button">
+        <app-button label="About us" (buttonClicked)="buttonClickedAboutUs()" class="header__navigation__button header__button" />
+      </div>
+      <p>|</p>
+      <a href="https://rs.school/" target="_blank">
+        <div class="footer__logo"></div>
+      </a>
+      <p>|</p>
+      <p>2025</p>
+    </div>
+  </div>
 </footer>

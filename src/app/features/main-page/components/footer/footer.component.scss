@@ -1,0 +1,45 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+
+footer {
+  box-shadow: 0 0 10px 5px $color-input-search;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  column-gap: 1.5rem;
+  align-items: center;
+  padding: 1rem 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $color-additional;
+
+  &__contacts {
+    display: flex;
+    justify-content: center;
+    column-gap: 1.5rem;
+  }
+
+  &__button {
+    cursor: pointer;
+    @extend %transition;
+
+    &:hover {
+      color: $color-button-hover;
+    }
+  }
+
+  &__logo {
+    width: 60px;
+    height: 21px;
+    background-image: url('../../../../assets/images/rs-school-logo-add.png');
+    object-fit: cover;
+    background-repeat: round;
+    @extend %transition;
+    cursor: pointer;
+
+    &:hover {
+      background-image: url('../../../../assets//images/rs-school-logo-hov.png');
+    }
+  }
+}
