@@ -3,22 +3,34 @@
     <div class="footer">
       <div class="footer__contacts">
         <div class="text">Project created by:</div>
-        <div class="developers">
-          <p>Alena Popruha</p>
-          <p>Ivgeniia Abdulina</p>
-          <p>Olga Rekun</p>
+        <div class="footer__contacts__developers">
+          <a href="https://github.com/alenavp" target="_blank">
+            <div class="footer__contacts__developer">
+              <p>Alena Papruha</p>
+            </div>
+          </a>
+          <a href="https://github.com/IevgeniiaAbdulina" target="_blank">
+            <div class="footer__contacts__developer">
+              <p>Ievgeniia Abdulina</p>
+            </div>
+          </a>
+
+          <a href="https://github.com/rekunolya" target="_blank">
+            <div class="footer__contacts__developer">
+              <p>Olga Rekun</p>
+            </div>
+          </a>
         </div>
       </div>
-      <p>|</p>
-      <div class="footer__button">
-        <app-button label="About us" (buttonClicked)="buttonClickedAboutUs()" class="header__navigation__button header__button" />
+      <div class="footer__information">
+        <div class="footer__button">
+          <app-button label="About us" (buttonClicked)="buttonClickedAboutUs()" />
+        </div>
+        <a href="https://rs.school/" target="_blank">
+          <div class="footer__logo"></div>
+        </a>
+        <p>2025</p>
       </div>
-      <p>|</p>
-      <a href="https://rs.school/" target="_blank">
-        <div class="footer__logo"></div>
-      </a>
-      <p>|</p>
-      <p>2025</p>
     </div>
   </div>
 </footer>
