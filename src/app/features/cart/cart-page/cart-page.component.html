@@ -1,10 +1,32 @@
 <div class="wrapper">
   <div class="content-wrapper">
+    <h1>Your cart</h1>
     @if (count === 0) {
       <div class="cart cart__empty">
         <div class="cart__empty-cart"></div>
         <p class="cart__message">Your cart is empty. Continue your shopping</p>
         <app-button label="Go to catalog" (buttonClicked)="buttonGoToCatalog()" class="cart__button" />
+      </div>
+    } @else {
+      <div class="cart__content__container">
+        <div class="cart__content__cart_list">
+          @for (item of list; track item) {
+            <div class="cart__content__cart_item">
+              <app-cart-list-item [cartItem]="cartItem"></app-cart-list-item>
+            </div>
+          }
+        </div>
+        <div class="cart__content__cart_summary">
+          <div class="cart_summary__header">
+            <h4>Order summary</h4>
+          </div>
+          <div class="cart_summary__body">
+            <div class="cart_summary__body__row">
+              <p>Item(s) total</p>
+              <span>$118.05</span>
+            </div>
+          </div>
+        </div>
       </div>
     }
   </div>

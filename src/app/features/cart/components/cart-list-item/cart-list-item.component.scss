@@ -1,0 +1,198 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/mixins' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+
+.cart__list__item {
+  display: flex;
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 2px solid #eee;
+  gap: 2rem;
+
+  &__wrapper {
+    display: flex;
+
+    @include media-tablet {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+  }
+
+  //@include media-laptop {
+  //}
+  @include media-tablet {
+    //flex-direction: column;
+    //align-items: center;
+    //gap: 2rem;
+  }
+  //@include media-mobile {
+  //}
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 2rem;
+
+    @include media-tablet {
+      padding-left: 0;
+      //align-items: center;
+      gap: 2rem;
+    }
+  }
+
+  &__image {
+    width: 100px;
+    height: 140px;
+  }
+
+  &__name {
+    h4 {
+      max-width: 38ch;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @include media-tablet {
+        max-width: 80vw;
+        //text-align: center;
+        height: 40px;
+        white-space: break-spaces;
+      }
+    }
+
+    a {
+      position: relative;
+      width: 100%;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 4rem;
+
+    &_remove {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 2.2rem;
+      border-radius: 10px;
+      background-color: transparent;
+      border: 0.15rem solid grey;
+      cursor: pointer;
+      color: #7f7f7f;
+    }
+  }
+
+  &__price {
+    padding-left: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+
+    @include media-tablet {
+      padding-left: 0;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+}
+
+/* Price style */
+.price,
+.discount {
+  font-size: 2rem;
+
+  @include media-laptop-tablet {
+    font-size: 1.6rem;
+  }
+
+  @include media-tablet {
+    font-size: 1.6rem;
+  }
+
+  @include media-mobile-big {
+    font-size: 1.4rem;
+  }
+}
+
+.currency {
+  @include rwd-font18-size;
+}
+
+.old-price {
+  text-decoration: line-through;
+
+  @include rwd-font18-size;
+}
+
+.price,
+.discount,
+.discount-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+
+  @include media-mobile-big {
+    font-weight: normal;
+  }
+}
+
+.price,
+.currency,
+.old-price,
+.discount-value {
+  color: $color-old-price;
+}
+
+.discount {
+  font-size: 2rem;
+  color: $color-additional;
+  padding-left: 1rem;
+
+  &-value {
+    padding: 0.7rem 1rem;
+    border-radius: 2.5rem;
+    background-color: $color-discount;
+
+    @include rwd-font16-size;
+
+    @include media-laptop-tablet {
+      padding: 0.6rem 1rem;
+    }
+
+    @include media-mobile-big {
+      padding: 0.5rem 0.7rem;
+      text-align: center;
+    }
+  }
+}
+
+/* Counter */
+.counter__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid grey;
+  font-size: 20px;
+
+  & > * {
+    width: 40px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.counter__number {
+  height: 100%;
+  padding: 0.5rem 1.5rem;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  font-size: 16px;
+}
+
+/* Order Summary */
+.cart__content__cart_summary {
+  flex: 1;
+}
