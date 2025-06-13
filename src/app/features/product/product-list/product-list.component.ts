@@ -19,10 +19,19 @@ import { BriefCardComponent } from '../components/brief-card/brief-card.componen
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
+import { PaginatorComponent } from '../components/paginator/paginator.component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
+  imports: [
+    CommonModule,
+    BriefCardComponent,
+    ProductButtonComponent,
+    RouterLink,
+    SortByPriceComponent,
+    SortByAlphabeticalComponent,
+    PaginatorComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -36,6 +45,7 @@ export class ProductListComponent implements OnInit {
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
   public searchTerm: string = '';
+  public length: number = 0;
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -86,6 +96,7 @@ export class ProductListComponent implements OnInit {
           const responseStr = JSON.stringify(response);
           const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
           this.products = [...productProjectionsResponse.results];
+          this.length = this.products.length;
         },
         error: (error: HttpErrorResponse) => {
           // Handle request error
