@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
+import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -13,19 +14,25 @@ import { ProductProjection } from '../../../../core/product/interfaces/product-p
   templateUrl: './add-to-cart-button.component.html',
   styleUrl: './add-to-cart-button.component.scss',
 })
-export class AddToCartButtonComponent {
+export class AddToCartButtonComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private cartId: string = '';
   private cartVersion: number = 0;
   private productId: string = '';
   private variantId: number = 1;
+  public productTitle: string = '';
+  public isDisabled: boolean = false;
 
-  @Input() public text: string = '';
-  @Input() public productTitle: string = '';
-  @Input() public isDisabled: boolean = false;
   @Input() public product: ProductProjection | null = null;
 
-  constructor(private cartApiService: CartApiService) {}
+  constructor(
+    private cartApiService: CartApiService,
+    private productProjectionsHelperService: ProductProjectionsHelperService,
+  ) {}
+
+  public ngOnInit(): void {
+    this.productTitle = this.product ? this.productProjectionsHelperService.getProductName(this.product) : '';
+  }
 
   public handleAddToCart(event?: MouseEvent): void {
     if (event) {
