@@ -15,11 +15,14 @@
 
       <div class="cart__list__item__actions">
         <div class="counter__container">
-          <app-button label="{{ count() === 1 ? '🗑' : '-' }}" (buttonClicked)="decrement(cartItem()?.key)"></app-button>
+          <app-button
+            class="counter__btn {{ count() === 1 ? 'ic_delete' : 'ic_remove' }}"
+            (buttonClicked)="decrement(cartItem()?.key)"
+          ></app-button>
           <div class="counter__number">
             {{ count() }}
           </div>
-          <app-button label="+" (buttonClicked)="increment()"></app-button>
+          <app-button class="counter__btn" label="+" (buttonClicked)="increment()"></app-button>
         </div>
       </div>
     </div>

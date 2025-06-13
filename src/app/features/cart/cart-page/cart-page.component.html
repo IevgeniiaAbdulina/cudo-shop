@@ -15,16 +15,52 @@
               <app-cart-list-item [cartItem]="cartItem"></app-cart-list-item>
             </div>
           }
+          <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
         </div>
+
         <div class="cart__content__cart_summary">
           <div class="cart_summary__header">
-            <h4>Order summary</h4>
+            <h3>Order summary</h3>
           </div>
           <div class="cart_summary__body">
             <div class="cart_summary__body__row">
               <p>Item(s) total</p>
               <span>$118.05</span>
             </div>
+            <div class="cart_summary__body__row">
+              <p>Shop discount</p>
+              <span>-$7.50</span>
+            </div>
+            <hr />
+            <div class="cart_summary__body__row">
+              <p>Subtotal</p>
+              <span>$110.55</span>
+            </div>
+            <div class="cart_summary__body__row">
+              <p>Tax *</p>
+              <span>$19.67</span>
+            </div>
+            <hr />
+            <div class="cart_summary__body__row">
+              <p>Total (3 items)</p>
+              <span>$135.59</span>
+            </div>
+          </div>
+          <div class="cart_summary__footer">
+            <app-button label="Proceed to checkout" class="cart__button cart__button__checkout" (buttonClicked)="proceedCheckout()" />
+            <button class="cart__button cart__button__coupon_code" (click)="showCouponCodeInput()">
+              <span class="coupon_code__icon"></span>
+              Apply coupon code
+            </button>
+            @if (showCode) {
+              <div class="coupon_code__wrapper">
+                <label for="couponCode"><input id="couponCode" name="couponCode" placeholder="ENTER CODE" /></label>
+                <button class="cart__button cart__button__coupon_code__apply" type="submit" (click)="applyCode()">Apply</button>
+              </div>
+              @if (showCodeMassage) {
+                <span class="coupon_code__message {{ !isCodeSuccess ? 'warn' : '' }}">{{ handleCouponCodeErrorMessage() }}</span>
+              }
+            }
           </div>
         </div>
       </div>
