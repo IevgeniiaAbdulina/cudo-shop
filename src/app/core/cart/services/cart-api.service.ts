@@ -30,6 +30,22 @@ export class CartApiService {
     );
   }
 
+  public updateCartById(cartId: string, version: number, productId: string, variantId: number, quantity: number = 1): Observable<unknown> {
+    const payload = {
+      version,
+      actions: [
+        {
+          action: 'addLineItem',
+          productId,
+          variantId,
+          quantity,
+        },
+      ],
+    };
+
+    return this.http.post(`${this.CARTS_URL}/${cartId}`, payload);
+  }
+
   private createMyCart(): Observable<unknown> {
     console.warn('Creating the cart...');
     const payload = {
