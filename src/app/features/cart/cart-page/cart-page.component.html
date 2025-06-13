@@ -10,9 +10,9 @@
     } @else {
       <div class="cart__content__container">
         <div class="cart__content__cart_list">
-          @for (item of list; track item) {
+          @for (item of cart()?.lineItems; track item.id) {
             <div class="cart__content__cart_item">
-              <app-cart-list-item [cartItem]="cartItem"></app-cart-list-item>
+              <app-cart-list-item [cartItem]="item"></app-cart-list-item>
             </div>
           }
           <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
@@ -25,25 +25,25 @@
           <div class="cart_summary__body">
             <div class="cart_summary__body__row">
               <p>Item(s) total</p>
-              <span>$118.05</span>
+              <span>{{ cart()?.printableTotalPrice() ?? '' | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
             </div>
             <div class="cart_summary__body__row">
               <p>Shop discount</p>
-              <span>-$7.50</span>
+              <span>{{ cart()?.currencyCode() }} -7.50</span>
             </div>
             <hr />
             <div class="cart_summary__body__row">
               <p>Subtotal</p>
-              <span>$110.55</span>
+              <span>{{ cart()?.currencyCode() }} 110.55</span>
             </div>
             <div class="cart_summary__body__row">
-              <p>Tax *</p>
-              <span>$19.67</span>
+              <p>Tax</p>
+              <span>{{ cart()?.currencyCode() }} 19.67</span>
             </div>
             <hr />
             <div class="cart_summary__body__row">
-              <p>Total (3 items)</p>
-              <span>$135.59</span>
+              <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
+              <span>{{ cart()?.currencyCode() }} {{ cart()?.printableTotalPrice() }}</span>
             </div>
           </div>
           <div class="cart_summary__footer">

@@ -1,28 +1,38 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { CartListItemComponent } from '../components/cart-list-item/cart-list-item.component';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../services/cart.service';
+import { CartResponse } from '../interfaces/cart-response';
+import { CurrencyPipe } from '@angular/common';
+import { CartModel } from '../model/cart-model';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [ButtonComponent, CartListItemComponent, RouterLink],
+  imports: [ButtonComponent, CartListItemComponent, RouterLink, CurrencyPipe],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss',
 })
-export class CartPageComponent {
+export class CartPageComponent implements OnInit {
+  private cartId = 'ec77f411-6b92-4d4d-81d9-5eb1b25bb2ef';
+
   public count: number = 3;
-  public list: number[] = [1, 2, 3];
   public showCode: boolean = false;
   public showCodeMassage: boolean = false;
   public isCodeSuccess: boolean = false;
   public navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
+  private cartService = inject(CartService);
 
-  public cartItem = {
-    key: '101295786',
-    title: 'Maecenas finibus nisi ut eros vehicula, vitae gravida quam malesuada.',
-    image: 'https://images.cdn.europe-west1.gcp.commercetools.com/db016a89-0f79-4115-8880-c624ee9b2428/wendigo3--dA0Lmct.jpg',
-  };
+  public cart: WritableSignal<CartModel | null> = signal<CartModel | null>(null);
+
+  public ngOnInit(): void {
+    this.cartService.getCartById(this.cartId).subscribe((response: CartResponse) => {
+      console.log('[cart page] get cart by id response: ', response);
+
+      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+    });
+  }
 
   public buttonGoToCatalog(): void {
     this.navigateToSpecificRouteService.setRoute('main');
