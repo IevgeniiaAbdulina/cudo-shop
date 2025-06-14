@@ -125,6 +125,6 @@
         </div>
       </div>
     }
-    <app-paginator (pageChange)="onPageChange($event)"></app-paginator>
+    <app-paginator [length]="length" (pageLimitChange)="onPageLimitChange($event)"></app-paginator>
   </div>
 </div>

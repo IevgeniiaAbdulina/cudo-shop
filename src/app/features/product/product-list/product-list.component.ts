@@ -45,8 +45,9 @@ export class ProductListComponent implements OnInit {
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
   public searchTerm: string = '';
-  public totalItems = 0;
+  public length: number = 0;
   public limit: number = 6;
+  public page: number = 1;
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -89,16 +90,16 @@ export class ProductListComponent implements OnInit {
 
   public filterByCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
-    //const offset = (page - 1) * size;
+    const offset = (this.page - 1) * this.limit;
     this.productProjectionsApiService
-      .getProductProjectionsByCategory(categoryId, this.limit)
+      .getProductProjectionsByCategory(categoryId, this.limit, offset)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           const responseStr = JSON.stringify(response);
           const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
           this.products = [...productProjectionsResponse.results];
-          //this.totalItems = productProjectionsResponse.results;
+          this.length = productProjectionsResponse.total;
         },
         error: (error: HttpErrorResponse) => {
           // Handle request error
@@ -171,9 +172,17 @@ export class ProductListComponent implements OnInit {
     return new Error('Something went wrong; please try again later.');
   }
 
-  public onPageChange(event: { pageIndex: number; pageSize: number }): void {
-    // const page = event.pageIndex + 1;
-    // const size = event.pageSize;
-    // this.loadProducts();
+  // public onPageChange(event: { pageIndex: number; pageSize: number }): void {
+  //   console.log('click arrow on pagination');
+  //   // const page = event.pageIndex + 1;
+  //   // const size = event.pageSize;
+  //   // this.loadProducts();
+  // }
+  public onPageLimitChange(event: { pageIndex: number; pageSize: number }): void {
+    console.log('click onPageLimitChange');
+    //const target = event.target;
+    this.limit = event.pageSize;
+    console.log('limit', this.limit);
+    this.filterByCategory(BOOKS_ID);
   }
 }
