@@ -30,7 +30,7 @@
     <div class="cart__list__item__price">
       @if (item()?.discountedPrice) {
         <div class="discount-value">
-          {{ discountValue(item()!.originalPrice ?? 0, item()!.discountedPrice ?? 0) }}
+          {{ discountValue(item()!.originalPrice, item()!.discountedPrice ?? 0) }}
           % off
         </div>
         <div>

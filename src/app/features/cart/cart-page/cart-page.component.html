@@ -25,25 +25,18 @@
           <div class="cart_summary__body">
             <div class="cart_summary__body__row">
               <p>Item(s) total</p>
-              <span>{{ cart()?.printableTotalPrice() ?? '' | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+              <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
             </div>
-            <div class="cart_summary__body__row">
-              <p>Shop discount</p>
-              <span>{{ cart()?.currencyCode() }} -7.50</span>
-            </div>
-            <hr />
-            <div class="cart_summary__body__row">
-              <p>Subtotal</p>
-              <span>{{ cart()?.currencyCode() }} 110.55</span>
-            </div>
-            <div class="cart_summary__body__row">
-              <p>Tax</p>
-              <span>{{ cart()?.currencyCode() }} 19.67</span>
-            </div>
+            @if (cart()?.getShopDiscount()) {
+              <div class="cart_summary__body__row">
+                <p>Shop discount</p>
+                <span>- {{ cart()?.getShopDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+              </div>
+            }
             <hr />
             <div class="cart_summary__body__row">
               <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
-              <span>{{ cart()?.currencyCode() }} {{ cart()?.printableTotalPrice() }}</span>
+              <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
             </div>
           </div>
           <div class="cart_summary__footer">
