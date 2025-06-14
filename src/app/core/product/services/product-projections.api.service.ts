@@ -16,8 +16,8 @@ export class ProductProjectionsApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getProductProjectionsByCategory(categoryId: string): Observable<ProductProjectionsResponse> {
-    const params = new HttpParams().set('filter', `categories.id:subtree("${categoryId}")`);
+  public getProductProjectionsByCategory(categoryId: string, limit: number): Observable<ProductProjectionsResponse> {
+    const params = new HttpParams().set('filter', `categories.id:subtree("${categoryId}")`).set('limit', limit);
 
     return this.http.get<ProductProjectionsResponse>(this.SEARCH_URL, { params });
   }

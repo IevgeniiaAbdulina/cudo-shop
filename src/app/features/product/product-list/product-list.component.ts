@@ -45,7 +45,8 @@ export class ProductListComponent implements OnInit {
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
   public searchTerm: string = '';
-  public length: number = 0;
+  public totalItems = 0;
+  public limit: number = 6;
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -81,22 +82,23 @@ export class ProductListComponent implements OnInit {
     this.breadcrumbService.resetCurrentCategory();
   }
 
-  public loadProducts() {
+  public loadProducts(): void {
     this.filterByCategory(BOOKS_ID);
     this.resetFilters();
   }
 
   public filterByCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
+    //const offset = (page - 1) * size;
     this.productProjectionsApiService
-      .getProductProjectionsByCategory(categoryId)
+      .getProductProjectionsByCategory(categoryId, this.limit)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           const responseStr = JSON.stringify(response);
           const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
           this.products = [...productProjectionsResponse.results];
-          this.length = this.products.length;
+          //this.totalItems = productProjectionsResponse.results;
         },
         error: (error: HttpErrorResponse) => {
           // Handle request error
@@ -167,5 +169,11 @@ export class ProductListComponent implements OnInit {
     }
 
     return new Error('Something went wrong; please try again later.');
+  }
+
+  public onPageChange(event: { pageIndex: number; pageSize: number }): void {
+    // const page = event.pageIndex + 1;
+    // const size = event.pageSize;
+    // this.loadProducts();
   }
 }

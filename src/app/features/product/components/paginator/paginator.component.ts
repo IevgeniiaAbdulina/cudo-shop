@@ -1,8 +1,17 @@
-import { Component, Injectable, Input } from '@angular/core';
+import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { HttpClient } from '@angular/common/http';
 
 //import '@angular/localize/init';
 import { Subject } from 'rxjs';
+import { environment } from '../../../../../environments/environment.dev';
+import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
+
+interface ApiResponse {
+  //data: any[]; // замените 'any' на конкретный тип данных, если есть
+  products: ProductProjection[];
+  totalItems: number;
+}
 
 @Injectable()
 export class MyCustomPaginatorIntl implements MatPaginatorIntl {
@@ -31,5 +40,20 @@ export class MyCustomPaginatorIntl implements MatPaginatorIntl {
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
+  // public products: ProductProjection[] = [];
+  public totalItems = 0;
+  public pageSize = 6;
+  // public currentPage = 1;
   @Input() public length = 0;
+  @Output() public pageChange = new EventEmitter<{ pageIndex: number; pageSize: number }>();
+
+  // private readonly PROJECT_KEY: string = environment.projectKey;
+  // private readonly API_URL: string = environment.apiUrl;
+  // protected apiUrlRequest: string = `${this.API_URL}/${this.PROJECT_KEY}/product-projections/search`;
+
+  constructor(private http: HttpClient) {}
+
+  public onPageChange(event: { pageIndex: number; pageSize: number }): void {
+    this.pageChange.emit(event);
+  }
 }
