@@ -1,47 +1,47 @@
 <div class="cart__list__item">
   <div class="cart__list__item__image">
-    <a routerLink="{{ '/books/' + item()?.key }}">
-      <img alt="product image" ngSrc="{{ item()?.image }}" width="100" height="140" fetchpriority="auto" priority />
+    <a routerLink="{{ '/books/' + itemModel?.key }}">
+      <img alt="product image" ngSrc="{{ itemModel?.image }}" width="100" height="140" fetchpriority="auto" priority />
     </a>
   </div>
 
   <div class="cart__list__item__wrapper">
     <div class="cart__list__item__body">
       <div class="cart__list__item__name">
-        <a routerLink="{{ '/books/' + item()?.key }}">
-          <h4>{{ item()?.name }}</h4>
+        <a routerLink="{{ '/books/' + itemModel?.key }}">
+          <h4>{{ itemModel?.name }}</h4>
         </a>
       </div>
 
       <div class="cart__list__item__actions">
         <div class="counter__container">
           <app-button
-            class="counter__btn {{ count() === 1 ? 'ic_delete' : 'ic_remove' }}"
-            (buttonClicked)="decrement(item()?.key)"
+            class="counter__btn {{ itemModel?.quantity === 1 ? 'ic_delete' : 'ic_remove' }}"
+            (buttonClicked)="decrementItem.emit(itemModel?.id)"
           ></app-button>
           <div class="counter__number">
-            {{ count() }}
+            {{ itemModel?.quantity }}
           </div>
-          <app-button class="counter__btn" label="+" (buttonClicked)="increment()"></app-button>
+          <app-button class="counter__btn ic_add" (buttonClicked)="incrementItem.emit(itemModel?.id)"></app-button>
         </div>
       </div>
     </div>
 
     <div class="cart__list__item__price">
-      @if (item()?.discountedPrice) {
+      @if (itemModel?.discountedPrice) {
         <div class="discount-value">
-          {{ discountValue(item()!.originalPrice, item()!.discountedPrice ?? 0) }}
-          % off
+          {{ discountValue(itemModel?.originalPrice!, itemModel?.discountedPrice!) + '%' }}
+          off
         </div>
         <div>
-          <span class="currency">{{ item()?.currencyCode }}</span>
-          <span class="discount">{{ item()?.printableTotalPrice() | number: '2.2-2' }}</span>
+          <span class="currency">{{ itemModel?.currencyCode }}</span>
+          <span class="discount">{{ itemModel?.printableTotalPrice() | number: '2.2-2' }}</span>
         </div>
-        <div class="old-price">{{ item()?.originalPriceByQuantity() | number: '2.2-2' }}</div>
+        <div class="old-price">{{ itemModel?.originalPriceByQuantity() | number: '2.2-2' }}</div>
       } @else {
         <div>
-          <span class="currency">{{ item()?.currencyCode }}</span>
-          <span class="discount">{{ item()?.originalPriceByQuantity() | number: '2.2-2' }}</span>
+          <span class="currency">{{ itemModel?.currencyCode }}</span>
+          <span class="discount">{{ itemModel?.originalPriceByQuantity() | number: '2.2-2' }}</span>
         </div>
       }
     </div>

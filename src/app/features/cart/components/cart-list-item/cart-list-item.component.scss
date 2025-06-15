@@ -168,13 +168,14 @@
   font-size: 20px;
 
   & > * {
-    width: 40px;
+    min-width: 40px;
     display: flex;
     align-items: center;
   }
 }
 
 .counter__number {
+  width: auto;
   height: 100%;
   padding: 0.5rem 1.5rem;
   border-left: 1px solid grey;
@@ -191,6 +192,16 @@
 /* Delete | remove icon */
 .counter__btn {
   cursor: pointer;
+}
+
+.ic_add {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../../assets/icons/add_16dp.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
 }
 
 .ic_delete {
