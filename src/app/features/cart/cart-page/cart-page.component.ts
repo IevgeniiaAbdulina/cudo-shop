@@ -28,8 +28,28 @@ export class CartPageComponent implements OnInit {
 
   public ngOnInit(): void {
     this.cartService.getCartById(this.cartId).subscribe((response: CartResponse) => {
-      console.log('[cart page] get cart by id response: ', response);
+      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+    });
+  }
 
+  private getSelectedCartItem(productId: string | undefined) {
+    return this.cart()?.lineItems?.find((item) => item.productId === productId);
+  }
+
+  public increment($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity: number | undefined = (selectedItem?.quantity ?? 0) + 1;
+
+    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
+      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+    });
+  }
+
+  public decrement($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity: number | undefined = (selectedItem?.quantity ?? 0) - 1;
+
+    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
       this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
     });
   }

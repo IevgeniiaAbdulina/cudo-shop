@@ -12,7 +12,11 @@
         <div class="cart__content__cart_list">
           @for (item of cart()?.lineItems; track item.id) {
             <div class="cart__content__cart_item">
-              <app-cart-list-item [cartItem]="item"></app-cart-list-item>
+              <app-cart-list-item
+                [cartItem]="item"
+                (incrementItem)="increment($event)"
+                (decrementItem)="decrement($event)"
+              ></app-cart-list-item>
             </div>
           }
           <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />

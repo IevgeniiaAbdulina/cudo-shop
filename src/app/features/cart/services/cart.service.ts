@@ -18,4 +18,24 @@ export class CartService {
   public getCartById(cartId: string): Observable<CartResponse> {
     return this.http.get<CartResponse>(`${this.baseUrl}/carts/${cartId}`);
   }
+
+  public changeLineItemQuantity(
+    cartId: string | undefined,
+    cartVersion: number | undefined,
+    lineItemId: string | undefined,
+    lineItemQuantity: number,
+  ): Observable<CartResponse> {
+    const body = {
+      version: cartVersion,
+      actions: [
+        {
+          action: 'changeLineItemQuantity',
+          lineItemId: `${lineItemId}`,
+          quantity: lineItemQuantity,
+        },
+      ],
+    };
+
+    return this.http.post<CartResponse>(`${this.baseUrl}/carts/${cartId}`, JSON.stringify(body));
+  }
 }
