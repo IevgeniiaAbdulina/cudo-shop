@@ -223,3 +223,29 @@
   background-position: center;
   position: relative;
 }
+
+.cart {
+  &__button {
+    border-radius: 10px;
+    font-weight: 600;
+    align-self: center;
+    cursor: pointer;
+    width: max-content;
+    @extend %transition;
+
+    @include media-mobile {
+      font-weight: 400;
+    }
+  }
+}
+
+.btn_delete {
+  border: 0.15rem solid gainsboro;
+  background-color: transparent;
+  color: #000000;
+
+  &:hover {
+    background: gainsboro;
+    box-shadow: 0 1px 3px #eee;
+  }
+}

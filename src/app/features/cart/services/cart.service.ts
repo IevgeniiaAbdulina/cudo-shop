@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CartResponse } from '../interfaces/cart-response';
 
 @Injectable({
@@ -13,10 +13,18 @@ export class CartService {
 
   private baseUrl: string = `${this.API_URL}/${this.PROJECT_KEY}`;
 
+  public cartItemsCount: WritableSignal<number> = signal<number>(0);
+
   constructor(private http: HttpClient) {}
 
   public getCartById(cartId: string): Observable<CartResponse> {
-    return this.http.get<CartResponse>(`${this.baseUrl}/carts/${cartId}`);
+    return this.http.get<CartResponse>(`${this.baseUrl}/carts/${cartId}`).pipe(
+      tap({
+        next: (cartResponse: CartResponse) => {
+          this.cartItemsCount.set(cartResponse.lineItems.length);
+        },
+      }),
+    );
   }
 
   public changeLineItemQuantity(
@@ -36,6 +44,12 @@ export class CartService {
       ],
     };
 
-    return this.http.post<CartResponse>(`${this.baseUrl}/carts/${cartId}`, JSON.stringify(body));
+    return this.http.post<CartResponse>(`${this.baseUrl}/carts/${cartId}`, JSON.stringify(body)).pipe(
+      tap({
+        next: (cartResponse: CartResponse) => {
+          this.cartItemsCount.set(cartResponse.lineItems.length);
+        },
+      }),
+    );
   }
 }

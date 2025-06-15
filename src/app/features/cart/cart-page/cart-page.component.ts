@@ -17,7 +17,6 @@ import { CartModel } from '../model/cart-model';
 export class CartPageComponent implements OnInit {
   private cartId = 'ec77f411-6b92-4d4d-81d9-5eb1b25bb2ef';
 
-  public count: number = 3;
   public showCode: boolean = false;
   public showCodeMassage: boolean = false;
   public isCodeSuccess: boolean = false;
@@ -48,6 +47,15 @@ export class CartPageComponent implements OnInit {
   public decrement($event: string | undefined): void {
     const selectedItem = this.getSelectedCartItem($event);
     const quantity: number | undefined = (selectedItem?.quantity ?? 0) - 1;
+
+    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
+      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+    });
+  }
+
+  public delete($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity = 0;
 
     this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
       this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));

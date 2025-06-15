@@ -19,6 +19,7 @@ export class CartListItemComponent {
 
   public incrementItem: OutputEmitterRef<string | undefined> = output<string | undefined>();
   public decrementItem: OutputEmitterRef<string | undefined> = output<string | undefined>();
+  public deleteItem: OutputEmitterRef<string | undefined> = output<string | undefined>();
 
   constructor() {
     effect(() => {

@@ -24,6 +24,7 @@
           </div>
           <app-button class="counter__btn ic_add" (buttonClicked)="incrementItem.emit(itemModel?.id)"></app-button>
         </div>
+        <app-button class="cart__button btn_delete" label="Remove from Cart" (buttonClicked)="deleteItem.emit(itemModel?.id)"></app-button>
       </div>
     </div>
 

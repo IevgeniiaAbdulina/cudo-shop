@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <h1>Your cart</h1>
-    @if (count === 0) {
+    @if (cart()?.lineItems?.length === 0) {
       <div class="cart cart__empty">
         <div class="cart__empty-cart"></div>
         <p class="cart__message">Your cart is empty. Continue your shopping</p>
@@ -16,6 +16,7 @@
                 [cartItem]="item"
                 (incrementItem)="increment($event)"
                 (decrementItem)="decrement($event)"
+                (deleteItem)="delete($event)"
               ></app-cart-list-item>
             </div>
           }
@@ -27,17 +28,17 @@
             <h3>Order summary</h3>
           </div>
           <div class="cart_summary__body">
-            <div class="cart_summary__body__row">
-              <p>Item(s) total</p>
-              <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
-            </div>
             @if (cart()?.getShopDiscount()) {
+              <div class="cart_summary__body__row">
+                <p>Item(s) total</p>
+                <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+              </div>
               <div class="cart_summary__body__row">
                 <p>Shop discount</p>
                 <span>- {{ cart()?.getShopDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
               </div>
+              <hr />
             }
-            <hr />
             <div class="cart_summary__body__row">
               <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
               <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
