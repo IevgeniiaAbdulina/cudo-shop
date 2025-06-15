@@ -1,10 +1,61 @@
 <div class="wrapper">
   <div class="content-wrapper">
+    <h1>Your cart</h1>
     @if (count === 0) {
       <div class="cart cart__empty">
         <div class="cart__empty-cart"></div>
         <p class="cart__message">Your cart is empty. Continue your shopping</p>
         <app-button label="Go to catalog" (buttonClicked)="buttonGoToCatalog()" class="cart__button" />
+      </div>
+    } @else {
+      <div class="cart__content__container">
+        <div class="cart__content__cart_list">
+          @for (item of cart()?.lineItems; track item.id) {
+            <div class="cart__content__cart_item">
+              <app-cart-list-item [cartItem]="item"></app-cart-list-item>
+            </div>
+          }
+          <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
+        </div>
+
+        <div class="cart__content__cart_summary">
+          <div class="cart_summary__header">
+            <h3>Order summary</h3>
+          </div>
+          <div class="cart_summary__body">
+            <div class="cart_summary__body__row">
+              <p>Item(s) total</p>
+              <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+            </div>
+            @if (cart()?.getShopDiscount()) {
+              <div class="cart_summary__body__row">
+                <p>Shop discount</p>
+                <span>- {{ cart()?.getShopDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+              </div>
+            }
+            <hr />
+            <div class="cart_summary__body__row">
+              <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
+              <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+            </div>
+          </div>
+          <div class="cart_summary__footer">
+            <app-button label="Proceed to checkout" class="cart__button cart__button__checkout" (buttonClicked)="proceedCheckout()" />
+            <button class="cart__button cart__button__coupon_code" (click)="showCouponCodeInput()">
+              <span class="coupon_code__icon"></span>
+              Apply coupon code
+            </button>
+            @if (showCode) {
+              <div class="coupon_code__wrapper">
+                <label for="couponCode"><input id="couponCode" name="couponCode" placeholder="ENTER CODE" /></label>
+                <button class="cart__button cart__button__coupon_code__apply" type="submit" (click)="applyCode()">Apply</button>
+              </div>
+              @if (showCodeMassage) {
+                <span class="coupon_code__message {{ !isCodeSuccess ? 'warn' : '' }}">{{ handleCouponCodeErrorMessage() }}</span>
+              }
+            }
+          </div>
+        </div>
       </div>
     }
   </div>
