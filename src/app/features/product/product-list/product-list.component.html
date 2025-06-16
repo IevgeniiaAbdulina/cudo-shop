@@ -120,7 +120,14 @@
           </div>
         </aside>
 
-        <div class="product-list default">
+        <div class="product-list">
+          @for (product of products; track $index) {
+            @if (product.key) {
+              <div [routerLink]="['/cosmetics', product.key]" class="product-list__item-link">
+                <app-brief-card [product]="product" [searchTerm]="searchTerm"></app-brief-card>
+              </div>
+            }
+          }
           <p>We're sorry, this page is not available now. We are working hard to make more products available to you.</p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output } from '@angular/core';
-import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 //import { HttpClient } from '@angular/common/http';
 
 //import '@angular/localize/init';
@@ -68,4 +68,8 @@ export class PaginatorComponent {
   // public onPageChange(event: { pageIndex: number; pageSize: number }): void {
   //   this.pageChange.emit(event);
   // }
+
+  public onPageEvent(event: PageEvent): void {
+    this.pageLimitChange.emit({ pageIndex: event.pageIndex, pageSize: event.pageSize });
+  }
 }

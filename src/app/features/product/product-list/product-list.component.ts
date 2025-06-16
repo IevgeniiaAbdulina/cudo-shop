@@ -91,6 +91,7 @@ export class ProductListComponent implements OnInit {
   public filterByCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
     const offset = (this.page - 1) * this.limit;
+    console.log('offset', offset);
     this.productProjectionsApiService
       .getProductProjectionsByCategory(categoryId, this.limit, offset)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -181,6 +182,7 @@ export class ProductListComponent implements OnInit {
   public onPageLimitChange(event: { pageIndex: number; pageSize: number }): void {
     console.log('click onPageLimitChange');
     //const target = event.target;
+    this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
     console.log('limit', this.limit);
     this.filterByCategory(BOOKS_ID);
