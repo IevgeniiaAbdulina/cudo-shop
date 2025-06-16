@@ -6,12 +6,18 @@
           <div class="category__image category__image-books"></div>
           <p class="category__name">books</p>
         </div>
+        <app-promotion-teaser [customClass]="'promo__secondary promo__exclusion'">
+          SALE: up to -30% off on selected products.
+        </app-promotion-teaser>
       </app-button>
       <app-button (buttonClicked)="selectCatalog('cosmetics')" class="category__button">
         <div class="category">
           <p class="category__name">Cosmetics</p>
           <div class="category__image category__image-category"></div>
         </div>
+        <app-promotion-teaser [customClass]="'promo__primary promo__exclusion'">
+          -10% Off on products Brand: "Sadoer".
+        </app-promotion-teaser>
       </app-button>
     </article>
     <article class="content__categories">

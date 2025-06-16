@@ -11,6 +11,7 @@ export interface CartResponse {
   lineItems: CartItemResponse[];
   cartState: string;
   totalPrice: TotalPrice;
+  discountOnTotalPrice: DiscountOnTotalPrice;
   shippingMode: string;
   shipping: ArrayTypeCombination[];
   customLineItems: ArrayTypeCombination[];
@@ -200,6 +201,35 @@ export interface State2 {
 }
 
 export interface TotalPrice {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+}
+
+export interface DiscountOnTotalPrice {
+  discountedAmount: DiscountedAmount;
+  includedDiscounts: IncludedDiscount[];
+}
+
+export interface DiscountedAmount {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+}
+
+export interface IncludedDiscount {
+  discount: Discount;
+  discountedAmount: DiscountedAmount2;
+}
+
+export interface Discount {
+  typeId: string;
+  id: string;
+}
+
+export interface DiscountedAmount2 {
   type: string;
   currencyCode: string;
   centAmount: number;

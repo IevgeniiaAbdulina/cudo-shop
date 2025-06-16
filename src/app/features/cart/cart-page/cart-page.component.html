@@ -28,20 +28,28 @@
             <h3>Order summary</h3>
           </div>
           <div class="cart_summary__body">
-            @if (cart()?.getShopDiscount()) {
+            @if (cart()?.hasDiscount) {
               <div class="cart_summary__body__row">
                 <p>Item(s) total</p>
-                <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+                <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
               </div>
-              <div class="cart_summary__body__row">
-                <p>Shop discount</p>
-                <span>- {{ cart()?.getShopDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
-              </div>
+              @if (cart()?.getProductItemDiscount()) {
+                <div class="cart_summary__body__row">
+                  <p>Product discount</p>
+                  <span>- {{ cart()?.getProductItemDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+                </div>
+              }
+              @if (cart()?.discountOnTotalPrice) {
+                <div class="cart_summary__body__row">
+                  <p>Shop discount</p>
+                  <span>- {{ cart()?.getDiscountOnTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+                </div>
+              }
               <hr />
             }
             <div class="cart_summary__body__row">
               <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
-              <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '2.2-2' }}</span>
+              <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
             </div>
           </div>
           <div class="cart_summary__footer">
@@ -52,7 +60,9 @@
             </button>
             @if (showCode) {
               <div class="coupon_code__wrapper">
-                <label for="couponCode"><input id="couponCode" name="couponCode" placeholder="ENTER CODE" /></label>
+                <label for="couponCode"
+                  ><input id="couponCode" [(ngModel)]="couponCode" name="couponCode" placeholder="ENTER CODE"
+                /></label>
                 <button class="cart__button cart__button__coupon_code__apply" type="submit" (click)="applyCode()">Apply</button>
               </div>
               @if (showCodeMassage) {

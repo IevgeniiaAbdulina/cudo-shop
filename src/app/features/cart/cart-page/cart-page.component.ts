@@ -7,15 +7,16 @@ import { CartService } from '../services/cart.service';
 import { CartResponse } from '../interfaces/cart-response';
 import { CurrencyPipe } from '@angular/common';
 import { CartModel } from '../model/cart-model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cart-page',
-  imports: [ButtonComponent, CartListItemComponent, RouterLink, CurrencyPipe],
+  imports: [ButtonComponent, CartListItemComponent, RouterLink, CurrencyPipe, FormsModule],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.scss',
 })
 export class CartPageComponent implements OnInit {
-  private cartId = 'ec77f411-6b92-4d4d-81d9-5eb1b25bb2ef';
+  private cartId = 'bcd29e2e-fd23-440d-a00f-4d05389a50cd';
 
   public showCode: boolean = false;
   public showCodeMassage: boolean = false;
@@ -24,11 +25,26 @@ export class CartPageComponent implements OnInit {
   private cartService = inject(CartService);
 
   public cart: WritableSignal<CartModel | null> = signal<CartModel | null>(null);
+  public couponCode: string = '';
 
   public ngOnInit(): void {
     this.cartService.getCartById(this.cartId).subscribe((response: CartResponse) => {
-      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+      this.updateCartModel(response);
     });
+  }
+
+  private updateCartModel(response: CartResponse): void {
+    this.cart.set(
+      new CartModel(
+        response.version,
+        response.id,
+        response.lineItems,
+        response.totalPrice,
+        response.totalLineItemQuantity,
+        response.discountOnTotalPrice?.discountedAmount.centAmount,
+        false,
+      ),
+    );
   }
 
   private getSelectedCartItem(productId: string | undefined) {
@@ -40,7 +56,7 @@ export class CartPageComponent implements OnInit {
     const quantity: number | undefined = (selectedItem?.quantity ?? 0) + 1;
 
     this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+      this.updateCartModel(response);
     });
   }
 
@@ -49,7 +65,7 @@ export class CartPageComponent implements OnInit {
     const quantity: number | undefined = (selectedItem?.quantity ?? 0) - 1;
 
     this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+      this.updateCartModel(response);
     });
   }
 
@@ -58,7 +74,7 @@ export class CartPageComponent implements OnInit {
     const quantity = 0;
 
     this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.cart.set(new CartModel(response.version, response.id, response.lineItems, response.totalPrice, response.totalLineItemQuantity));
+      this.updateCartModel(response);
     });
   }
 
@@ -71,12 +87,10 @@ export class CartPageComponent implements OnInit {
   }
 
   public showCouponCodeInput(): void {
-    console.log('showCouponCodeInput');
     this.showCode = !this.showCode;
   }
 
   public handleCouponCodeErrorMessage(): string {
-    console.log('showApplyCodeMessage');
     if (this.isCodeSuccess) {
       return 'Coupon code applied successfully.';
     } else {
@@ -88,5 +102,18 @@ export class CartPageComponent implements OnInit {
     this.showCodeMassage = true;
     this.isCodeSuccess = true;
     this.handleCouponCodeErrorMessage();
+
+    this.cartService.addDiscountCode(this.cart()?.id, this.cart()?.version, this.couponCode).subscribe({
+      next: (response: CartResponse) => {
+        this.isCodeSuccess = true;
+        this.handleCouponCodeErrorMessage();
+        this.updateCartModel(response);
+      },
+      error: (error) => {
+        console.error('[cart apply code error]', error);
+        this.isCodeSuccess = false;
+        this.handleCouponCodeErrorMessage();
+      },
+    });
   }
 }
