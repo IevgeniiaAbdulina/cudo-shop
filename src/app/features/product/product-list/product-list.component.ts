@@ -67,8 +67,14 @@ export class ProductListComponent implements OnInit {
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
+    console.log('this.currentRoute', this.currentRoute);
 
-    this.loadProducts();
+    if (this.currentRoute === '/books') {
+      this.loadProductsByCategoryID(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.loadProductsByCategoryID(COSMETICS_ID);
+    }
+
     this.loadCategories();
   }
 
@@ -84,14 +90,26 @@ export class ProductListComponent implements OnInit {
   }
 
   public loadProducts(): void {
-    this.filterByCategory(BOOKS_ID);
+    this.filterBySubCategory(BOOKS_ID);
     this.resetFilters();
   }
 
-  public filterByCategory(categoryId: string): void {
+  public loadProductsByCategoryID(categoryId: string): void {
+    this.filterByCategory(categoryId);
+    this.resetFilters();
+  }
+
+  public filterBySubCategory(categoryId: string): void {
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
+    this.filterByCategory(categoryId);
+  }
+
+  public filterByCategory(categoryId: string): void {
+    //console.log('filterByCategory');
+    //console.log('categoryId', categoryId);
+    //this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
     const offset = (this.page - 1) * this.limit;
-    console.log('offset', offset);
+    //console.log('offset', offset);
     this.productProjectionsApiService
       .getProductProjectionsByCategory(categoryId, this.limit, offset)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -111,12 +129,12 @@ export class ProductListComponent implements OnInit {
 
   public setCurrentCategory(category: Category) {
     this.breadcrumbService.setCategory(category.name['en-US']);
-    this.filterByCategory(category.id);
+    this.filterBySubCategory(category.id);
   }
 
   public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
     if (event.key === 'Enter') {
-      this.filterByCategory(categoryId);
+      this.filterBySubCategory(categoryId);
     }
   }
 
@@ -173,18 +191,9 @@ export class ProductListComponent implements OnInit {
     return new Error('Something went wrong; please try again later.');
   }
 
-  // public onPageChange(event: { pageIndex: number; pageSize: number }): void {
-  //   console.log('click arrow on pagination');
-  //   // const page = event.pageIndex + 1;
-  //   // const size = event.pageSize;
-  //   // this.loadProducts();
-  // }
   public onPageLimitChange(event: { pageIndex: number; pageSize: number }): void {
-    console.log('click onPageLimitChange');
-    //const target = event.target;
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
-    console.log('limit', this.limit);
     this.filterByCategory(BOOKS_ID);
   }
 }
