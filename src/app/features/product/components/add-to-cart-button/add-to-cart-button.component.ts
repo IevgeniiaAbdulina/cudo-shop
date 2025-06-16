@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { StorageService } from '../../../../core/auth/storage.service';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
@@ -28,6 +29,7 @@ export class AddToCartButtonComponent implements OnInit {
   constructor(
     private cartApiService: CartApiService,
     private productProjectionsHelperService: ProductProjectionsHelperService,
+    private storageService: StorageService,
   ) {}
 
   public ngOnInit(): void {
@@ -43,8 +45,14 @@ export class AddToCartButtonComponent implements OnInit {
   }
 
   private updateCart(): void {
+    const customerId = this.storageService.getCustomerId();
+
+    if (!customerId) {
+      return;
+    }
+
     this.cartApiService
-      .getCartByCustomerId(this.getCustomerId())
+      .getCartByCustomerId(customerId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: unknown) => {
@@ -86,10 +94,6 @@ export class AddToCartButtonComponent implements OnInit {
           }
         },
       });
-  }
-
-  private getCustomerId(): string {
-    return '3740b429-a77a-45b2-831b-236003228369'; // TODO
   }
 
   private handleError(error: HttpErrorResponse): Error {

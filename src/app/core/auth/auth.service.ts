@@ -14,6 +14,7 @@ import { environment } from '../../../environments/environment';
 import { StorageService } from './storage.service';
 import { CustomerService } from '../customer/services/customer.service';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
+import { UserService } from '../../features/user/services/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,7 @@ export class AuthService {
     private router: Router,
     private storageService: StorageService,
     private customerService: CustomerService,
+    private userService: UserService, // Inject UserService
   ) {
     const token: string | null = this.storageService.getToken();
     if (token) {
@@ -111,6 +113,12 @@ export class AuthService {
           this.storageService.setSession(response, 'normal', false);
           this.tokenSubject.next(response.access_token);
           this.isAuthenticatedSubject.next(true);
+
+          this.userService.getUserPersonalInfoByToken().subscribe((userResponse: UserResponse) => {
+            const customerId = userResponse.id;
+            console.log(customerId); // TODO
+            this.storageService.setCustomerId(customerId);
+          });
         },
         error: (error) => {
           this.handleError(error);
@@ -133,6 +141,8 @@ export class AuthService {
           const billingAddress: Address = response.customer.addresses[0];
           const shippingAddress: Address = response.customer.addresses[1];
           const updateActions: CustomerAction[] = [];
+
+          this.storageService.setCustomerId(customerId);
 
           if (billingAddress.id) {
             updateActions.push({
