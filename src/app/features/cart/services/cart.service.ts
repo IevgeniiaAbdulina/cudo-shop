@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { CartResponse } from '../interfaces/cart-response';
+import { QueryCartResponse } from '../interfaces/query-carts-response';
 
 @Injectable({
   providedIn: 'root',
@@ -65,5 +66,9 @@ export class CartService {
     };
 
     return this.http.post<CartResponse>(`${this.baseUrl}/carts/${cartId}`, JSON.stringify(body));
+  }
+
+  public deleteCartById(cartId: string | undefined, cartVersion: number | undefined): Observable<QueryCartResponse> {
+    return this.http.delete<QueryCartResponse>(`${this.baseUrl}/carts/${cartId}?version=${cartVersion}`);
   }
 }

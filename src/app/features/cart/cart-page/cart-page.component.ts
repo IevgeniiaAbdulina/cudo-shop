@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cart-page.component.scss',
 })
 export class CartPageComponent implements OnInit {
-  private cartId = 'bcd29e2e-fd23-440d-a00f-4d05389a50cd';
+  private cartId = '88c91569-25d0-4291-9738-3ad7c36d1c80';
 
   public showCode: boolean = false;
   public showCodeMassage: boolean = false;
@@ -115,5 +115,19 @@ export class CartPageComponent implements OnInit {
         this.handleCouponCodeErrorMessage();
       },
     });
+  }
+
+  public clearShoppingCart(cartId: string | undefined, cartVersion: number | undefined): void {
+    if (cartId) {
+      this.cartService.deleteCartById(cartId, cartVersion).subscribe({
+        next: () => {
+          this.cart.set(null);
+          this.cartService.cartItemsCount.set(0);
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    }
   }
 }
