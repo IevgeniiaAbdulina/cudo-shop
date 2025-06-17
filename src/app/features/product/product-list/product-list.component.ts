@@ -67,7 +67,6 @@ export class ProductListComponent implements OnInit {
 
   public ngOnInit() {
     this.currentRoute = this.router.url;
-    console.log('this.currentRoute', this.currentRoute);
 
     if (this.currentRoute === '/books') {
       this.loadProductsByCategoryID(BOOKS_ID);
@@ -105,11 +104,7 @@ export class ProductListComponent implements OnInit {
   }
 
   public filterByCategory(categoryId: string): void {
-    //console.log('filterByCategory');
-    //console.log('categoryId', categoryId);
-    //this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
     const offset = (this.page - 1) * this.limit;
-    //console.log('offset', offset);
     this.productProjectionsApiService
       .getProductProjectionsByCategory(categoryId, this.limit, offset)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -194,6 +189,10 @@ export class ProductListComponent implements OnInit {
   public onPageLimitChange(event: { pageIndex: number; pageSize: number }): void {
     this.page = event.pageIndex + 1;
     this.limit = event.pageSize;
-    this.filterByCategory(BOOKS_ID);
+    if (this.currentRoute === '/books') {
+      this.filterByCategory(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.filterByCategory(COSMETICS_ID);
+    }
   }
 }
