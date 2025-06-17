@@ -20,6 +20,7 @@ import { ProductButtonComponent } from '../components/product-button/product-but
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
 import { PaginatorComponent } from '../components/paginator/paginator.component';
+import { B } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-product-list',
@@ -89,7 +90,11 @@ export class ProductListComponent implements OnInit {
   }
 
   public loadProducts(): void {
-    this.filterBySubCategory(BOOKS_ID);
+    if (this.currentRoute === '/books') {
+      this.filterBySubCategory(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.filterBySubCategory(COSMETICS_ID);
+    }
     this.resetFilters();
   }
 
@@ -161,8 +166,14 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadBookSubCategories(): void {
+    let subCategoryID: string = '';
+    if (this.currentRoute === '/books') {
+      subCategoryID = BOOKS_ID;
+    } else if (this.currentRoute === '/cosmetics') {
+      subCategoryID = COSMETICS_ID;
+    }
     this.categoryApiService
-      .getSubcategories(BOOKS_ID)
+      .getSubcategories(subCategoryID)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (categories: Category[]) => {
