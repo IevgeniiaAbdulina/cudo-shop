@@ -21,22 +21,35 @@
       </app-button>
     </article>
     <article class="content__categories">
-      <!--      <div class="content__categories-name">-->
-      <!--        <h2>Books</h2>-->
-      <!--      </div>-->
-      <section>
-        <app-product-list></app-product-list>
-      </section>
+      <div class="content__categories-name">
+        <h2>Books</h2>
+      </div>
+      <div class="content__book-wrapper">
+        @for (book of books; track $index) {
+          @if (book.key) {
+            <div [routerLink]="['/books', book.key]" class="product-list__item-link">
+              <app-brief-card [product]="book"></app-brief-card>
+            </div>
+          }
+        }
+      </div>
+      <!--<section>-->
+      <!--<app-product-list></app-product-list>-->
+      <!--</section>-->
     </article>
-    <!--    <article class="content__categories">-->
-    <!--      <div class="content__categories-name">-->
-    <!--        <h2>Cosmetics</h2>-->
-    <!--      </div>-->
-    <!--      <section>-->
-    <!--        <ul>-->
-    <!--          <li>cosmetic</li>-->
-    <!--        </ul>-->
-    <!--      </section>-->
-    <!--    </article>-->
+    <article class="content__categories">
+      <div class="content__categories-name">
+        <h2>Cosmetics</h2>
+      </div>
+      <div class="content__book-wrapper">
+        @for (cosmetic of cosmetics; track $index) {
+          @if (cosmetic.key) {
+            <div [routerLink]="['/cosmetics', cosmetic.key]" class="product-list__item-link">
+              <app-brief-card [product]="cosmetic"></app-brief-card>
+            </div>
+          }
+        }
+      </div>
+    </article>
   </div>
 </div>
