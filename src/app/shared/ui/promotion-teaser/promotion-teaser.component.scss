@@ -1,0 +1,43 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.promotion-teaser {
+  &__wrapper {
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 2vh;
+    color: #ffffff;
+  }
+}
+
+.promo {
+  margin-top: 1rem;
+
+  &__basic {
+    background-color: transparent;
+  }
+
+  &__primary {
+    background-color: $color-primary;
+  }
+
+  &__secondary {
+    background-color: $color-additional;
+  }
+
+  &__alert {
+    background-color: $color-error;
+  }
+
+  &__exclusion {
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+}

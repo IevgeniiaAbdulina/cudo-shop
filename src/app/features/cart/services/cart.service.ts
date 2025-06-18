@@ -52,4 +52,18 @@ export class CartService {
       }),
     );
   }
+
+  public addDiscountCode(cartId: string | undefined, cartVersion: number | undefined, code: string): Observable<CartResponse> {
+    const body = {
+      version: cartVersion,
+      actions: [
+        {
+          action: 'addDiscountCode',
+          code: code,
+        },
+      ],
+    };
+
+    return this.http.post<CartResponse>(`${this.baseUrl}/carts/${cartId}`, JSON.stringify(body));
+  }
 }

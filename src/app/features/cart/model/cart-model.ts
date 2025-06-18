@@ -8,7 +8,16 @@ export class CartModel {
     public lineItems: CartItemResponse[],
     public totalPrice: TotalPrice,
     public totalItemQuantity: number,
-  ) {}
+    public discountOnTotalPrice: number,
+    public hasDiscount: boolean,
+  ) {
+    const hasTotalPriceADiscount: boolean = this.discountOnTotalPrice > 0;
+    const hasAnyItemDiscount: boolean = lineItems.find((item) => item.price.discounted) !== undefined;
+
+    console.log('cart has total discount? ', hasTotalPriceADiscount, ' any item discount ', hasAnyItemDiscount);
+
+    this.hasDiscount = hasTotalPriceADiscount || hasAnyItemDiscount;
+  }
 
   public printableTotalPrice(): number {
     return this.totalPrice.centAmount / 100;
@@ -18,7 +27,7 @@ export class CartModel {
     return this.totalPrice.currencyCode;
   }
 
-  public getShopDiscount(): number {
+  public getProductItemDiscount(): number {
     let discount: number = 0;
 
     this.lineItems
@@ -45,5 +54,9 @@ export class CartModel {
     });
 
     return totalOriginalPrice / 100;
+  }
+
+  public getDiscountOnTotalPrice(): number {
+    return this.discountOnTotalPrice ? this.discountOnTotalPrice / 100 : 0;
   }
 }
