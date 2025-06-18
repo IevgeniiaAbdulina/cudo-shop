@@ -11,67 +11,149 @@
 
   @include media-laptop-tablet {
     column-gap: 1.5rem;
-    min-height: calc(100vh - 152px);
+    min-height: calc(100vh - 560px);
   }
 
   @include media-mobile-big {
     flex-direction: column;
-    min-height: calc(100vh - 228px);
+    min-height: calc(100vh - 307px);
+  }
+}
+
+.about__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 0 4rem;
+
+  h2 {
+    font-size: clamp(16px, 2vw, 24px);
   }
 
-  a {
-    text-decoration: none;
-    color: $color-primary;
-    border: 2px solid $color-input-search;
-    padding: 1.5rem;
-    align-self: center;
-    border-radius: 10px;
-    @extend %transition;
+  span {
+    color: orange;
+  }
 
-    &:hover {
-      color: $color-additional;
-      box-shadow: 0 3px 7px $color-button-disable;
-      background-color: $color-input-search;
-    }
+  .col_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
 
-    .rs-information {
-      display: flex;
-      justify-content: center;
-      column-gap: 2rem;
-      align-items: center;
+.about__section {
+  &__header {
+    display: flex;
+    align-items: center;
+  }
 
-      .logo-rs {
-        width: 5rem;
-        height: 5rem;
-        background-image: url('../../assets/images/rss-logo-about-us.svg');
-        background-repeat: no-repeat;
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+}
 
-        &__message {
-          display: flex;
-          flex-direction: column;
-          row-gap: 1.5rem;
-          font-weight: 600;
+.hero__content {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 3 1 auto;
+  }
+}
+
+.about__section {
+  &__hero {
+  }
+
+  &__school_link {
+    a {
+      text-decoration: none;
+      color: $color-primary;
+      border: 2px solid $color-input-search;
+      padding: 1.5rem;
+      align-self: center;
+      border-radius: 10px;
+      @extend %transition;
+
+      &:hover {
+        color: $color-additional;
+        box-shadow: 0 3px 7px $color-button-disable;
+        background-color: $color-input-search;
+      }
+
+      .rs-information {
+        display: flex;
+        justify-content: center;
+        column-gap: 2rem;
+        align-items: center;
+
+        .logo-rs {
+          width: 5rem;
+          height: 5rem;
+          background-image: url('../../assets/images/rss-logo-about-us.svg');
+          background-repeat: no-repeat;
+
+          &__message {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1.5rem;
+            font-weight: 600;
+
+            @include media-tablet {
+              h2 {
+                font-size: 2rem;
+              }
+            }
+
+            @include media-mobile-big {
+              h2 {
+                font-size: 1.6rem;
+              }
+              p {
+                font-size: 1.4rem;
+              }
+            }
+          }
 
           @include media-tablet {
-            h2 {
-              font-size: 2rem;
-            }
+            width: 8rem;
           }
-
-          @include media-mobile-big {
-            h2 {
-              font-size: 1.6rem;
-            }
-            p {
-              font-size: 1.4rem;
-            }
-          }
-        }
-
-        @include media-tablet {
-          width: 8rem;
         }
       }
     }
   }
+
+  &__technology {
+  }
+
+  &__development_life_cycle {
+    p {
+      text-align: center;
+    }
+  }
+
+  &__development_approach {
+  }
+
+  &__scrum_process {
+  }
+
+  &__development_principles {
+  }
+
+  &__conclusion {
+    p {
+      text-align: center;
+    }
+  }
+}
+
+.scrollable {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  overflow-x: auto;
 }
