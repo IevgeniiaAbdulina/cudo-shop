@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <h1>Your cart</h1>
-    @if (cart()?.lineItems?.length === 0) {
+    @if (!cart()?.id || cart()?.lineItems?.length === 0) {
       <div class="cart cart__empty">
         <div class="cart__empty-cart"></div>
         <p class="cart__message">Your cart is empty. Continue your shopping</p>
@@ -20,7 +20,15 @@
               ></app-cart-list-item>
             </div>
           }
-          <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
+          <div class="cart__content__cart_actions cart_actions__top">
+            <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
+            <app-button
+              class="cart__button cart__button__clear_cart"
+              label="Clear Shopping Cart"
+              routerLink="/cart"
+              (buttonClicked)="clearShoppingCart(cart()?.id, cart()?.version)"
+            />
+          </div>
         </div>
 
         <div class="cart__content__cart_summary">
@@ -71,6 +79,16 @@
             }
           </div>
         </div>
+      </div>
+
+      <div class="cart__content__cart_actions cart_actions__bottom">
+        <app-button class="cart__button cart__button__more_products" label="Find more products" routerLink="/main" />
+        <app-button
+          class="cart__button cart__button__clear_cart"
+          label="Clear Shopping Cart"
+          routerLink="/cart"
+          (buttonClicked)="clearShoppingCart(cart()?.id, cart()?.version)"
+        />
       </div>
     }
   </div>

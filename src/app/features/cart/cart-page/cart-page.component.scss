@@ -81,6 +81,9 @@
 
   &__cart_list {
     flex: 7;
+    @include media-tablet {
+      width: 100%;
+    }
   }
 
   &__cart_item {
@@ -150,6 +153,43 @@
 }
 
 /* Cart buttons */
+.cart__content {
+  &__cart_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    @include media-tablet {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+}
+
+.cart_actions {
+  &__top {
+    display: flex;
+
+    @include media-laptop-tablet {
+      display: none;
+    }
+  }
+
+  &__bottom {
+    display: none;
+
+    @include media-laptop-tablet {
+      display: flex;
+      margin: 2rem 0;
+
+      & > * {
+        width: 100%;
+      }
+    }
+  }
+}
+
 .cart__button {
   display: flex;
   align-items: center;
@@ -169,6 +209,15 @@
 
     &:hover {
       background: gainsboro;
+      box-shadow: 0 1px 3px #eee;
+    }
+  }
+
+  &__clear_cart {
+    background: $color-error;
+
+    &:hover {
+      background: #ba1414;
       box-shadow: 0 1px 3px #eee;
     }
   }
