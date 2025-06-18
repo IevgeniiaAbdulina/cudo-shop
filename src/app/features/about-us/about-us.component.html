@@ -50,6 +50,8 @@
     <section class="about__container about__section__development_life_cycle">
       <div class="col_wrap">
         <h2 class="about__section__header">Our Software Development Life Cycle (SDLC)</h2>
+        <h2 class="about__section__header">Utilizing an agile software development approach</h2>
+
         <p>
           Our SDLC follows an **Agile methodology**, ensuring flexibility, rapid iterations, and continuous feedback. Here’s how we
           structure our workflow:
@@ -65,13 +67,12 @@
       </div>
     </section>
 
-    <section class="about__container about__section__development_approach">
-      <h2 class="about__section__header">Utilizing an agile software development approach</h2>
-      <div class="about__section__content scrollable">
-        <div>development_approach 1</div>
-        <div>development_approach 2</div>
-        <div>development_approach 3</div>
-        <div>development_approach 4</div>
+    <section class="about__container about__section__collaboration">
+      <h2 class="about__section__header">Collaboration and Communication</h2>
+      <div class="about__section__content collaboration scrollable">
+        @for (item of collaboration; track item.name) {
+          <div class="ic_name ic_name__{{ item.name }}"></div>
+        }
       </div>
     </section>
 

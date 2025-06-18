@@ -127,10 +127,6 @@
   }
 
   &__technology {
-    img {
-      width: 100px;
-      height: 100px;
-    }
   }
 
   &__development_life_cycle {
@@ -139,7 +135,7 @@
     }
   }
 
-  &__development_approach {
+  &__collaboration {
   }
 
   &__scrum_process {
@@ -216,8 +212,24 @@
     background-image: url('../../assets/images/technology/WebStorm-Dark.svg');
   }
 
+  &__Commercetools {
+    border-radius: 1.2rem;
+    border: 1px solid #000000;
+    background-image: url('../../assets/images/technology/Commercetools.png');
+  }
+
   &__Diagrams {
     border-radius: 1.2rem;
     background-image: url('../../assets/images/technology/Diagrams.svg');
+  }
+
+  &__Discord {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/social-media/Discord.svg');
+  }
+
+  &__Telegram {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/social-media/Telegram.jpeg');
   }
 }
