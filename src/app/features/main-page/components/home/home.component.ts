@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { ProductListComponent } from '../../../product/product-list/product-list.component';
+import { PromotionTeaserComponent } from '../../../../shared/ui/promotion-teaser/promotion-teaser.component';
 
 @Component({
   selector: 'app-home',
-  imports: [ButtonComponent, ProductListComponent],
+  imports: [ButtonComponent, ProductListComponent, PromotionTeaserComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
