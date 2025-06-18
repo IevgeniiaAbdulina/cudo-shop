@@ -41,11 +41,9 @@
     <section class="about__container about__section__technology">
       <h2 class="about__section__header">Technology what we use</h2>
       <div class="about__section__content technology scrollable">
-        <div>Technology 1</div>
-        <div>Technology 2</div>
-        <div>Technology 3</div>
-        <div>Technology 4</div>
-        <div>Technology 5</div>
+        @for (item of technology; track item.name) {
+          <div class="ic_name ic_name__{{ item.name }}"></div>
+        }
       </div>
     </section>
 

@@ -24,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 4rem;
   padding: 2rem 0 4rem;
 
   h2 {
@@ -127,6 +127,10 @@
   }
 
   &__technology {
+    img {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__development_life_cycle {
@@ -152,8 +156,68 @@
 }
 
 .scrollable {
+  width: fit-content;
   display: flex;
   flex-wrap: nowrap;
   gap: 1rem;
   overflow-x: auto;
+}
+
+.ic_name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  background: round;
+
+  &__Angular {
+    background-image: url('../../assets/images/technology/Angular-Dark.svg');
+  }
+
+  &__TypeScript {
+    background-image: url('../../assets/images/technology/TypeScript.svg');
+  }
+
+  &__Sass {
+    background-image: url('../../assets/images/technology/Sass.svg');
+  }
+
+  &__Jest {
+    background-image: url('../../assets/images/technology/Jest.svg');
+  }
+
+  &__Postman {
+    background-image: url('../../assets/images/technology/Postman.svg');
+  }
+
+  &__Npm {
+    background-image: url('../../assets/images/technology/Npm-Dark.svg');
+  }
+
+  &__Webpack {
+    background-image: url('../../assets/images/technology/Webpack-Dark.svg');
+  }
+
+  &__Git {
+    background-image: url('../../assets/images/technology/Git.svg');
+  }
+
+  &__GitHub {
+    background-image: url('../../assets/images/technology/Github-Dark.svg');
+  }
+
+  &__VSCode {
+    background-image: url('../../assets/images/technology/VSCode-Dark.svg');
+  }
+
+  &__WebStorm {
+    background-image: url('../../assets/images/technology/WebStorm-Dark.svg');
+  }
+
+  &__Diagrams {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/technology/Diagrams.svg');
+  }
 }
