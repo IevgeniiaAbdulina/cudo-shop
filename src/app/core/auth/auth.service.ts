@@ -116,7 +116,6 @@ export class AuthService {
 
           this.userService.getUserPersonalInfoByToken().subscribe((userResponse: UserResponse) => {
             const customerId = userResponse.id;
-            console.log(customerId); // TODO
             this.storageService.setCustomerId(customerId);
           });
         },
