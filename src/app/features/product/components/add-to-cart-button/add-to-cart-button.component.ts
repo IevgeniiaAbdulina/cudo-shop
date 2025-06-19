@@ -48,6 +48,8 @@ export class AddToCartButtonComponent implements OnInit {
     const customerId = this.storageService.getCustomerId();
 
     if (!customerId) {
+      alert('Please sign in to add anything to your cart.');
+
       return;
     }
 
@@ -56,7 +58,6 @@ export class AddToCartButtonComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: unknown) => {
-          console.log('[updateCart process]', this.cartId, this.cartVersion, response);
           const responseStr = JSON.stringify(response);
           const cartResponse: Cart = JSON.parse(responseStr);
           if (cartResponse) {
@@ -67,7 +68,6 @@ export class AddToCartButtonComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           console.log('[updateCart error]', error.message);
-          // Handle unexpected errors
           this.handleError(error);
         },
       });
@@ -83,7 +83,7 @@ export class AddToCartButtonComponent implements OnInit {
       .subscribe({
         next: () => {
           this.isDisabled = true; // TODO
-          console.log('Product %s added to cart successfully', this.productTitle); // TODO
+          console.log('Product "%s" has been successfully added to your cart', this.productTitle); // TODO
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
