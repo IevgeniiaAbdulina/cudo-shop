@@ -33,3 +33,18 @@ button {
     font-size: 1.2rem;
   }
 }
+
+.add-to-cart {
+  background-image: url('../../../../../app/assets/icons/shopping_cart_24dp_white.svg');
+  background-position-x: 1rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &:hover:not(:disabled) {
+    background-position-x: 89%;
+  }
+
+  &:disabled {
+    background-image: unset;
+  }
+}

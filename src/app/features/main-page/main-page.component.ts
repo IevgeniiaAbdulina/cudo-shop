@@ -5,10 +5,11 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavigateToSpecificRouteService } from '../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { BreadcrumbComponent } from '../product/components/breadcrumb/breadcrumb.component';
+import { PromotionTeaserComponent } from '../../shared/ui/promotion-teaser/promotion-teaser.component';
 
 @Component({
   selector: 'app-main-page',
-  imports: [HeaderComponent, FooterComponent, RouterOutlet, BreadcrumbComponent],
+  imports: [HeaderComponent, FooterComponent, RouterOutlet, BreadcrumbComponent, PromotionTeaserComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })
