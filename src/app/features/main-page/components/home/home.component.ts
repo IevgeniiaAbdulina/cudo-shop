@@ -1,9 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NavigateToSpecificRouteService } from '../../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
-//import { ProductListComponent } from '../../../product/product-list/product-list.component';
 import { PromotionTeaserComponent } from '../../../../shared/ui/promotion-teaser/promotion-teaser.component';
-//import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
 import { ProductProjectionsApiService } from '../../../../core/product/services/product-projections.api.service';
 import { BOOKS_ID, COSMETICS_ID } from '../../../../shared/constants/category';
