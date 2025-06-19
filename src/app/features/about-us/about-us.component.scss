@@ -137,6 +137,11 @@
           0px 3px 4px 0px rgba(0, 0, 0, 0.14),
           0px 1px 8px 0px rgba(0, 0, 0, 0.12);
       }
+
+      .btn__card_image {
+        border: none;
+        background: transparent;
+      }
     }
 
     &__card_image {
@@ -165,6 +170,22 @@
 
       .ic_gm {
         background-image: url('../../assets/images/social-media/Gmail.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      .ic_cv {
+        background-image: url('https://ievgeniiaabdulina.github.io/rsschool-cv/img/programming_icon-color.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      .ic_pf {
+        border-radius: 8px;
+        border: 1px solid #74777f;
+        background-image: url('https://avatars.githubusercontent.com/u/54798162?v=4');
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;

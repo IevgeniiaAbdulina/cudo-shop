@@ -1,0 +1,73 @@
+<h2 mat-dialog-title>{{ data.member.name }}</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Short bio</h3>
+  <p>{{ data.member.bio }}</p>
+  <mat-divider></mat-divider>
+
+  <h3>Technical skills</h3>
+  <ul class="containing_list">
+    @for (skill of data.member.technicalSkills; track skill.stack) {
+      <li>
+        <p>
+          <span>{{ skill.tech }}:</span> {{ skill.stack }}
+        </p>
+      </li>
+    }
+  </ul>
+  <mat-divider></mat-divider>
+
+  <h3>Contributions</h3>
+  @if (data.member.contributions.header) {
+    <p class="sub-header">{{ data.member.contributions.header }}</p>
+  }
+  <ul class="containing_list">
+    @for (contrib of data.member.contributions.body; track contrib) {
+      <li>
+        @if (contrib.th) {
+          <p>
+            <span>{{ contrib.th }}:</span>
+          </p>
+        }
+        <ul class="nested_list">
+          @for (data of contrib.td; track data) {
+            <li>
+              <p>{{ data }}</p>
+            </li>
+          }
+        </ul>
+      </li>
+    }
+  </ul>
+  <p>{{ data.member.contributions.footer }}</p>
+  <mat-divider></mat-divider>
+
+  <h3>Collaboration</h3>
+  @if (data.member.collaboration.header) {
+    <p class="sub-header">{{ data.member.collaboration.header }}</p>
+  }
+  <ul class="containing_list">
+    @for (collab of data.member.collaboration.body; track collab) {
+      <li>
+        @if (collab.th) {
+          <p>
+            <span>{{ collab.th }}:</span>
+          </p>
+        }
+        <ul class="nested_list">
+          @for (data of collab.td; track data) {
+            <li>
+              <p>{{ data }}</p>
+            </li>
+          }
+        </ul>
+      </li>
+    }
+  </ul>
+  <p>{{ data.member.collaboration.footer }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close cdkFocusInitial>
+    Close
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-dialog-actions>
