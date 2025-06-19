@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   public title: string = 'Home page';
   public books: ProductProjection[] = [];
   public cosmetics: ProductProjection[] = [];
-  public limit: number = 5;
+  public limit: number = 4;
 
   constructor(private productProjectionsApiService: ProductProjectionsApiService) {}
 
