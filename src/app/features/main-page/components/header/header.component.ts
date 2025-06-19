@@ -6,6 +6,7 @@ import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ProductSearchComponent } from '../../../product/components/product-search/product-search.component';
 import { BadgeComponent } from '../../../../shared/ui/badge/badge.component';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ import { BadgeComponent } from '../../../../shared/ui/badge/badge.component';
 })
 export class HeaderComponent {
   public authService = inject(AuthService);
+  public cartService = inject(CartService);
   public isLogin$ = this.authService.isAuthenticated$;
 
   public buttonClickedLogIn = output();

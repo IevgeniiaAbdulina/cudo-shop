@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+
+:host ::ng-deep mat-paginator {
+  color: $color-primary;
+  font-size: 1.4rem;
+  background-color: transparent;
+}
+
+:host ::ng-deep .mat-mdc-paginator .mat-mdc-select-value {
+  color: $color-primary;
+  font-size: 1.4rem;
+}
+
+:host ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mat-mdc-notch-piece {
+  border-color: $color-primary;
+}
+
+:host ::ng-deep .mat-mdc-select-arrow {
+  color: $color-primary;
+}
+
+:host ::ng-deep .mat-mdc-paginator-icon {
+  fill: $color-primary;
+}
