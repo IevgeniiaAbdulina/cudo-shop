@@ -20,7 +20,6 @@ import { ProductButtonComponent } from '../components/product-button/product-but
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
 import { PaginatorComponent } from '../components/paginator/paginator.component';
-import { B } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-product-list',
