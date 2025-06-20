@@ -103,6 +103,7 @@ export class ProductListComponent implements OnInit {
   }
 
   public filterBySubCategory(categoryId: string): void {
+    this.page = 1;
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
     this.filterByCategory(categoryId);
   }
