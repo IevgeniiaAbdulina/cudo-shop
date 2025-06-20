@@ -9,6 +9,7 @@ export class StorageService {
   private readonly TOKEN_KEY: string = 'access_token';
   private readonly REFRESH_TOKEN_KEY: string = 'refresh_token';
   private readonly EXPIRES_AT_KEY: string = 'expires_at';
+  private readonly CUSTOMER_ID_KEY = 'customer_id';
 
   public setSession(response: AuthResponse, type: string, isRefresh: boolean): void {
     const expiresAtInSec: number = Math.floor(Date.now() / 1000) + response.expires_in;
@@ -37,6 +38,14 @@ export class StorageService {
     const dateStr = localStorage.getItem(this.EXPIRES_AT_KEY);
 
     return dateStr ? Number(dateStr) : 0;
+  }
+
+  public getCustomerId(): string | null {
+    return localStorage.getItem(this.CUSTOMER_ID_KEY);
+  }
+
+  public setCustomerId(customerId: string): void {
+    localStorage.setItem(this.CUSTOMER_ID_KEY, customerId);
   }
 
   public isAuthorisedSession(): boolean {

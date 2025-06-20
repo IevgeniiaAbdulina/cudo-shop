@@ -19,8 +19,6 @@ export class BriefCardComponent implements OnInit, OnChanges {
   public description: string = '';
   public imgUrl: string = '';
   public title: string = '';
-  public btnText: string = '';
-  public isAdded: boolean = false;
 
   constructor(public productProjectionsHelperService: ProductProjectionsHelperService) {}
 
@@ -30,19 +28,11 @@ export class BriefCardComponent implements OnInit, OnChanges {
 
   public ngOnChanges() {
     this.setProductData();
-    this.btnText = `Add${this.isAdded ? 'ed' : ''} to cart`;
   }
 
   private setProductData(): void {
     this.description = this.productProjectionsHelperService.getShortProductDescription(this.product);
     this.imgUrl = this.productProjectionsHelperService.getProductImg(this.product);
     this.title = this.productProjectionsHelperService.getProductName(this.product);
-  }
-
-  public buttonClickedAddToCart(event?: MouseEvent): void {
-    if (event) {
-      event.stopPropagation();
-      console.log('Product added to cart:', this.title);
-    }
   }
 }
