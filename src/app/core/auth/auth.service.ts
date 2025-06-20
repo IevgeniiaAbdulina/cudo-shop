@@ -38,7 +38,7 @@ export class AuthService {
     private router: Router,
     private storageService: StorageService,
     private customerService: CustomerService,
-    private userService: UserService, // Inject UserService
+    private userService: UserService,
   ) {
     const token: string | null = this.storageService.getToken();
     if (token) {
