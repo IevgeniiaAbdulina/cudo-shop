@@ -10,8 +10,13 @@ export const VolhaInfo: TeamMemberInfo = {
   portfolio: '',
   image:
     'https://firebasestorage.googleapis.com/v0/b/personal-portfolio-b7e69.appspot.com/o/RS-School-JavaScript-course-2024%2FFinal-task%2FVolha_Rekun.jpg?alt=media&token=d8dbd8d1-5d10-4c6c-b53a-1ae5cc2fe981',
-  bio: '',
-  technicalSkills: [{ tech: 'Frontend Development', stack: 'Angular, TypeScript, SASS' }],
+  bio: "I am a software engineer-economist by education, but unfortunately I have never worked in my speciality. Currently, I am a bored housewife with nothing to do, so I am entertaining myself by studying at RS School in the hope that someday my desire and dream of being a front-end developer will come true. I like to see the result of my work, enjoy the process and I am very happy like a child every time when the result exceeds expectations. I like reading classic literature, I enjoy crocheting, and I can't sit still, so I always try to learn something new.",
+  technicalSkills: [
+    { tech: 'Frontend Development', stack: 'HTML5, CSS3, SCSS, JavaScript, TypeScript, Angular.' },
+    { tech: 'Tools & Technologies', stack: 'Microsoft Visual Studio Code, Git, GitHub, Webpack.' },
+    { tech: 'Programming Languages', stack: 'Java (basics).' },
+    { tech: 'Concepts', stack: 'Object-Oriented Programming (OOP).' },
+  ],
   contributions: {
     header: '',
     body: [
@@ -36,8 +41,13 @@ export const VolhaInfo: TeamMemberInfo = {
     footer: '',
   },
   collaboration: {
-    header: 'string',
-    body: [{ th: '', td: [''] }],
-    footer: 'string',
+    header: '',
+    body: [
+      {
+        th: '',
+        td: ['Our team`s success was driven by a structured yet adaptive system of collaboration'],
+      },
+    ],
+    footer: '',
   },
 };
