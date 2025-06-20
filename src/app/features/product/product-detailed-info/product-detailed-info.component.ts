@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProductDetailed } from './interfaces/product-detailed';
-import { ProductDetailedService } from './services/product-detailed.service';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { ProductImage } from '../../../core/product/interfaces/product-image';
+import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { AddToCartButtonComponent } from '../components/add-to-cart-button/add-to-cart-button.component';
+import { ProductDetailed } from './interfaces/product-detailed';
 import { ModalComponent } from './modal/modal/modal.component';
+import { ProductDetailedService } from './services/product-detailed.service';
 
 @Component({
   selector: 'app-product-detailed-info',
-  imports: [ButtonComponent, CommonModule, ModalComponent],
+  imports: [AddToCartButtonComponent, ButtonComponent, CommonModule, ModalComponent],
   templateUrl: './product-detailed-info.component.html',
   styleUrl: './product-detailed-info.component.scss',
 })
@@ -32,6 +34,8 @@ export class ProductDetailedInfoComponent implements OnInit {
           const responseStr = JSON.stringify(product);
           const productResponse: ProductDetailed = JSON.parse(responseStr);
           this.products[0] = productResponse;
+          console.log('[ProductDetailed]', productResponse); // TODO
+
           this.getProductImages(productResponse);
           this.currentImageIndex = 0;
         },
