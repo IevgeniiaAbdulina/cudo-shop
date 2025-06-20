@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
 import API_ENDPOINT from '../../../shared/constants/api-endpoint';
+import { CartResponse } from '../../../features/cart/interfaces/cart-response';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +17,8 @@ export class CartApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getCartByCustomerId(customerId: string): Observable<unknown> {
-    return this.http.get(`${this.CARTS_URL}/customer-id=${customerId}`).pipe(
+  public getCartByCustomerId(customerId: string): Observable<CartResponse> {
+    return this.http.get<CartResponse>(`${this.CARTS_URL}/customer-id=${customerId}`).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 404) {
           console.log(`User ${customerId} does not have a cart yet. Creating a new cart...`);
@@ -30,7 +31,13 @@ export class CartApiService {
     );
   }
 
-  public updateCartById(cartId: string, version: number, productId: string, variantId: number, quantity: number = 1): Observable<unknown> {
+  public updateCartById(
+    cartId: string,
+    version: number,
+    productId: string,
+    variantId: number,
+    quantity: number = 1,
+  ): Observable<CartResponse> {
     const payload = {
       version,
       actions: [
@@ -43,16 +50,16 @@ export class CartApiService {
       ],
     };
 
-    return this.http.post(`${this.CARTS_URL}/${cartId}`, payload);
+    return this.http.post<CartResponse>(`${this.CARTS_URL}/${cartId}`, payload);
   }
 
-  private createMyCart(): Observable<unknown> {
+  private createMyCart(): Observable<CartResponse> {
     console.warn('Creating the cart...');
     const payload = {
       currency: this.getCurrency(),
     };
 
-    return this.http.post(this.ME_CARTS_URL, payload).pipe(
+    return this.http.post<CartResponse>(this.ME_CARTS_URL, payload).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error creating cart:', error);
 

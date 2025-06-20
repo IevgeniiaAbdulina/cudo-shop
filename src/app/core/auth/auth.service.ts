@@ -141,8 +141,6 @@ export class AuthService {
           const shippingAddress: Address = response.customer.addresses[1];
           const updateActions: CustomerAction[] = [];
 
-          this.storageService.setCustomerId(customerId);
-
           if (billingAddress.id) {
             updateActions.push({
               action: 'setDefaultBillingAddress',
