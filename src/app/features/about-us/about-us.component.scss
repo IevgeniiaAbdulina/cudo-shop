@@ -31,10 +31,6 @@
     font-size: clamp(16px, 2vw, 24px);
   }
 
-  span {
-    color: orange;
-  }
-
   .col_wrap {
     display: flex;
     flex-direction: column;
@@ -46,26 +42,79 @@
   &__header {
     display: flex;
     align-items: center;
+    color: #071b9f;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
   &__content {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 3vh 10vh;
   }
 }
 
 .hero__content {
   &__wrapper {
     display: flex;
-    flex-direction: column;
-    flex: 3 1 auto;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    @include media-laptop-tablet {
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 }
 
 .about__section {
   &__hero {
+    &_header {
+      width: 50%;
+      font-size: clamp(24px, 3vw, 32px);
+      color: #071b9f;
+
+      @include media-laptop-tablet {
+        order: 2;
+        width: 100%;
+        text-align: center;
+      }
+
+      h1 {
+        @include media-mobile-big {
+          width: 10ch;
+          margin: 0 auto;
+        }
+      }
+
+      span {
+        color: #f07800;
+      }
+
+      p {
+        padding: 2rem 0;
+        font-size: clamp(16px, 2vw, 24px);
+        color: #545978;
+      }
+    }
+
+    &_image {
+      width: 50%;
+      height: 30vh;
+      background-image: url('../../assets/images/source-cuate_blue.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      @include media-laptop-tablet {
+        order: 1;
+        width: 100%;
+        height: 280px;
+      }
+    }
   }
 
   &__school_link {

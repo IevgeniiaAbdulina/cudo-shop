@@ -2,20 +2,18 @@
   <div class="content-wrapper">
     <section class="about__container about__section__hero">
       <div class="hero__content__wrapper">
-        <h1>Hero</h1>
-        <h2>
-          We are a passionate team of developers who built an <span>Angular-based e-commerce application</span>
-          powered by the
-          <span>Commercetools API</span>.
-          <br />
-          Our mission is to create seamless, scalable, and user-friendly digital shopping experiences.
-        </h2>
+        <div class="about__section__hero_header">
+          <h1>About <span>CUDO-SHOP</span> team</h1>
+          <p>
+            We are a passionate team of developers who built an Angular-based e-commerce application powered by the Commercetools API. Our
+            mission is to create seamless, scalable, and user-friendly digital shopping experiences.
+          </p>
+        </div>
+        <div class="about__section__hero_image"></div>
       </div>
-      <img src="../../assets/images" alt="hero image" />
     </section>
 
     <section class="about__container about__section__school_link">
-      <h2 class="about__section__header">school link</h2>
       <div class="about__section__content">
         <a href="https://rs.school/">
           <div class="rs-information">
@@ -30,7 +28,7 @@
     </section>
 
     <section class="about__container about__section__team_members">
-      <h2 class="about__section__header">Team Members</h2>
+      <h2 class="about__section__header">Meet the team</h2>
       <div class="about__section__content">
         @for (member of teamMembers; track member.name) {
           <mat-card class="about__section__team_members__card" appearance="outlined">
@@ -165,4 +163,7 @@
       </div>
     </section>
   </div>
+  <p class="image-attribution">
+    <a href="https://storyset.com/online">Online illustrations by Storyset</a>
+  </p>
 </div>
