@@ -99,21 +99,27 @@
 
     <section class="about__container about__section__development_life_cycle">
       <div class="col_wrap">
-        <h2 class="about__section__header">Our Software Development Life Cycle (SDLC)</h2>
         <h2 class="about__section__header">Utilizing an agile software development approach</h2>
-
         <p>
-          Our SDLC follows an **Agile methodology**, ensuring flexibility, rapid iterations, and continuous feedback. Here’s how we
-          structure our workflow:
+          Our Software Development Life Cycle follows an Agile methodology, ensuring flexibility, rapid iterations, and continuous feedback.
+          Here’s how we structure our workflow:
         </p>
       </div>
       <div class="about__section__content">
-        <div>development_life_cycle 1</div>
-        <div>development_life_cycle 2</div>
-        <div>development_life_cycle 3</div>
-        <div>development_life_cycle 4</div>
-        <div>development_life_cycle 5</div>
-        <div>development_life_cycle 6</div>
+        @for (item of developmentLifeCycle; track item) {
+          <mat-card class="about__section__development_life_cycle__card" appearance="outlined">
+            <mat-card-header class="about__section__development_life_cycle__card_header">
+              <mat-card-title class="about__section__development_life_cycle__card_header__title">
+                <div class="about__section__development_life_cycle__card_image ic_{{ item.img }}"></div>
+                {{ item.title }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card-subtitle>{{ item.td1 }}</mat-card-subtitle>
+              <mat-card-subtitle>{{ item.td2 }}</mat-card-subtitle>
+            </mat-card-content>
+          </mat-card>
+        }
       </div>
     </section>
 
@@ -126,44 +132,32 @@
       </div>
     </section>
 
-    <section class="about__container about__section__scrum_process">
-      <h2 class="about__section__header">Our Scrum Process</h2>
-      <div class="about__section__content">
-        <div>Scrum Process 1</div>
-        <div>Scrum Process 2</div>
-        <div>Scrum Process 3</div>
-        <div>Scrum Process 4</div>
-      </div>
-    </section>
-
-    <section class="about__container about__section__development_principles">
-      <h2 class="about__section__header">Our Development Principles</h2>
-      <div class="about__section__content">
-        <div>Principles 1</div>
-        <div>Principles 2</div>
-        <div>Principles 3</div>
-        <div>Principles 4</div>
-        <div>Principles 5</div>
-      </div>
-    </section>
-
     <section class="about__container about__section__conclusion">
       <h2 class="about__section__header">Why Our Process Works</h2>
       <div class="about__section__content">
-        <div class="about__section__content">
-          <div>Process 1</div>
-          <div>Process 2</div>
-          <div>Process 3</div>
-          <div>Process 4</div>
+        <div class="about__section__content about__section__conclusion_list">
+          <ul>
+            <li><b>Agile & Adaptive</b> – We pivot based on feedback.</li>
+            <br />
+            <li><b>Transparent & Collaborative</b> – Everyone has a voice.</li>
+          </ul>
+          <ul>
+            <li><b>Quality-Focused</b> – Reviews & testing ensure robustness.</li>
+            <br />
+            <li><b>Continuous Improvement</b> – Retrospectives refine our workflow.</li>
+          </ul>
         </div>
         <p>
-          By following these principles, we build **scalable, maintainable, and user-friendly e-commerce solutions** with efficiency and
-          pride. 🚀
+          By following these principles, we build scalable, maintainable, and user-friendly e-commerce solutions with efficiency and pride.
         </p>
       </div>
     </section>
   </div>
   <p class="image-attribution">
     <a href="https://storyset.com/online">Online illustrations by Storyset</a>
+    <a href="https://www.flaticon.com/free-icons/mockup" title="mockup icons">Mockup icons</a>
+    <a href="https://www.flaticon.com/free-icons/software-development" title="software development icons">Software development icons</a>
+    <a href="https://www.flaticon.com/free-icons/fix" title="fix icons">Fix icons</a>
+    created by Freepik - Flaticon
   </p>
 </div>

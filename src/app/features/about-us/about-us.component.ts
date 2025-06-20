@@ -39,6 +39,32 @@ export class AboutUsComponent {
 
   public teamMembers: TeamMembers = [AlenaInfo, IevgeniiaInfo, VolhaInfo];
 
+  public developmentLifeCycle: {
+    title: string;
+    td1: string;
+    td2: string;
+    img: string;
+  }[] = [
+    {
+      title: 'Design & Mockups',
+      td1: 'Create wireframes and prototypes using draw.io.',
+      td2: 'Discuss UX/UI decisions with the team before implementation.',
+      img: 'layout',
+    },
+    {
+      title: 'Development',
+      td1: 'Work in "two-week sprints" using Scrum.',
+      td2: 'Follow "feature branches" in GitHub, with PR reviews before merging.',
+      img: 'coding',
+    },
+    {
+      title: 'Bugfix & Testing',
+      td1: 'Automated unit tests + manual testing.',
+      td2: 'Bug tracking via GitHub Issues.',
+      img: 'bug',
+    },
+  ];
+
   public openDialog(member: TeamMemberInfo): void {
     this.dialog.open(DialogTeamMemberInfoComponent, {
       data: {
