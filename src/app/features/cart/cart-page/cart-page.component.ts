@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { CartListItemComponent } from '../components/cart-list-item/cart-list-item.component';
@@ -16,25 +16,19 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cart-page.component.scss',
 })
 export class CartPageComponent implements OnInit {
-  private cartId = '88c91569-25d0-4291-9738-3ad7c36d1c80';
-
+  public navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
+  public cartService = inject(CartService);
   public showCode: boolean = false;
   public showCodeMassage: boolean = false;
   public isCodeSuccess: boolean = false;
-  public navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
-  private cartService = inject(CartService);
-
-  public cart: WritableSignal<CartModel | null> = signal<CartModel | null>(null);
   public couponCode: string = '';
 
   public ngOnInit(): void {
-    this.cartService.getCartById(this.cartId).subscribe((response: CartResponse) => {
-      this.updateCartModel(response);
-    });
+    this.cartService.cart();
   }
 
   private updateCartModel(response: CartResponse): void {
-    this.cart.set(
+    this.cartService.cart.set(
       new CartModel(
         response.version,
         response.id,
@@ -48,34 +42,40 @@ export class CartPageComponent implements OnInit {
   }
 
   private getSelectedCartItem(productId: string | undefined) {
-    return this.cart()?.lineItems?.find((item) => item.productId === productId);
+    return this.cartService.cart()?.lineItems?.find((item) => item.productId === productId);
   }
 
   public increment($event: string | undefined): void {
     const selectedItem = this.getSelectedCartItem($event);
     const quantity: number | undefined = (selectedItem?.quantity ?? 0) + 1;
 
-    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.updateCartModel(response);
-    });
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.updateCartModel(response);
+      });
   }
 
   public decrement($event: string | undefined): void {
     const selectedItem = this.getSelectedCartItem($event);
     const quantity: number | undefined = (selectedItem?.quantity ?? 0) - 1;
 
-    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.updateCartModel(response);
-    });
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.updateCartModel(response);
+      });
   }
 
   public delete($event: string | undefined): void {
     const selectedItem = this.getSelectedCartItem($event);
     const quantity = 0;
 
-    this.cartService.changeLineItemQuantity(this.cart()?.id, this.cart()?.version, selectedItem?.id, quantity).subscribe((response) => {
-      this.updateCartModel(response);
-    });
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.updateCartModel(response);
+      });
   }
 
   public buttonGoToCatalog(): void {
@@ -103,7 +103,7 @@ export class CartPageComponent implements OnInit {
     this.isCodeSuccess = true;
     this.handleCouponCodeErrorMessage();
 
-    this.cartService.addDiscountCode(this.cart()?.id, this.cart()?.version, this.couponCode).subscribe({
+    this.cartService.addDiscountCode(this.cartService.cart()?.id, this.cartService.cart()?.version, this.couponCode).subscribe({
       next: (response: CartResponse) => {
         this.isCodeSuccess = true;
         this.handleCouponCodeErrorMessage();
@@ -121,7 +121,7 @@ export class CartPageComponent implements OnInit {
     if (cartId) {
       this.cartService.deleteCartById(cartId, cartVersion).subscribe({
         next: () => {
-          this.cart.set(null);
+          this.cartService.cart.set(null);
           this.cartService.cartItemsCount.set(0);
         },
         error: (error) => {

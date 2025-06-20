@@ -29,6 +29,7 @@ export class AddToCartButtonComponent implements OnChanges {
   constructor(
     private cartApiService: CartApiService,
     private storageService: StorageService,
+    public cartService: CartService,
   ) {}
 
   public ngOnChanges(): void {
@@ -39,37 +40,44 @@ export class AddToCartButtonComponent implements OnChanges {
     if (event) {
       event.stopPropagation();
       console.log('Product "%s" is adding to cart...', this.productTitle);
-      this.updateCart();
+
+      const customerId = this.storageService.getCustomerId();
+
+      if (customerId) {
+        // TODO: before use clear local storage with cart id
+        //  Handle logged session
+        this.updateCart();
+      }
+
+      if (this.product) {
+        this.cartService.handleAddLineItemToCart(this.product);
+      }
     }
   }
 
   private updateCart(): void {
     const customerId = this.storageService.getCustomerId();
 
-    if (!customerId) {
-      alert('Please sign in to add anything to your cart.');
-
-      return;
+    if (customerId) {
+      this.cartApiService
+        .getCartByCustomerId(customerId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: unknown) => {
+            const responseStr = JSON.stringify(response);
+            const cartResponse: Cart = JSON.parse(responseStr);
+            if (cartResponse) {
+              this.cart.id = cartResponse.id;
+              this.cart.version = cartResponse.version;
+              this.addProductToCart();
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log('[updateCart error]', error.message);
+            this.handleError(error);
+          },
+        });
     }
-
-    this.cartApiService
-      .getCartByCustomerId(customerId)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: (response: unknown) => {
-          const responseStr = JSON.stringify(response);
-          const cartResponse: Cart = JSON.parse(responseStr);
-          if (cartResponse) {
-            this.cart.id = cartResponse.id;
-            this.cart.version = cartResponse.version;
-            this.addProductToCart();
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          console.log('[updateCart error]', error.message);
-          this.handleError(error);
-        },
-      });
   }
 
   private addProductToCart(): void {

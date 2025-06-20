@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="content-wrapper">
     <h1>Your cart</h1>
-    @if (!cart()?.id || cart()?.lineItems?.length === 0) {
+    @if (!cartService.cart()?.id || cartService.cart()?.lineItems?.length === 0) {
       <div class="cart cart__empty">
         <div class="cart__empty-cart"></div>
         <p class="cart__message">Your cart is empty. Continue your shopping</p>
@@ -10,7 +10,7 @@
     } @else {
       <div class="cart__content__container">
         <div class="cart__content__cart_list">
-          @for (item of cart()?.lineItems; track item.id) {
+          @for (item of cartService.cart()?.lineItems; track item.id) {
             <div class="cart__content__cart_item">
               <app-cart-list-item
                 [cartItem]="item"
@@ -26,7 +26,7 @@
               class="cart__button cart__button__clear_cart"
               label="Clear Shopping Cart"
               routerLink="/cart"
-              (buttonClicked)="clearShoppingCart(cart()?.id, cart()?.version)"
+              (buttonClicked)="clearShoppingCart(cartService.cart()?.id, cartService.cart()?.version)"
             />
           </div>
         </div>
@@ -36,28 +36,42 @@
             <h3>Order summary</h3>
           </div>
           <div class="cart_summary__body">
-            @if (cart()?.hasDiscount) {
+            @if (cartService.cart()?.hasDiscount) {
               <div class="cart_summary__body__row original_total_price">
                 <p>Item(s) total</p>
-                <span>{{ cart()?.getItemsTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+                <span>{{
+                  cartService.cart()?.getItemsTotalPrice() ?? 0 | currency: cartService.cart()?.currencyCode() : 'symbol' : '1.2-2'
+                }}</span>
               </div>
-              @if (cart()?.getProductItemDiscount()) {
+              @if (cartService.cart()?.getProductItemDiscount()) {
                 <div class="cart_summary__body__row">
                   <p>Product discount</p>
-                  <span>- {{ cart()?.getProductItemDiscount() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+                  <span
+                    >-
+                    {{
+                      cartService.cart()?.getProductItemDiscount() ?? 0 | currency: cartService.cart()?.currencyCode() : 'symbol' : '1.2-2'
+                    }}</span
+                  >
                 </div>
               }
               <hr />
-              @if (cart()?.discountOnTotalPrice) {
+              @if (cartService.cart()?.discountOnTotalPrice) {
                 <div class="cart_summary__body__row">
                   <p>Cart Discount</p>
-                  <span>- {{ cart()?.getDiscountOnTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+                  <span
+                    >-
+                    {{
+                      cartService.cart()?.getDiscountOnTotalPrice() ?? 0 | currency: cartService.cart()?.currencyCode() : 'symbol' : '1.2-2'
+                    }}</span
+                  >
                 </div>
               }
             }
             <div class="cart_summary__body__row total_summary">
-              <p>Total ({{ cart()?.totalItemQuantity }} items)</p>
-              <span>{{ cart()?.printableTotalPrice() ?? 0 | currency: cart()?.currencyCode() : 'symbol' : '1.2-2' }}</span>
+              <p>Total ({{ cartService.cart()?.totalItemQuantity }} items)</p>
+              <span>{{
+                cartService.cart()?.printableTotalPrice() ?? 0 | currency: cartService.cart()?.currencyCode() : 'symbol' : '1.2-2'
+              }}</span>
             </div>
           </div>
           <div class="cart_summary__footer">
@@ -87,7 +101,7 @@
           class="cart__button cart__button__clear_cart"
           label="Clear Shopping Cart"
           routerLink="/cart"
-          (buttonClicked)="clearShoppingCart(cart()?.id, cart()?.version)"
+          (buttonClicked)="clearShoppingCart(cartService.cart()?.id, cartService.cart()?.version)"
         />
       </div>
     }
