@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { StorageService } from '../../../../core/auth/storage.service';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
+import { CartStateService } from '../../../../core/cart/services/cart-state.service';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
 import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 
@@ -15,7 +16,7 @@ import { ProductProjectionsHelperService } from '../../../../core/product/servic
   templateUrl: './add-to-cart-button.component.html',
   styleUrl: './add-to-cart-button.component.scss',
 })
-export class AddToCartButtonComponent implements OnInit {
+export class AddToCartButtonComponent implements OnInit, OnChanges {
   private readonly destroyRef = inject(DestroyRef);
   private cartId: string = '';
   private cartVersion: number = 0;
@@ -28,9 +29,16 @@ export class AddToCartButtonComponent implements OnInit {
 
   constructor(
     private cartApiService: CartApiService,
+    private cartStateService: CartStateService,
     private productProjectionsHelperService: ProductProjectionsHelperService,
     private storageService: StorageService,
   ) {}
+
+  public ngOnChanges(): void {
+    if (this.product) {
+      this.isDisabled = this.cartStateService.isProductDisabled(this.product.id);
+    }
+  }
 
   public ngOnInit(): void {
     this.productTitle = this.product ? this.productProjectionsHelperService.getProductName(this.product) : '';
@@ -82,12 +90,13 @@ export class AddToCartButtonComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
-          this.isDisabled = true; // TODO
-          console.log('Product "%s" has been successfully added to your cart', this.productTitle); // TODO
+          this.isDisabled = true;
+          this.cartStateService.disableProduct(this.productId);
+          console.log('Product "%s" has been successfully added to your cart', this.productTitle);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
-            alert(`Sorry, "${this.productTitle}" can't be added to you cart. Please, contact support.`);
+            alert(`Sorry, "${this.productTitle}" can't be added to your cart. Please, contact support.`);
             console.warn(`Error adding product to cart.\n${error.error.message}`);
           } else {
             this.handleError(error);
