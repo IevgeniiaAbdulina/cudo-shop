@@ -34,8 +34,6 @@ export class ProductDetailedInfoComponent implements OnInit {
           const responseStr = JSON.stringify(product);
           const productResponse: ProductDetailed = JSON.parse(responseStr);
           this.products[0] = productResponse;
-          console.log('[ProductDetailed]', productResponse); // TODO
-
           this.getProductImages(productResponse);
           this.currentImageIndex = 0;
         },

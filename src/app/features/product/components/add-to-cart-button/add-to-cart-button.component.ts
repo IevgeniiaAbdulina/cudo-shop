@@ -62,7 +62,6 @@ export class AddToCartButtonComponent implements OnChanges {
           if (cartResponse) {
             this.cart.id = cartResponse.id;
             this.cart.version = cartResponse.version;
-            console.log('[cart by customerId]', this.cart.id, this.cart.version); // TODO
             this.addProductToCart();
           }
         },
@@ -104,7 +103,6 @@ export class AddToCartButtonComponent implements OnChanges {
           next: (response: unknown) => {
             const responseStr = JSON.stringify(response);
             const cartResponse: Cart = JSON.parse(responseStr);
-            console.log('[check cart (by customerId)]', cartResponse?.id, cartResponse?.version); // TODO
             const isAdded =
               cartResponse &&
               cartResponse.lineItems.length > 0 &&
