@@ -108,7 +108,7 @@
 
     &_image {
       width: 50%;
-      height: 30vh;
+      height: 40vh;
       background-image: url('../../assets/images/source-cuate_blue.svg');
       background-position: center;
       background-repeat: no-repeat;
@@ -199,8 +199,8 @@
     }
 
     &__card_image {
-      width: 25vh;
-      height: 25vh;
+      max-width: 25vh;
+      max-height: 25vh;
     }
 
     &__contacts {
