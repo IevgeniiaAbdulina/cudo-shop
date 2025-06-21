@@ -109,7 +109,6 @@ export class AuthService {
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
 
-    console.log('[auth service >> where cart is updated] login');
     this.cartService.updateCartModel(null);
     this.cartService.handleCart();
 
@@ -192,7 +191,6 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
     this.auth().subscribe();
     this.router.navigate(['/login']);
-    console.log('[auth service >> where cart is updated] logout');
     this.cartService.updateCartModel(null);
   }
 

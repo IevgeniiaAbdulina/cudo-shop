@@ -6,6 +6,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StorageService } from '../../../../core/auth/storage.service';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
+import { CartResponse } from '../../../cart/interfaces/cart-response';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -48,9 +50,8 @@ export class AddToCartButtonComponent implements OnChanges {
     const customerId = this.storageService.getCustomerId();
 
     if (!customerId) {
-      if (this.product) {
-        console.log('[handleAddLineItemToCart MY cart service]');
-        this.cartService.handleAddLineItemToCart(this.product);
+      if (this.productId) {
+        this.cartService.handleAddLineItemToCart(this.productId);
       }
     } else {
       this.cartApiService
@@ -64,7 +65,6 @@ export class AddToCartButtonComponent implements OnChanges {
               this.cart.id = cartResponse.id;
               this.cart.version = cartResponse.version;
               this.addProductToCart();
-              console.log('[updateCart] updateCartModel');
 
               this.cartService.updateCartModel(response);
             }
@@ -86,7 +86,6 @@ export class AddToCartButtonComponent implements OnChanges {
           this.isDisabled.set(true);
           console.log('Product "%s" has been successfully added to your cart', this.productTitle);
 
-          console.log('[add to cart button >> where cart is updated] addProductToCart');
           this.cartService.updateCartModel(response);
         },
         error: (error: HttpErrorResponse) => {

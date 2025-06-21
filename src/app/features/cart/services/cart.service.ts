@@ -34,7 +34,6 @@ export class CartService {
       // If a customer is logged in and have a cart:
       this.cartApiService.getCartByCustomerId(customerId).subscribe((data: CartResponse) => {
         if (data.id) {
-          console.log('[customer has a cart]');
           this.getCartByIdAndUpdate(data.id);
         }
       });
@@ -46,7 +45,6 @@ export class CartService {
       } else {
         // If a cart does NOT exist yet:
         this.createNewCart().subscribe((cartResponse: CartResponse) => {
-          console.log('[cart service >> where cart is updated] new cart handleCart');
           this.updateCartModel(cartResponse);
         });
       }
@@ -63,16 +61,12 @@ export class CartService {
 
   public getCartByIdAndUpdate(cartId: string): void {
     this.getCartById(cartId).subscribe((response: CartResponse) => {
-      console.log('[cart service >> where cart is updated] getCartByIdAndUpdate');
       this.updateCartModel(response);
     });
   }
 
-  public handleAddLineItemToCart(product: ProductProjection): void {
-    this.addLineItemToCart(this.cart()?.id, this.cart()?.version, product.id, 1).subscribe((response: CartResponse) => {
-      console.log('Product item has been added');
-      // TODO: add message success item added
-      console.log('[cart service >> where cart is updated] handleAddLineItemToCart');
+  public handleAddLineItemToCart(productId: string): void {
+    this.addLineItemToCart(this.cart()?.id, this.cart()?.version, productId, 1).subscribe((response: CartResponse) => {
       this.updateCartModel(response);
     });
   }
@@ -92,7 +86,6 @@ export class CartService {
       );
       if (this.cart()?.lineItems) {
         this.cartItemsCount.set(this.cart()!.lineItems!.length);
-        console.log('[cart service >> where cart is updated] updateCartModel');
       }
     } else {
       this.cart.set(null);
