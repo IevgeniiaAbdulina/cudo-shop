@@ -201,8 +201,8 @@
 
 .ic_add {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   background-image: url('../../../../assets/icons/add_16dp.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -211,8 +211,8 @@
 
 .ic_delete {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   background-image: url('../../../../assets/icons/delete_16dp_grey.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -221,8 +221,8 @@
 
 .ic_remove {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
   background-image: url('../../../../assets/icons/remove_16dp.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -248,9 +248,16 @@
   border: 0.15rem solid gainsboro;
   background-color: transparent;
   color: #000000;
+  font-size: 1.4rem;
 
   &:hover {
     background: gainsboro;
     box-shadow: 0 1px 3px #eee;
+  }
+}
+
+.counter__btn {
+  button {
+    padding: 18px;
   }
 }
