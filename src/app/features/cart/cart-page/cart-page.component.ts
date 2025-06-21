@@ -7,6 +7,7 @@ import { CartService } from '../services/cart.service';
 import { CartResponse } from '../interfaces/cart-response';
 import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-cart-page',
@@ -22,8 +23,18 @@ export class CartPageComponent implements OnInit {
   public isCodeSuccess: boolean = false;
   public couponCode: string = '';
 
+  private _snackBar = inject(MatSnackBar);
+
   public ngOnInit(): void {
     this.cartService.handleCart();
+  }
+
+  public openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+    });
   }
 
   private getSelectedCartItem(productId: string | undefined) {
@@ -37,7 +48,6 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        console.log('[cart page >> where cart is updated] increment');
         this.cartService.updateCartModel(response);
       });
   }
@@ -49,7 +59,6 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        console.log('[cart page >> where cart is updated] decrement');
         this.cartService.updateCartModel(response);
       });
   }
@@ -61,7 +70,7 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        console.log('[cart page >> where cart is updated] delete');
+        this.openSnackBar('Item has been deleted successfully.', 'Close');
         this.cartService.updateCartModel(response);
       });
   }
@@ -95,7 +104,6 @@ export class CartPageComponent implements OnInit {
       next: (response: CartResponse) => {
         this.isCodeSuccess = true;
         this.handleCouponCodeErrorMessage();
-        console.log('[cart page >> where cart is updated] apply code');
         this.cartService.updateCartModel(response);
       },
       error: (error) => {
@@ -107,16 +115,20 @@ export class CartPageComponent implements OnInit {
   }
 
   public clearShoppingCart(cartId: string | undefined, cartVersion: number | undefined): void {
+    const confirmation = confirm('Are you sure you want to empty this cart?');
+
     if (cartId) {
-      this.cartService.deleteCartById(cartId, cartVersion).subscribe({
-        next: () => {
-          console.log('[cart page >> where cart is updated] clearShoppingCart');
-          this.cartService.updateCartModel(null);
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      if (confirmation) {
+        this.cartService.deleteCartById(cartId, cartVersion).subscribe({
+          next: () => {
+            this.cartService.updateCartModel(null);
+            this.openSnackBar('The basket has been cleaned successfully.', 'Close');
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
     }
   }
 }

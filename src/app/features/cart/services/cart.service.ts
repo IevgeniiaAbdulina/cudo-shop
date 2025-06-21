@@ -6,7 +6,6 @@ import { CartResponse } from '../interfaces/cart-response';
 import { QueryCartResponse } from '../interfaces/query-carts-response';
 import { CartModel } from '../model/cart-model';
 import { CartApiService } from '../../../core/cart/services/cart-api.service';
-import { ProductProjection } from '../../../core/product/interfaces/product-projection';
 import { StorageService } from '../../../core/auth/storage.service';
 
 @Injectable({
