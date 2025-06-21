@@ -40,36 +40,33 @@ export class AddToCartButtonComponent implements OnChanges {
     if (event) {
       event.stopPropagation();
       console.log('Product "%s" is adding to cart...', this.productTitle);
-
-      const customerId = this.storageService.getCustomerId();
-
-      if (customerId) {
-        // TODO: before use clear local storage with cart id
-        //  Handle logged session
-        this.updateCart();
-      }
-
-      if (this.product) {
-        this.cartService.handleAddLineItemToCart(this.product);
-      }
+      this.updateCart();
     }
   }
 
   private updateCart(): void {
     const customerId = this.storageService.getCustomerId();
 
-    if (customerId) {
+    if (!customerId) {
+      if (this.product) {
+        console.log('[handleAddLineItemToCart MY cart service]');
+        this.cartService.handleAddLineItemToCart(this.product);
+      }
+    } else {
       this.cartApiService
         .getCartByCustomerId(customerId)
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: (response: unknown) => {
+          next: (response: CartResponse) => {
             const responseStr = JSON.stringify(response);
             const cartResponse: Cart = JSON.parse(responseStr);
             if (cartResponse) {
               this.cart.id = cartResponse.id;
               this.cart.version = cartResponse.version;
               this.addProductToCart();
+              console.log('[updateCart] updateCartModel');
+
+              this.cartService.updateCartModel(response);
             }
           },
           error: (error: HttpErrorResponse) => {
@@ -85,9 +82,12 @@ export class AddToCartButtonComponent implements OnChanges {
       .updateCartById(this.cart.id, this.cart.version, this.productId, this.variantId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: (response: CartResponse) => {
           this.isDisabled.set(true);
           console.log('Product "%s" has been successfully added to your cart', this.productTitle);
+
+          console.log('[add to cart button >> where cart is updated] addProductToCart');
+          this.cartService.updateCartModel(response);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {

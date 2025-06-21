@@ -6,7 +6,6 @@ import { RouterLink } from '@angular/router';
 import { CartService } from '../services/cart.service';
 import { CartResponse } from '../interfaces/cart-response';
 import { CurrencyPipe } from '@angular/common';
-import { CartModel } from '../model/cart-model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -24,21 +23,7 @@ export class CartPageComponent implements OnInit {
   public couponCode: string = '';
 
   public ngOnInit(): void {
-    this.cartService.cart();
-  }
-
-  private updateCartModel(response: CartResponse): void {
-    this.cartService.cart.set(
-      new CartModel(
-        response.version,
-        response.id,
-        response.lineItems,
-        response.totalPrice,
-        response.totalLineItemQuantity,
-        response.discountOnTotalPrice?.discountedAmount.centAmount,
-        false,
-      ),
-    );
+    this.cartService.handleCart();
   }
 
   private getSelectedCartItem(productId: string | undefined) {
@@ -52,7 +37,8 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        this.updateCartModel(response);
+        console.log('[cart page >> where cart is updated] increment');
+        this.cartService.updateCartModel(response);
       });
   }
 
@@ -63,7 +49,8 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        this.updateCartModel(response);
+        console.log('[cart page >> where cart is updated] decrement');
+        this.cartService.updateCartModel(response);
       });
   }
 
@@ -74,7 +61,8 @@ export class CartPageComponent implements OnInit {
     this.cartService
       .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
       .subscribe((response) => {
-        this.updateCartModel(response);
+        console.log('[cart page >> where cart is updated] delete');
+        this.cartService.updateCartModel(response);
       });
   }
 
@@ -107,7 +95,8 @@ export class CartPageComponent implements OnInit {
       next: (response: CartResponse) => {
         this.isCodeSuccess = true;
         this.handleCouponCodeErrorMessage();
-        this.updateCartModel(response);
+        console.log('[cart page >> where cart is updated] apply code');
+        this.cartService.updateCartModel(response);
       },
       error: (error) => {
         console.error('[cart apply code error]', error);
@@ -121,8 +110,8 @@ export class CartPageComponent implements OnInit {
     if (cartId) {
       this.cartService.deleteCartById(cartId, cartVersion).subscribe({
         next: () => {
-          this.cartService.cart.set(null);
-          this.cartService.cartItemsCount.set(0);
+          console.log('[cart page >> where cart is updated] clearShoppingCart');
+          this.cartService.updateCartModel(null);
         },
         error: (error) => {
           console.error(error);

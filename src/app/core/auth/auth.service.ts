@@ -15,6 +15,7 @@ import { StorageService } from './storage.service';
 import { CustomerService } from '../customer/services/customer.service';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
 import { UserService } from '../../features/user/services/user.service';
+import { CartService } from '../../features/cart/services/cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,7 @@ export class AuthService {
     private storageService: StorageService,
     private customerService: CustomerService,
     private userService: UserService,
+    private cartService: CartService,
   ) {
     const token: string | null = this.storageService.getToken();
     if (token) {
@@ -106,6 +108,10 @@ export class AuthService {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
+
+    console.log('[auth service >> where cart is updated] login');
+    this.cartService.updateCartModel(null);
+    this.cartService.handleCart();
 
     return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/${API_ENDPOINT.CUSTOMERS}/token`, body.toString(), { headers }).pipe(
       tap({
@@ -186,6 +192,8 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
     this.auth().subscribe();
     this.router.navigate(['/login']);
+    console.log('[auth service >> where cart is updated] logout');
+    this.cartService.updateCartModel(null);
   }
 
   public refreshToken(): Observable<AuthResponse> {

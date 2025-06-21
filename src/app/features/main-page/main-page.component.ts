@@ -28,7 +28,7 @@ export class MainPageComponent implements OnInit {
       this.navigateToRoute(data);
     });
 
-    this.cartService.createAnonymousCart();
+    this.cartService.handleCart();
   }
 
   public navigateToRoute(route: string) {
