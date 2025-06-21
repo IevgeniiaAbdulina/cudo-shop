@@ -6,4 +6,4 @@
   <div class="card__description" [innerHTML]="description | highlightSearchTerm: searchTerm"></div>
 </div>
 <app-product-price [product]="product"></app-product-price>
-<app-add-to-cart-button [product]="product" />
+<app-add-to-cart-button [productId]="product.id" [productTitle]="title" />

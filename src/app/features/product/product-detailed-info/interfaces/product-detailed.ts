@@ -1,3 +1,5 @@
+import { Price } from '../../../../core/product/interfaces/price';
+import { ProductCategory } from '../../../../core/product/interfaces/product-category';
 import { ProductImage } from '../../../../core/product/interfaces/product-image';
 
 export interface ProductDetailed {
@@ -8,10 +10,7 @@ export interface ProductDetailed {
       name: {
         'en-US': string;
       };
-      categories: {
-        typeId: string;
-        id: string;
-      };
+      categories: ProductCategory;
       description: {
         'en-US': string;
       };
@@ -19,20 +18,7 @@ export interface ProductDetailed {
         sku: string | number;
         key: string | number;
         images: ProductImage[];
-        prices: [
-          {
-            discounted: {
-              value: {
-                currencyCode: string;
-                centAmount: number;
-              };
-            };
-            value: {
-              centAmount: number;
-              currencyCode: string;
-            };
-          },
-        ];
+        prices: Price[];
       };
     };
   };

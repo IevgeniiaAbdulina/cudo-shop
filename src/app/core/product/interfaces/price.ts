@@ -4,7 +4,7 @@ import { ProductCategory } from './product-category';
 export interface Price {
   id: string;
   value: PriceValue;
-  country: string;
+  country?: string;
   discounted?: {
     value: PriceValue;
     discount: ProductCategory;

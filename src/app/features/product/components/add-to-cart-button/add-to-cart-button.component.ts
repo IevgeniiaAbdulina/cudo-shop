@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { StorageService } from '../../../../core/auth/storage.service';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
-import { CartStateService } from '../../../../core/cart/services/cart-state.service';
-import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
-import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -16,32 +13,26 @@ import { ProductProjectionsHelperService } from '../../../../core/product/servic
   templateUrl: './add-to-cart-button.component.html',
   styleUrl: './add-to-cart-button.component.scss',
 })
-export class AddToCartButtonComponent implements OnInit, OnChanges {
+export class AddToCartButtonComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
-  private cartId: string = '';
-  private cartVersion: number = 0;
-  private productId: string = '';
+  private cart: Cart = {
+    id: '',
+    version: 0,
+    lineItems: [],
+  };
   private variantId: number = 1;
-  public productTitle: string = '';
-  public isDisabled: boolean = false;
+  public isDisabled = signal(false);
 
-  @Input() public product: ProductProjection | null = null;
+  @Input() public productId: string = '';
+  @Input() public productTitle: string = '';
 
   constructor(
     private cartApiService: CartApiService,
-    private cartStateService: CartStateService,
-    private productProjectionsHelperService: ProductProjectionsHelperService,
     private storageService: StorageService,
   ) {}
 
   public ngOnChanges(): void {
-    if (this.product) {
-      this.isDisabled = this.cartStateService.isProductDisabled(this.product.id);
-    }
-  }
-
-  public ngOnInit(): void {
-    this.productTitle = this.product ? this.productProjectionsHelperService.getProductName(this.product) : '';
+    this.checkIfProductAlreadyAddedToCart();
   }
 
   public handleAddToCart(event?: MouseEvent): void {
@@ -69,8 +60,8 @@ export class AddToCartButtonComponent implements OnInit, OnChanges {
           const responseStr = JSON.stringify(response);
           const cartResponse: Cart = JSON.parse(responseStr);
           if (cartResponse) {
-            this.cartId = cartResponse.id;
-            this.cartVersion = cartResponse.version;
+            this.cart.id = cartResponse.id;
+            this.cart.version = cartResponse.version;
             this.addProductToCart();
           }
         },
@@ -82,27 +73,49 @@ export class AddToCartButtonComponent implements OnInit, OnChanges {
   }
 
   private addProductToCart(): void {
-    if (this.product) {
-      this.productId = this.product.id;
-    }
     this.cartApiService
-      .updateCartById(this.cartId, this.cartVersion, this.productId, this.variantId)
+      .updateCartById(this.cart.id, this.cart.version, this.productId, this.variantId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
-          this.isDisabled = true;
-          this.cartStateService.disableProduct(this.productId);
+          this.isDisabled.set(true);
           console.log('Product "%s" has been successfully added to your cart', this.productTitle);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
-            alert(`Sorry, "${this.productTitle}" can't be added to your cart. Please, contact support.`);
+            alert(`Sorry, "${this.productTitle || 'specified product'}" can't be added to your cart. Please, contact support.`);
             console.warn(`Error adding product to cart.\n${error.error.message}`);
           } else {
             this.handleError(error);
           }
         },
       });
+  }
+
+  private checkIfProductAlreadyAddedToCart(): void {
+    const customerId = this.storageService.getCustomerId();
+
+    if (this.productId && customerId) {
+      this.cartApiService
+        .getCartByCustomerId(customerId)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: unknown) => {
+            const responseStr = JSON.stringify(response);
+            const cartResponse: Cart = JSON.parse(responseStr);
+            const isAdded =
+              cartResponse &&
+              cartResponse.lineItems.length > 0 &&
+              cartResponse.lineItems.some((cli) => cli && this.productId === cli.productId);
+            this.isDisabled.set(isAdded);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.warn('Customer does not have a Cart yet', error.message);
+          },
+        });
+    } else {
+      this.isDisabled.set(false);
+    }
   }
 
   private handleError(error: HttpErrorResponse): Error {
