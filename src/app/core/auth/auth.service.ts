@@ -15,6 +15,7 @@ import { StorageService } from './storage.service';
 import { CustomerService } from '../customer/services/customer.service';
 import API_ENDPOINT from '../../shared/constants/api-endpoint';
 import { UserService } from '../../features/user/services/user.service';
+import { CartService } from '../../features/cart/services/cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,7 @@ export class AuthService {
     private storageService: StorageService,
     private customerService: CustomerService,
     private userService: UserService,
+    private cartService: CartService,
   ) {
     const token: string | null = this.storageService.getToken();
     if (token) {
@@ -107,6 +109,8 @@ export class AuthService {
       Authorization: 'Basic ' + this.apiClientAuthorization,
     };
 
+    this.cartService.updateCartModel(null);
+
     return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/${API_ENDPOINT.CUSTOMERS}/token`, body.toString(), { headers }).pipe(
       tap({
         next: (response: AuthResponse) => {
@@ -117,6 +121,9 @@ export class AuthService {
           this.userService.getUserPersonalInfoByToken().subscribe((userResponse: UserResponse) => {
             const customerId = userResponse.id;
             this.storageService.setCustomerId(customerId);
+
+            this.cartService.customerIdentifier.set(userResponse.id);
+            this.cartService.handleCart();
           });
         },
         error: (error) => {
@@ -186,6 +193,7 @@ export class AuthService {
     this.isAuthenticatedSubject.next(false);
     this.auth().subscribe();
     this.router.navigate(['/login']);
+    this.cartService.updateCartModel(null);
   }
 
   public refreshToken(): Observable<AuthResponse> {

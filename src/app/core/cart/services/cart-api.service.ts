@@ -68,7 +68,7 @@ export class CartApiService {
     );
   }
 
-  private getCurrency(): string {
+  public getCurrency(): string {
     return 'EUR';
   }
 }
