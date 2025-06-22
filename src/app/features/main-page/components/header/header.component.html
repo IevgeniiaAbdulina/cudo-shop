@@ -22,6 +22,28 @@
       <app-product-search class="header__nav__item__search" />
 
       <div class="header__buttons header__nav__item__navigation">
+        <app-button
+          label="About Us"
+          (buttonClicked)="buttonClickedAboutUs.emit()"
+          class="header__button"
+          routerLink="about-us"
+          routerLinkActive="active"
+        />
+
+        <div class="btn__cart__container">
+          <app-button
+            label=""
+            (buttonClicked)="buttonClickedCart.emit()"
+            class="header__button btn__cart"
+            routerLink="cart"
+            routerLinkActive="active"
+            ><span class="btn__cart__icon"></span
+          ></app-button>
+          @if (cartService.cartItemsCount()) {
+            <app-badge [label]="cartService.cartItemsCount().toString()" [isActive]="true"></app-badge>
+          }
+        </div>
+
         @if ((isLogin$ | async) === false) {
           <app-button
             label="Register"
@@ -38,13 +60,6 @@
             routerLinkActive="active"
           />
         } @else {
-          <app-button
-            label="Cart"
-            (buttonClicked)="buttonClickedCart.emit()"
-            class="header__button"
-            routerLink="cart"
-            routerLinkActive="active"
-          />
           <app-button
             label="Profile"
             (buttonClicked)="buttonClickedProfile.emit()"

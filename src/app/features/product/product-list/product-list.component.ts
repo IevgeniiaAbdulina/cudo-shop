@@ -19,11 +19,19 @@ import { BriefCardComponent } from '../components/brief-card/brief-card.componen
 import { ProductButtonComponent } from '../components/product-button/product-button.component';
 import { SortByPriceComponent } from '../components/sort-by-price/sort-by-price.component';
 import { SortByAlphabeticalComponent } from '../components/sort-by-alphabetical/sort-by-alphabetical.component';
+import { PaginatorComponent } from '../components/paginator/paginator.component';
 
 @Component({
   selector: 'app-product-list',
-  standalone: true,
-  imports: [CommonModule, BriefCardComponent, ProductButtonComponent, RouterLink, SortByPriceComponent, SortByAlphabeticalComponent],
+  imports: [
+    CommonModule,
+    BriefCardComponent,
+    ProductButtonComponent,
+    RouterLink,
+    SortByPriceComponent,
+    SortByAlphabeticalComponent,
+    PaginatorComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss',
 })
@@ -37,6 +45,9 @@ export class ProductListComponent implements OnInit {
   public categoryTitle0: string = 'Books';
   public categoryTitle1: string = 'Cosmetics';
   public searchTerm: string = '';
+  public length: number = 0;
+  public limit: number = 6;
+  public page: number = 1;
 
   constructor(
     private navigateToSpecificRouteService: NavigateToSpecificRouteService,
@@ -57,7 +68,12 @@ export class ProductListComponent implements OnInit {
   public ngOnInit() {
     this.currentRoute = this.router.url;
 
-    this.loadProducts();
+    if (this.currentRoute === '/books') {
+      this.loadProductsByCategoryID(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.loadProductsByCategoryID(COSMETICS_ID);
+    }
+
     this.loadCategories();
   }
 
@@ -72,21 +88,37 @@ export class ProductListComponent implements OnInit {
     this.breadcrumbService.resetCurrentCategory();
   }
 
-  public loadProducts() {
-    this.filterByCategory(BOOKS_ID);
+  public loadProducts(): void {
+    if (this.currentRoute === '/books') {
+      this.filterBySubCategory(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.filterBySubCategory(COSMETICS_ID);
+    }
     this.resetFilters();
   }
 
-  public filterByCategory(categoryId: string): void {
+  public loadProductsByCategoryID(categoryId: string): void {
+    this.filterByCategory(categoryId);
+    this.resetFilters();
+  }
+
+  public filterBySubCategory(categoryId: string): void {
+    this.page = 1;
     this.selectedCategory = categoryId !== BOOKS_ID && categoryId !== COSMETICS_ID ? categoryId : '';
+    this.filterByCategory(categoryId);
+  }
+
+  public filterByCategory(categoryId: string): void {
+    const offset = (this.page - 1) * this.limit;
     this.productProjectionsApiService
-      .getProductProjectionsByCategory(categoryId)
+      .getProductProjectionsByCategory(categoryId, this.limit, offset)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           const responseStr = JSON.stringify(response);
           const productProjectionsResponse: ProductProjectionsResponse = JSON.parse(responseStr);
           this.products = [...productProjectionsResponse.results];
+          this.length = productProjectionsResponse.total;
         },
         error: (error: HttpErrorResponse) => {
           // Handle request error
@@ -97,12 +129,12 @@ export class ProductListComponent implements OnInit {
 
   public setCurrentCategory(category: Category) {
     this.breadcrumbService.setCategory(category.name['en-US']);
-    this.filterByCategory(category.id);
+    this.filterBySubCategory(category.id);
   }
 
   public onKeyUpFilter(event: KeyboardEvent, categoryId: string): void {
     if (event.key === 'Enter') {
-      this.filterByCategory(categoryId);
+      this.filterBySubCategory(categoryId);
     }
   }
 
@@ -134,8 +166,14 @@ export class ProductListComponent implements OnInit {
   }
 
   private loadBookSubCategories(): void {
+    let subCategoryID: string = '';
+    if (this.currentRoute === '/books') {
+      subCategoryID = BOOKS_ID;
+    } else if (this.currentRoute === '/cosmetics') {
+      subCategoryID = COSMETICS_ID;
+    }
     this.categoryApiService
-      .getSubcategories(BOOKS_ID)
+      .getSubcategories(subCategoryID)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (categories: Category[]) => {
@@ -157,5 +195,15 @@ export class ProductListComponent implements OnInit {
     }
 
     return new Error('Something went wrong; please try again later.');
+  }
+
+  public onPageLimitChange(event: { pageIndex: number; pageSize: number }): void {
+    this.page = event.pageIndex + 1;
+    this.limit = event.pageSize;
+    if (this.currentRoute === '/books') {
+      this.filterByCategory(BOOKS_ID);
+    } else if (this.currentRoute === '/cosmetics') {
+      this.filterByCategory(COSMETICS_ID);
+    }
   }
 }

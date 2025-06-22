@@ -3,12 +3,12 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { HighlightSearchTermPipe } from '../../../../core/product/pipes/highlight-search-term.pipe';
 import { ProductProjection } from '../../../../core/product/interfaces/product-projection';
 import { ProductProjectionsHelperService } from '../../../../core/product/services/product-projections.helper.service';
-import { ProductButtonComponent } from '../product-button/product-button.component';
+import { AddToCartButtonComponent } from '../add-to-cart-button/add-to-cart-button.component';
 import { ProductPriceComponent } from '../product-price/product-price.component';
 
 @Component({
   selector: 'app-brief-card',
-  imports: [HighlightSearchTermPipe, ProductButtonComponent, ProductPriceComponent],
+  imports: [AddToCartButtonComponent, HighlightSearchTermPipe, ProductPriceComponent],
   templateUrl: './brief-card.component.html',
   styleUrl: './brief-card.component.scss',
 })
@@ -34,12 +34,5 @@ export class BriefCardComponent implements OnInit, OnChanges {
     this.description = this.productProjectionsHelperService.getShortProductDescription(this.product);
     this.imgUrl = this.productProjectionsHelperService.getProductImg(this.product);
     this.title = this.productProjectionsHelperService.getProductName(this.product);
-  }
-
-  public buttonClickedAddToCart(event?: MouseEvent): void {
-    if (event) {
-      event.stopPropagation();
-      console.log('Product added to cart:', this.title);
-    }
   }
 }

@@ -1,0 +1,107 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
+
+footer {
+  box-shadow: 0 0 10px 5px $color-input-search;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 1.5rem;
+  padding: 1rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $color-additional;
+
+  &__contacts {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+    font-size: 1.2rem;
+    align-items: center;
+
+    .header {
+      font-size: 1.6rem;
+    }
+
+    &__developers {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      font-weight: 300;
+
+      > a {
+        color: $color-additional;
+        font-weight: bold;
+        text-decoration: underline;
+        @extend %transition;
+
+        &:hover {
+          color: $color-button-hover;
+
+          .icon {
+            background-image: url('../../../../assets/images/github_git_icon-hov.png');
+          }
+        }
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          background-image: url('../../../../assets/images/github_git_icon-add.png');
+          background-repeat: round;
+          @extend %transition;
+        }
+      }
+    }
+
+    &__developer {
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      column-gap: 1rem;
+    }
+  }
+
+  &__information {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+    align-items: center;
+
+    &__button {
+      cursor: pointer;
+      @extend %transition;
+      text-decoration: underline;
+
+      &:hover {
+        color: $color-button-hover;
+      }
+
+      .underline-text {
+        text-decoration: underline;
+      }
+    }
+
+    &__logo {
+      width: 60px;
+      height: 21px;
+      background-image: url('../../../../assets/images/rs-school-logo-add.png');
+      object-fit: cover;
+      background-repeat: round;
+      @extend %transition;
+      cursor: pointer;
+
+      &:hover {
+        background-image: url('../../../../assets//images/rs-school-logo-hov.png');
+      }
+    }
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    row-gap: 1.5rem;
+    align-items: start;
+    padding: 1.5rem;
+  }
+}

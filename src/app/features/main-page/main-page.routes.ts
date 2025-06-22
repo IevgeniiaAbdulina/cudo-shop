@@ -5,6 +5,7 @@ import { RegistrationComponent } from '../auth/registration/registration.compone
 import { LoginComponent } from '../auth/login/login.component';
 import { authGuard } from '../../core/auth/auth.guard';
 import { isLoggedGuard } from '../../core/auth/is-logged.guard';
+import { AboutUsComponent } from '../about-us/about-us.component';
 
 export const mainRoutes: Routes = [
   {
@@ -16,6 +17,11 @@ export const mainRoutes: Routes = [
       {
         path: 'main',
         component: HomeComponent,
+      },
+      {
+        path: 'about-us',
+        component: AboutUsComponent,
+        data: { breadcrumb: 'About Us' },
       },
       {
         path: 'registration',
@@ -48,7 +54,6 @@ export const mainRoutes: Routes = [
       {
         path: 'cart',
         loadComponent: () => import('../cart/cart-page/cart-page.component').then((c) => c.CartPageComponent),
-        canActivate: [authGuard],
         data: { breadcrumb: 'Cart' },
       },
       {

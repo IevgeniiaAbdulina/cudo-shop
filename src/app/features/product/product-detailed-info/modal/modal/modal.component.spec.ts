@@ -19,4 +19,12 @@ describe('ModalComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('openModal', () => {
+    it('should open modal', () => {
+      component?.openModal(1);
+      expect(component?.isModalOpen).toBeTruthy();
+      expect(component?.currentIndex).toBe(1);
+    });
+  });
 });

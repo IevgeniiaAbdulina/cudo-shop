@@ -1,0 +1,295 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/mixins' as *;
+@use '../../../../style/abstract/placeholders' as *;
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 290px);
+
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+    min-height: calc(100vh - 305px);
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    min-height: calc(100vh - 543px);
+  }
+}
+
+.cart {
+  padding: 1rem 3rem;
+  text-align: center;
+  font-size: 1.8rem;
+
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4rem;
+  }
+
+  &__empty-cart {
+    background-image: url('../../../assets/images/empty-shopping-cart.png');
+    width: 30rem;
+    height: 25rem;
+    background-repeat: round;
+    align-self: center;
+  }
+
+  &__message {
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: $color-primary;
+  }
+
+  &__button {
+    color: $color-input-search;
+    background: $color-additional;
+    border-radius: 10px;
+    font-weight: 600;
+    align-self: center;
+    cursor: pointer;
+    width: max-content;
+    @extend %transition;
+
+    &:hover {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+
+    @include media-mobile {
+      font-weight: 400;
+    }
+  }
+}
+
+/* Cart List */
+.cart__content {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2rem;
+
+    @include media-tablet {
+      flex-direction: column;
+    }
+  }
+
+  &__cart_list {
+    flex: 7;
+    @include media-tablet {
+      width: 100%;
+    }
+  }
+
+  &__cart_item {
+    margin-bottom: 2rem;
+  }
+
+  &__cart_summary {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 2px solid #eee;
+
+    @include media-tablet {
+      width: 100%;
+    }
+  }
+}
+
+.cart_summary__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  span {
+    font-size: 1.4rem;
+    color: #545978;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #545978;
+  }
+}
+
+.original_total_price {
+  color: #000000;
+
+  span {
+    color: #000000;
+    text-decoration: line-through;
+  }
+}
+
+.total_summary {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #000000;
+  background-color: hsl(232deg 92% 33% / 5%);
+  padding: 0.5rem;
+
+  span {
+    font-size: 1.8rem;
+    color: $color-additional;
+  }
+}
+
+.cart_summary__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 3rem;
+}
+
+/* Cart buttons */
+.cart__content {
+  &__cart_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+
+    @include media-tablet {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+}
+
+.cart_actions {
+  &__top {
+    display: flex;
+
+    @include media-laptop-tablet {
+      display: none;
+    }
+  }
+
+  &__bottom {
+    display: none;
+
+    @include media-laptop-tablet {
+      display: flex;
+      margin: 2rem 0;
+
+      & > * {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.cart__button {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  padding: 0 1rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 2.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.5s ease-out;
+
+  &__more_products {
+    border: 0.15rem solid gainsboro;
+    background-color: transparent;
+    color: #000000;
+
+    &:hover {
+      background: gainsboro;
+      box-shadow: 0 1px 3px #eee;
+    }
+  }
+
+  &__clear_cart {
+    background: $color-error;
+
+    &:hover {
+      background: #ba1414;
+      box-shadow: 0 1px 3px #eee;
+    }
+  }
+
+  &__checkout {
+    width: 100%;
+  }
+
+  &__coupon_code {
+    width: 100%;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    border: 0.15rem solid gainsboro;
+    background-color: transparent;
+    color: #000000;
+
+    &:hover {
+      background: gainsboro;
+      box-shadow: 0 1px 3px #eee;
+    }
+  }
+
+  &__coupon_code__apply {
+    border: none;
+    padding: 0.7rem 1rem;
+  }
+}
+
+.coupon_code__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../assets/icons/shoppingmode_24dp_green.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+.coupon_code {
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    & label {
+      width: 100%;
+    }
+
+    & input {
+      width: 100%;
+      padding: 8px 10px;
+      border: none;
+      box-shadow: 0 2px #f07800;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.coupon_code {
+  &__message {
+    font-size: 1.4rem;
+    color: #0f743b;
+
+    &.warn {
+      color: $color-error;
+    }
+  }
+}

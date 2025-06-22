@@ -5,10 +5,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavigateToSpecificRouteService } from '../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { BreadcrumbComponent } from '../product/components/breadcrumb/breadcrumb.component';
+import { PromotionTeaserComponent } from '../../shared/ui/promotion-teaser/promotion-teaser.component';
+import { CartService } from '../cart/services/cart.service';
 
 @Component({
   selector: 'app-main-page',
-  imports: [HeaderComponent, FooterComponent, RouterOutlet, BreadcrumbComponent],
+  imports: [HeaderComponent, FooterComponent, RouterOutlet, BreadcrumbComponent, PromotionTeaserComponent],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
 })
@@ -17,6 +19,7 @@ export class MainPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
 
   public title = 'cudo-shop';
 
@@ -24,6 +27,8 @@ export class MainPageComponent implements OnInit {
     this.navigateToSpecificRouteService.routeName$.subscribe((data) => {
       this.navigateToRoute(data);
     });
+
+    this.cartService.handleCart();
   }
 
   public navigateToRoute(route: string) {
