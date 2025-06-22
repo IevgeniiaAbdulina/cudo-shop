@@ -3,10 +3,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, Input, OnChanges, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { StorageService } from '../../../../core/auth/storage.service';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
-import { CartResponse } from '../../../cart/interfaces/cart-response';
+import { CartItemResponse, CartResponse } from '../../../cart/interfaces/cart-response';
 import { CartService } from '../../../cart/services/cart.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
@@ -32,7 +31,6 @@ export class AddToCartButtonComponent implements OnChanges {
 
   constructor(
     private cartApiService: CartApiService,
-    private storageService: StorageService,
     public cartService: CartService,
   ) {}
 
@@ -50,14 +48,13 @@ export class AddToCartButtonComponent implements OnChanges {
 
   private updateCart(): void {
     this.isLoading.set(true);
-    const customerId = this.storageService.getCustomerId();
+    const customerId = this.cartService.customerIdentifier();
 
     if (!customerId) {
       if (this.productId) {
-        this.cartService.handleAddLineItemToCart(this.productId).subscribe((result: boolean) => {
-          if (result) {
-            this.isLoading.set(false);
-          }
+        this.cartService.handleAddLineItemToCart(this.productId).subscribe(() => {
+          this.isLoading.set(false);
+          this.isDisabled.set(true);
         });
       }
     } else {
@@ -108,29 +105,8 @@ export class AddToCartButtonComponent implements OnChanges {
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    const customerId = this.storageService.getCustomerId();
-
-    if (this.productId && customerId) {
-      this.cartApiService
-        .getCartByCustomerId(customerId)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (response: unknown) => {
-            const responseStr = JSON.stringify(response);
-            const cartResponse: Cart = JSON.parse(responseStr);
-            const isAdded =
-              cartResponse &&
-              cartResponse.lineItems.length > 0 &&
-              cartResponse.lineItems.some((cli) => cli && this.productId === cli.productId);
-            this.isDisabled.set(isAdded);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.warn('Customer does not have a Cart yet', error.message);
-          },
-        });
-    } else {
-      this.isDisabled.set(false);
-    }
+    const isAdded = this.cartService.cart()?.lineItems.some((cli: CartItemResponse) => cli && this.productId === cli.productId) ?? false;
+    this.isDisabled.set(isAdded);
   }
 
   private handleError(error: HttpErrorResponse): Error {

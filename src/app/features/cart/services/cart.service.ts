@@ -19,6 +19,7 @@ export class CartService {
 
   public cart: WritableSignal<CartModel | null> = signal<CartModel | null>(null);
   public cartItemsCount: WritableSignal<number> = signal<number>(0);
+  public customerIdentifier: WritableSignal<string> = signal<string>('');
 
   constructor(
     private http: HttpClient,
@@ -27,7 +28,13 @@ export class CartService {
   ) {}
 
   public handleCart(): void {
-    const customerId = this.storageService.getCustomerId();
+    const customerId = this.customerIdentifier();
+    if (customerId === '') {
+      const customerId = this.storageService.getCustomerId();
+      if (customerId) {
+        this.customerIdentifier.set(customerId);
+      }
+    }
 
     if (customerId) {
       // If a customer is logged in and have a cart:
@@ -64,13 +71,13 @@ export class CartService {
     });
   }
 
-  public handleAddLineItemToCart(productId: string): Observable<boolean> {
+  public handleAddLineItemToCart(productId: string): Observable<void> {
     return this.addLineItemToCart(this.cart()?.id, this.cart()?.version, productId, 1).pipe(
       delay(500),
       map((res) => {
         this.updateCartModel(res);
 
-        return true;
+        return;
       }),
     );
   }

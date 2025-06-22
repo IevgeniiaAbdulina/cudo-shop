@@ -110,7 +110,6 @@ export class AuthService {
     };
 
     this.cartService.updateCartModel(null);
-    this.cartService.handleCart();
 
     return this.http.post<AuthResponse>(`${this.apiUrlUserLogin}/${API_ENDPOINT.CUSTOMERS}/token`, body.toString(), { headers }).pipe(
       tap({
@@ -122,6 +121,9 @@ export class AuthService {
           this.userService.getUserPersonalInfoByToken().subscribe((userResponse: UserResponse) => {
             const customerId = userResponse.id;
             this.storageService.setCustomerId(customerId);
+
+            this.cartService.customerIdentifier.set(userResponse.id);
+            this.cartService.handleCart();
           });
         },
         error: (error) => {
