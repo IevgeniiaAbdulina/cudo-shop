@@ -101,6 +101,7 @@ export class CartService {
     } else {
       this.cart.set(null);
       this.cartItemsCount.set(0);
+      this.customerIdentifier.set('');
     }
   }
 
