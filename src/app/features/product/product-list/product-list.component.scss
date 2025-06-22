@@ -47,6 +47,10 @@
     display: flex;
     flex-wrap: nowrap;
 
+    @include media-mobile-big {
+      flex-direction: column;
+    }
+
     aside {
       height: fit-content;
     }
@@ -148,9 +152,8 @@ li {
 }
 
 .product-list {
-  width: 70vw;
   display: flex;
-  row-gap: 2rem;
+  gap: 2rem;
   column-gap: 2rem;
   flex: 1;
   justify-content: center;
