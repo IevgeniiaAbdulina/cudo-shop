@@ -1,7 +1,7 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { delay, map, Observable } from 'rxjs';
 import { CartResponse } from '../interfaces/cart-response';
 import { QueryCartResponse } from '../interfaces/query-carts-response';
 import { CartModel } from '../model/cart-model';
@@ -64,10 +64,15 @@ export class CartService {
     });
   }
 
-  public handleAddLineItemToCart(productId: string): void {
-    this.addLineItemToCart(this.cart()?.id, this.cart()?.version, productId, 1).subscribe((response: CartResponse) => {
-      this.updateCartModel(response);
-    });
+  public handleAddLineItemToCart(productId: string): Observable<boolean> {
+    return this.addLineItemToCart(this.cart()?.id, this.cart()?.version, productId, 1).pipe(
+      delay(500),
+      map((res) => {
+        this.updateCartModel(res);
+
+        return true;
+      }),
+    );
   }
 
   public updateCartModel(response: CartResponse | null): void {

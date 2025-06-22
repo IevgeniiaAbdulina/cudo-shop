@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input, OnChanges, signal } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { StorageService } from '../../../../core/auth/storage.service';
@@ -8,10 +8,11 @@ import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
 import { CartResponse } from '../../../cart/interfaces/cart-response';
 import { CartService } from '../../../cart/services/cart.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-add-to-cart-button',
-  imports: [CommonModule],
+  imports: [CommonModule, MatProgressSpinner],
   templateUrl: './add-to-cart-button.component.html',
   styleUrl: './add-to-cart-button.component.scss',
 })
@@ -24,6 +25,7 @@ export class AddToCartButtonComponent implements OnChanges {
   };
   private variantId: number = 1;
   public isDisabled = signal(false);
+  public isLoading: WritableSignal<boolean> = signal(false);
 
   @Input() public productId: string = '';
   @Input() public productTitle: string = '';
@@ -47,11 +49,16 @@ export class AddToCartButtonComponent implements OnChanges {
   }
 
   private updateCart(): void {
+    this.isLoading.set(true);
     const customerId = this.storageService.getCustomerId();
 
     if (!customerId) {
       if (this.productId) {
-        this.cartService.handleAddLineItemToCart(this.productId);
+        this.cartService.handleAddLineItemToCart(this.productId).subscribe((result: boolean) => {
+          if (result) {
+            this.isLoading.set(false);
+          }
+        });
       }
     } else {
       this.cartApiService
@@ -65,12 +72,12 @@ export class AddToCartButtonComponent implements OnChanges {
               this.cart.id = cartResponse.id;
               this.cart.version = cartResponse.version;
               this.addProductToCart();
-
               this.cartService.updateCartModel(response);
             }
           },
           error: (error: HttpErrorResponse) => {
             console.log('[updateCart error]', error.message);
+            this.isLoading.set(false);
             this.handleError(error);
           },
         });
@@ -85,11 +92,12 @@ export class AddToCartButtonComponent implements OnChanges {
         next: (response: CartResponse) => {
           this.isDisabled.set(true);
           console.log('Product "%s" has been successfully added to your cart', this.productTitle);
-
+          this.isLoading.set(false);
           this.cartService.updateCartModel(response);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
+            this.isLoading.set(false);
             alert(`Sorry, "${this.productTitle || 'specified product'}" can't be added to your cart. Please, contact support.`);
             console.warn(`Error adding product to cart.\n${error.error.message}`);
           } else {
