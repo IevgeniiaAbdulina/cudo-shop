@@ -69,6 +69,7 @@ export const IevgeniiaInfo: TeamMemberInfo = {
         td: [
           'Built dynamic routing for Catalog and Product Detail pages.',
           'Added sorting (price/name) and breadcrumb navigation for improved UX.',
+          'Integrate Catalog Page with Commercetools API to Enable Adding Products to Cart.',
         ],
       },
       {
