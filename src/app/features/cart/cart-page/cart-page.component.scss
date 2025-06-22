@@ -7,16 +7,16 @@
   flex-direction: column;
   gap: 3rem;
   padding: 2rem 1.5rem;
-  min-height: calc(100vh - 300px);
+  min-height: calc(100vh - 290px);
 
   @include media-laptop-tablet {
     column-gap: 1.5rem;
-    min-height: calc(100vh - 355px);
+    min-height: calc(100vh - 305px);
   }
 
   @include media-mobile-big {
     flex-direction: column;
-    min-height: calc(100vh - 582px);
+    min-height: calc(100vh - 543px);
   }
 }
 
