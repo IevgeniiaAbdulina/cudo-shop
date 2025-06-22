@@ -13,9 +13,23 @@ import { CartResponse } from '../../../features/cart/interfaces/cart-response';
 })
 export class CartApiService {
   private readonly CARTS_URL = `${environment.apiUrl}/${environment.projectKey}/${API_ENDPOINT.CARTS}`;
-  private readonly ME_CARTS_URL = `${environment.apiUrl}/${environment.projectKey}/me/${API_ENDPOINT.CARTS}`;
+  private readonly ME_CARTS_URL = `${environment.apiUrl}/${environment.projectKey}/me`;
 
   constructor(private http: HttpClient) {}
+
+  public getMyActiveCart(): Observable<CartResponse> {
+    return this.http.get<CartResponse>(`${this.ME_CARTS_URL}/${API_ENDPOINT.ACTIVE_CART}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          console.log('You do not have a cart yet. Creating a new cart...');
+
+          return this.createMyCart();
+        } else {
+          return throwError(() => error);
+        }
+      }),
+    );
+  }
 
   public getCartByCustomerId(customerId: string): Observable<CartResponse> {
     return this.http.get<CartResponse>(`${this.CARTS_URL}/customer-id=${customerId}`).pipe(
@@ -31,7 +45,7 @@ export class CartApiService {
     );
   }
 
-  public updateCartById(
+  public updateCartByIdAdd(
     cartId: string,
     version: number,
     productId: string,
@@ -53,13 +67,28 @@ export class CartApiService {
     return this.http.post<CartResponse>(`${this.CARTS_URL}/${cartId}`, payload);
   }
 
+  public updateCartByIdRemove(cartId: string, version: number, lineItemId: string, quantity: number = 1): Observable<CartResponse> {
+    const payload = {
+      version,
+      actions: [
+        {
+          action: 'removeLineItem',
+          lineItemId,
+          quantity,
+        },
+      ],
+    };
+
+    return this.http.post<CartResponse>(`${this.CARTS_URL}/${cartId}`, payload);
+  }
+
   private createMyCart(): Observable<CartResponse> {
     console.warn('Creating the cart...');
     const payload = {
       currency: this.getCurrency(),
     };
 
-    return this.http.post<CartResponse>(this.ME_CARTS_URL, payload).pipe(
+    return this.http.post<CartResponse>(`${this.ME_CARTS_URL}/${API_ENDPOINT.CARTS}`, payload).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error creating cart:', error);
 
@@ -68,7 +97,7 @@ export class CartApiService {
     );
   }
 
-  private getCurrency(): string {
+  public getCurrency(): string {
     return 'EUR';
   }
 }

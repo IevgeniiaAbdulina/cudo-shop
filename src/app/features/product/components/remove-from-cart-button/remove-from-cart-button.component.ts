@@ -1,5 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnChanges, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Cart } from '../../../../core/cart/interfaces/cart';
+import { CartApiService } from '../../../../core/cart/services/cart-api.service';
 
 @Component({
   selector: 'app-remove-from-cart-button',
@@ -8,11 +11,19 @@ import { Component, Input, OnChanges } from '@angular/core';
   styleUrls: ['../add-to-cart-button/add-to-cart-button.component.scss', './remove-from-cart-button.component.scss'],
 })
 export class RemoveFromCartButtonComponent implements OnChanges {
+  private readonly destroyRef = inject(DestroyRef);
+  private cart: Cart = {
+    id: '',
+    version: 0,
+    lineItems: [],
+  };
+  private lineItemId: string = '';
+  public isShown = signal(false);
 
   @Input() public productId: string = '';
   @Input() public productTitle: string = '';
 
-  constructor() {}
+  constructor(private cartApiService: CartApiService) {}
 
   public ngOnChanges(): void {
     this.checkIfProductAlreadyAddedToCart();
@@ -27,15 +38,68 @@ export class RemoveFromCartButtonComponent implements OnChanges {
   }
 
   private updateCart(): void {
-    // TODO
+    this.cartApiService
+      .getMyActiveCart()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response: unknown) => {
+          const responseStr = JSON.stringify(response);
+          const cartResponse: Cart = JSON.parse(responseStr);
+          if (cartResponse) {
+            this.cart.id = cartResponse.id;
+            this.cart.version = cartResponse.version;
+            this.removeProductFromCart();
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log('[updateCart error]', error.message);
+          this.handleError(error);
+        },
+      });
   }
 
   private removeProductFromCart(): void {
-    // TODO
+    this.cartApiService
+      .updateCartByIdRemove(this.cart.id, this.cart.version, this.lineItemId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.checkIfProductAlreadyAddedToCart();
+          console.log('Product "%s" has been successfully removed from your cart', this.productTitle);
+        },
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            alert(`Sorry, "${this.productTitle || 'specified product'}" can't be removed from your cart. Please, contact support.`);
+            console.warn(`Error adding product to cart.\n${error.error.message}`);
+          } else {
+            this.handleError(error);
+          }
+        },
+      });
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    // TODO
+    if (this.productId) {
+      this.cartApiService
+        .getMyActiveCart()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: unknown) => {
+            const responseStr = JSON.stringify(response);
+            const cartResponse: Cart = JSON.parse(responseStr);
+            console.log('[check cart (by customerId)]', cartResponse?.id, cartResponse?.version); // TODO
+            if (cartResponse && cartResponse.lineItems.length > 0) {
+              this.lineItemId = cartResponse.lineItems.find((cli) => this.productId === cli.productId)?.id || '';
+              this.isShown.set(!!this.lineItemId);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.warn('Customer does not have an active Cart yet', error.message);
+          },
+        });
+    } else {
+      this.isShown.set(false);
+    }
   }
 
   private handleError(error: HttpErrorResponse): Error {

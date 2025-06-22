@@ -8,9 +8,8 @@ describe('RemoveFromCartButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RemoveFromCartButtonComponent]
-    })
-    .compileComponents();
+      imports: [RemoveFromCartButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RemoveFromCartButtonComponent);
     component = fixture.componentInstance;

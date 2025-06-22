@@ -74,7 +74,7 @@ export class AddToCartButtonComponent implements OnChanges {
 
   private addProductToCart(): void {
     this.cartApiService
-      .updateCartById(this.cart.id, this.cart.version, this.productId, this.variantId)
+      .updateCartByIdAdd(this.cart.id, this.cart.version, this.productId, this.variantId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
