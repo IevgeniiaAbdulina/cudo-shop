@@ -40,7 +40,10 @@
             <p class="product-discount-value">{{ getDiscountValue(product) }}% off</p>
           </ng-container>
         </div>
-        <app-add-to-cart-button [productId]="product.id" [productTitle]="getProductName(product)" />
+        <div class="buttons-container">
+          <app-add-to-cart-button [productId]="product.id" [productTitle]="getProductName(product)" />
+          <app-remove-from-cart-button [productId]="product.id" [productTitle]="getProductName(product)" />
+        </div>
         <p class="product-description">{{ getProductDescription(product) }}</p>
       </div>
     </div>

@@ -4,13 +4,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductImage } from '../../../core/product/interfaces/product-image';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { AddToCartButtonComponent } from '../components/add-to-cart-button/add-to-cart-button.component';
+import { RemoveFromCartButtonComponent } from '../components/remove-from-cart-button/remove-from-cart-button.component';
 import { ProductDetailed } from './interfaces/product-detailed';
 import { ModalComponent } from './modal/modal/modal.component';
 import { ProductDetailedService } from './services/product-detailed.service';
 
 @Component({
   selector: 'app-product-detailed-info',
-  imports: [AddToCartButtonComponent, ButtonComponent, CommonModule, ModalComponent],
+  imports: [AddToCartButtonComponent, ButtonComponent, CommonModule, ModalComponent, RemoveFromCartButtonComponent],
   templateUrl: './product-detailed-info.component.html',
   styleUrl: './product-detailed-info.component.scss',
 })
@@ -18,8 +19,6 @@ export class ProductDetailedInfoComponent implements OnInit {
   @Input() public product: ProductDetailed | null = null;
   @Input() public key: string | null = null;
   @Input() public currentImageIndex: number = 0;
-
-  @Output() public buttonClickedAddToCart = new EventEmitter();
 
   public products: ProductDetailed[] = [];
   public productImages: ProductImage[] = [];

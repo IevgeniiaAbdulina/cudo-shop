@@ -193,3 +193,13 @@
     font-size: 1.4rem;
   }
 }
+
+.buttons-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+
+  @include media-laptop-tablet {
+  grid-template-columns: 1fr;
+  }
+}
