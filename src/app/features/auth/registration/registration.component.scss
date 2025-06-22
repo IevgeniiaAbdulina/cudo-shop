@@ -8,6 +8,24 @@
   align-items: center;
 }
 
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 300px);
+
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+    min-height: calc(100vh - 355px);
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    min-height: calc(100vh - 582px);
+  }
+}
+
 form {
   display: flex;
   flex-direction: column;

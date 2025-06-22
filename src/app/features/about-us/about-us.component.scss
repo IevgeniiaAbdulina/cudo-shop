@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 3rem;
   padding: 2rem 1.5rem;
-  min-height: calc(100vh - 124px);
+  min-height: calc(100vh - 300px);
 
   @include media-laptop-tablet {
     column-gap: 1.5rem;
