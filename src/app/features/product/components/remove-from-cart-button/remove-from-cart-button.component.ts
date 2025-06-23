@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input, OnChanges, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, Input, OnChanges, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
 import { CartResponse } from '../../../cart/interfaces/cart-response';
+import { CartService } from '../../../cart/services/cart.service';
 
 @Component({
   selector: 'app-remove-from-cart-button',
@@ -24,7 +25,16 @@ export class RemoveFromCartButtonComponent implements OnChanges {
   @Input() public productId: string = '';
   @Input() public productTitle: string = '';
 
-  constructor(private cartApiService: CartApiService) {}
+  constructor(
+    private cartService: CartService,
+    private cartApiService: CartApiService,
+  ) {
+    effect(() => {
+      if (this.cartService.cartItemsCount()) {
+        this.checkIfProductAlreadyAddedToCart();
+      }
+    });
+  }
 
   public ngOnChanges(): void {
     this.checkIfProductAlreadyAddedToCart();
@@ -64,8 +74,9 @@ export class RemoveFromCartButtonComponent implements OnChanges {
       .updateCartByIdRemove(this.cart.id, this.cart.version, this.lineItemId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
-          this.checkIfProductAlreadyAddedToCart();
+        next: (response: CartResponse) => {
+          this.isShown.set(false);
+          this.cartService.updateCartModel(response);
           console.log('Product "%s" has been successfully removed from your cart', this.productTitle);
         },
         error: (error: HttpErrorResponse) => {
@@ -88,7 +99,6 @@ export class RemoveFromCartButtonComponent implements OnChanges {
           next: (response: CartResponse) => {
             const responseStr = JSON.stringify(response);
             const cartResponse: Cart = JSON.parse(responseStr);
-            console.log('[check cart (by customerId)]', cartResponse?.id, cartResponse?.version); // TODO
             if (cartResponse && cartResponse.lineItems.length > 0) {
               this.lineItemId = cartResponse.lineItems.find((cli) => this.productId === cli.productId)?.id || '';
               this.isShown.set(!!this.lineItemId);
