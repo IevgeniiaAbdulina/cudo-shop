@@ -111,26 +111,8 @@ export class AddToCartButtonComponent implements OnChanges {
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    if (this.productId) {
-      this.cartApiService
-        .getMyActiveCart()
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (response: CartResponse) => {
-            const responseStr = JSON.stringify(response);
-            const cartResponse: Cart = JSON.parse(responseStr);
-            if (cartResponse && cartResponse.lineItems.length > 0) {
-              const isAdded = cartResponse.lineItems.some((cli: CartItem) => cli && this.productId === cli.productId);
-              this.isDisabled.set(isAdded);
-            }
-          },
-          error: (error: HttpErrorResponse) => {
-            console.warn('Customer does not have a Cart yet', error.message);
-          },
-        });
-    } else {
-      this.isDisabled.set(false);
-    }
+    const isAdded = this.cartService.cart()?.lineItems.some((cli: CartItem) => cli && this.productId === cli.productId);
+    this.isDisabled.set(!!isAdded);
   }
 
   private handleError(error: HttpErrorResponse): Error {

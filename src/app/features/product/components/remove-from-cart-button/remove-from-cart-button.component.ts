@@ -91,26 +91,8 @@ export class RemoveFromCartButtonComponent implements OnChanges {
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    if (this.productId) {
-      this.cartApiService
-        .getMyActiveCart()
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (response: CartResponse) => {
-            const responseStr = JSON.stringify(response);
-            const cartResponse: Cart = JSON.parse(responseStr);
-            if (cartResponse && cartResponse.lineItems.length > 0) {
-              this.lineItemId = cartResponse.lineItems.find((cli) => this.productId === cli.productId)?.id || '';
-              this.isShown.set(!!this.lineItemId);
-            }
-          },
-          error: (error: HttpErrorResponse) => {
-            console.warn('Customer does not have an active Cart yet', error.message);
-          },
-        });
-    } else {
-      this.isShown.set(false);
-    }
+    this.lineItemId = this.cartService.cart()?.lineItems.find((cli) => this.productId === cli.productId)?.id || '';
+    this.isShown.set(!!this.lineItemId);
   }
 
   private handleError(error: HttpErrorResponse): Error {
