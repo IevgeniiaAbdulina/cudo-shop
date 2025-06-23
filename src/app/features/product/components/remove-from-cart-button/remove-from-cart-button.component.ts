@@ -14,11 +14,7 @@ import { CartService } from '../../../cart/services/cart.service';
 })
 export class RemoveFromCartButtonComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
-  private cart: Cart = {
-    id: '',
-    version: 0,
-    lineItems: [],
-  };
+  private cart: Cart = CartService.initialCart;
   private lineItemId: string = '';
   public isShown = signal(false);
 
@@ -63,8 +59,12 @@ export class RemoveFromCartButtonComponent implements OnChanges {
           }
         },
         error: (error: HttpErrorResponse) => {
-          console.log('[updateCart error]', error.message);
-          this.handleError(error);
+          if (error.status === 403) {
+            this.cart = this.cartService.cart() || CartService.initialCart;
+            this.removeProductFromCart();
+          } else {
+            console.warn('[updateCart error]', error.message);
+          }
         },
       });
   }

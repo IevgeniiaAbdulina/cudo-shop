@@ -18,11 +18,7 @@ import { CartService } from '../../../cart/services/cart.service';
 })
 export class AddToCartButtonComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
-  private cart: Cart = {
-    id: '',
-    version: 0,
-    lineItems: [],
-  };
+  private cart: Cart = CartService.initialCart;
   private variantId: number = 1;
   public isDisabled = signal(false);
   public isLoading: WritableSignal<boolean> = signal(false);
