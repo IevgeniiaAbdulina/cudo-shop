@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, Input, OnChanges, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { Cart } from '../../../../core/cart/interfaces/cart';
+import { CartItem } from '../../../../core/cart/interfaces/cart-item';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
-import { CartItemResponse, CartResponse } from '../../../cart/interfaces/cart-response';
+import { CartResponse } from '../../../cart/interfaces/cart-response';
 import { CartService } from '../../../cart/services/cart.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -105,8 +106,26 @@ export class AddToCartButtonComponent implements OnChanges {
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    const isAdded = this.cartService.cart()?.lineItems.some((cli: CartItemResponse) => cli && this.productId === cli.productId) ?? false;
-    this.isDisabled.set(isAdded);
+    if (this.productId) {
+      this.cartApiService
+        .getMyActiveCart()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (response: CartResponse) => {
+            const responseStr = JSON.stringify(response);
+            const cartResponse: Cart = JSON.parse(responseStr);
+            if (cartResponse && cartResponse.lineItems.length > 0) {
+              const isAdded = cartResponse.lineItems.some((cli: CartItem) => cli && this.productId === cli.productId);
+              this.isDisabled.set(isAdded);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.warn('Customer does not have a Cart yet', error.message);
+          },
+        });
+    } else {
+      this.isDisabled.set(false);
+    }
   }
 
   private handleError(error: HttpErrorResponse): Error {

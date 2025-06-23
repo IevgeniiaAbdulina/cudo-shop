@@ -3,6 +3,7 @@ import { Component, DestroyRef, inject, Input, OnChanges, signal } from '@angula
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Cart } from '../../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
+import { CartResponse } from '../../../cart/interfaces/cart-response';
 
 @Component({
   selector: 'app-remove-from-cart-button',
@@ -42,7 +43,7 @@ export class RemoveFromCartButtonComponent implements OnChanges {
       .getMyActiveCart()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: unknown) => {
+        next: (response: CartResponse) => {
           const responseStr = JSON.stringify(response);
           const cartResponse: Cart = JSON.parse(responseStr);
           if (cartResponse) {
@@ -84,7 +85,7 @@ export class RemoveFromCartButtonComponent implements OnChanges {
         .getMyActiveCart()
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
-          next: (response: unknown) => {
+          next: (response: CartResponse) => {
             const responseStr = JSON.stringify(response);
             const cartResponse: Cart = JSON.parse(responseStr);
             console.log('[check cart (by customerId)]', cartResponse?.id, cartResponse?.version); // TODO
