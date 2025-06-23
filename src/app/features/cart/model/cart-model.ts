@@ -14,8 +14,6 @@ export class CartModel {
     const hasTotalPriceADiscount: boolean = this.discountOnTotalPrice > 0;
     const hasAnyItemDiscount: boolean = lineItems.find((item) => item.price.discounted) !== undefined;
 
-    console.log('cart has total discount? ', hasTotalPriceADiscount, ' any item discount ', hasAnyItemDiscount);
-
     this.hasDiscount = hasTotalPriceADiscount || hasAnyItemDiscount;
   }
 

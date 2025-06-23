@@ -15,14 +15,15 @@
 
       <div class="cart__list__item__actions">
         <div class="counter__container">
-          <app-button
-            class="counter__btn {{ itemModel?.quantity === 1 ? 'ic_delete' : 'ic_remove' }}"
-            (buttonClicked)="decrementItem.emit(itemModel?.id)"
-          ></app-button>
+          <button class="counter__btn" (click)="decrementItem.emit(itemModel?.id)">
+            <div class="{{ itemModel?.quantity === 1 ? 'ic_delete' : 'ic_remove' }}"></div>
+          </button>
           <div class="counter__number">
             {{ itemModel?.quantity }}
           </div>
-          <app-button class="counter__btn ic_add" (buttonClicked)="incrementItem.emit(itemModel?.id)"></app-button>
+          <button class="counter__btn" (click)="incrementItem.emit(itemModel?.id)">
+            <div class="ic_add"></div>
+          </button>
         </div>
         <app-button class="cart__button btn_delete" label="Remove from Cart" (buttonClicked)="deleteItem.emit(itemModel?.id)"></app-button>
       </div>

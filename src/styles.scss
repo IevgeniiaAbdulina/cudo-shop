@@ -3,6 +3,14 @@
 // For more information: https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+:root {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: white,
+    )
+  );
+}
+
 html {
   @include mat.theme(
     (

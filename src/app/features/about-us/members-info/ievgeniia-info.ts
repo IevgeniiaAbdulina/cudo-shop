@@ -9,7 +9,7 @@ export const IevgeniiaInfo: TeamMemberInfo = {
   resume: 'https://ievgeniiaabdulina.github.io/rsschool-cv',
   portfolio: 'https://ievgeniiaabdulina.github.io/Personal-Portfolio-Webpage/',
   image:
-    'https://camo.githubusercontent.com/0416dd27dfe8e345be95abbf7235c3fd8ba13f75904f4d66c53cc00b7c36e6a4/68747470733a2f2f666972656261736573746f726167652e676f6f676c65617069732e636f6d2f76302f622f706572736f6e616c2d706f7274666f6c696f2d62376536392e61707073706f742e636f6d2f6f2f52532d5363686f6f6c2d4a6176615363726970742d636f757273652d32303234253246706572736f6e616c2d70686f746f2e6a70673f616c743d6d6564696126746f6b656e3d34386232303835372d393463322d346662332d393430662d626534316337633030333032',
+    'https://firebasestorage.googleapis.com/v0/b/personal-portfolio-b7e69.appspot.com/o/RS-School-JavaScript-course-2024%2FFinal-task%2Fabout-us-page%2Fpersonal-photo-sm.png?alt=media&token=50340c0a-ce27-49ad-9974-ea00614a2a67',
   bio: 'Hello, nice to meet you! My name is Ievgeniia, I am an inspired junior front-end developer excited to contribute my skills and enthusiasm to the dynamic team. Committed to staying current with the latest web development practices and offering responsive and engaging web solutions for diverse projects. Using my commercial experience in Web UI Design, I want to develop a modern technical and interactive application and high-quality user experience. My hobby is reading fantasy books and playing video games. I am very interested in 3D modeling and 3D printing. I post photos and illustrations on Shutterstock and sell handmade polymer clay earrings. I love learning something new and opening new possibilities for the realization of my ideas.',
   technicalSkills: [
     {
@@ -69,6 +69,7 @@ export const IevgeniiaInfo: TeamMemberInfo = {
         td: [
           'Built dynamic routing for Catalog and Product Detail pages.',
           'Added sorting (price/name) and breadcrumb navigation for improved UX.',
+          'Integrate Catalog Page with Commercetools API to Enable Adding Products to Cart.',
         ],
       },
       {
