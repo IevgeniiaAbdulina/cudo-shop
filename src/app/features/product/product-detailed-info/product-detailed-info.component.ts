@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { ProductImage } from '../../../core/product/interfaces/product-image';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';

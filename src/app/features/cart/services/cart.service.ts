@@ -96,13 +96,17 @@ export class CartService {
         ),
       );
       if (this.cart()?.lineItems) {
-        this.cartItemsCount.set(this.cart()!.lineItems!.length);
+        this.cartItemsCount.set(this.getCartItemsCount());
       }
     } else {
       this.cart.set(null);
       this.cartItemsCount.set(0);
       this.customerIdentifier.set('');
     }
+  }
+
+  public getCartItemsCount(): number {
+    return this.cart()!.lineItems!.length;
   }
 
   public getCartById(cartId: string): Observable<CartResponse> {
