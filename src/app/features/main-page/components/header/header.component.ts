@@ -28,4 +28,8 @@ export class HeaderComponent {
   public buttonClickedBooks = output();
   public buttonClickedCosmetics = output();
   public buttonClickedAboutUs = output();
+
+  constructor() {
+    this.cartService.handleCart();
+  }
 }

@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, inject, Input, OnChanges, signal, WritableSignal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, Input, OnChanges, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 import { Cart } from '../../../../core/cart/interfaces/cart';
+import { CartItem } from '../../../../core/cart/interfaces/cart-item';
 import { CartApiService } from '../../../../core/cart/services/cart-api.service';
-import { CartItemResponse, CartResponse } from '../../../cart/interfaces/cart-response';
+import { CartResponse } from '../../../cart/interfaces/cart-response';
 import { CartService } from '../../../cart/services/cart.service';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-add-to-cart-button',
@@ -17,11 +18,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class AddToCartButtonComponent implements OnChanges {
   private readonly destroyRef = inject(DestroyRef);
-  private cart: Cart = {
-    id: '',
-    version: 0,
-    lineItems: [],
-  };
+  private cart: Cart = CartService.initialCart;
   private variantId: number = 1;
   public isDisabled = signal(false);
   public isLoading: WritableSignal<boolean> = signal(false);
@@ -30,9 +27,15 @@ export class AddToCartButtonComponent implements OnChanges {
   @Input() public productTitle: string = '';
 
   constructor(
-    private cartApiService: CartApiService,
     public cartService: CartService,
-  ) {}
+    private cartApiService: CartApiService,
+  ) {
+    effect(() => {
+      if (this.cartService.cartItemsCount()) {
+        this.checkIfProductAlreadyAddedToCart();
+      }
+    });
+  }
 
   public ngOnChanges(): void {
     this.checkIfProductAlreadyAddedToCart();
@@ -69,7 +72,6 @@ export class AddToCartButtonComponent implements OnChanges {
               this.cart.id = cartResponse.id;
               this.cart.version = cartResponse.version;
               this.addProductToCart();
-              this.cartService.updateCartModel(response);
             }
           },
           error: (error: HttpErrorResponse) => {
@@ -83,14 +85,14 @@ export class AddToCartButtonComponent implements OnChanges {
 
   private addProductToCart(): void {
     this.cartApiService
-      .updateCartById(this.cart.id, this.cart.version, this.productId, this.variantId)
+      .updateCartByIdAdd(this.cart.id, this.cart.version, this.productId, this.variantId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: CartResponse) => {
           this.isDisabled.set(true);
-          console.log('Product "%s" has been successfully added to your cart', this.productTitle);
           this.isLoading.set(false);
           this.cartService.updateCartModel(response);
+          console.log('Product "%s" has been successfully added to your cart', this.productTitle);
         },
         error: (error: HttpErrorResponse) => {
           if (error.status === 400) {
@@ -105,8 +107,8 @@ export class AddToCartButtonComponent implements OnChanges {
   }
 
   private checkIfProductAlreadyAddedToCart(): void {
-    const isAdded = this.cartService.cart()?.lineItems.some((cli: CartItemResponse) => cli && this.productId === cli.productId) ?? false;
-    this.isDisabled.set(isAdded);
+    const isAdded = this.cartService.cart()?.lineItems.some((cli: CartItem) => cli && this.productId === cli.productId);
+    this.isDisabled.set(!!isAdded);
   }
 
   private handleError(error: HttpErrorResponse): Error {

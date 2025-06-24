@@ -5,6 +5,7 @@ import { delay, map, Observable } from 'rxjs';
 import { CartResponse } from '../interfaces/cart-response';
 import { QueryCartResponse } from '../interfaces/query-carts-response';
 import { CartModel } from '../model/cart-model';
+import { Cart } from '../../../core/cart/interfaces/cart';
 import { CartApiService } from '../../../core/cart/services/cart-api.service';
 import { StorageService } from '../../../core/auth/storage.service';
 
@@ -12,6 +13,12 @@ import { StorageService } from '../../../core/auth/storage.service';
   providedIn: 'root',
 })
 export class CartService {
+  public static initialCart: Cart = {
+    id: '',
+    version: 0,
+    lineItems: [],
+  };
+
   private readonly PROJECT_KEY: string = environment.projectKey;
   private readonly API_URL: string = environment.apiUrl;
 
@@ -96,13 +103,17 @@ export class CartService {
         ),
       );
       if (this.cart()?.lineItems) {
-        this.cartItemsCount.set(this.cart()!.lineItems!.length);
+        this.cartItemsCount.set(this.getCartItemsCount());
       }
     } else {
       this.cart.set(null);
       this.cartItemsCount.set(0);
       this.customerIdentifier.set('');
     }
+  }
+
+  public getCartItemsCount(): number {
+    return this.cart()!.lineItems!.length;
   }
 
   public getCartById(cartId: string): Observable<CartResponse> {
