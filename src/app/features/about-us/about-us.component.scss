@@ -1,0 +1,466 @@
+@use '../../../style/abstract/constant' as *;
+@use '../../../style/abstract/placeholders' as *;
+@use '../../../style/abstract/mixins' as *;
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 290px);
+
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+    min-height: calc(100vh - 305px);
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    min-height: calc(100vh - 543px);
+  }
+}
+
+.about__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem 0 4rem;
+
+  h2 {
+    font-size: clamp(16px, 2vw, 24px);
+  }
+
+  p {
+    color: #545978;
+  }
+
+  .col_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.about__section {
+  &__header {
+    display: flex;
+    align-items: center;
+    color: #071b9f;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3vh 10vh;
+  }
+}
+
+.hero__content {
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    @include media-laptop-tablet {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+
+.about__section {
+  &__hero {
+    &_header {
+      width: 50%;
+      font-size: clamp(24px, 3vw, 32px);
+      color: #071b9f;
+
+      @include media-laptop-tablet {
+        order: 2;
+        width: 100%;
+        text-align: center;
+      }
+
+      h1 {
+        @include media-mobile-big {
+          width: 10ch;
+          margin: 0 auto;
+        }
+      }
+
+      span {
+        color: #f07800;
+      }
+
+      p {
+        padding: 2rem 0;
+        font-size: clamp(16px, 2vw, 24px);
+        color: #545978;
+      }
+    }
+
+    &_image {
+      width: 50%;
+      height: 40vh;
+      background-image: url('../../assets/images/source-cuate_blue.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+
+      @include media-laptop-tablet {
+        order: 1;
+        width: 100%;
+        height: 280px;
+      }
+    }
+  }
+
+  &__school_link {
+    a {
+      text-decoration: none;
+      color: $color-primary;
+      border: 2px solid $color-input-search;
+      padding: 1.5rem;
+      align-self: center;
+      border-radius: 10px;
+      @extend %transition;
+
+      &:hover {
+        color: $color-additional;
+        box-shadow: 0 3px 7px $color-button-disable;
+        background-color: $color-input-search;
+      }
+
+      .rs-information {
+        display: flex;
+        justify-content: center;
+        column-gap: 2rem;
+        align-items: center;
+
+        .logo-rs {
+          width: 5rem;
+          height: 5rem;
+          background-image: url('../../assets/images/rss-logo-about-us.svg');
+          background-repeat: no-repeat;
+
+          &__message {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1.5rem;
+            font-weight: 600;
+
+            @include media-tablet {
+              h2 {
+                font-size: 2rem;
+              }
+            }
+
+            @include media-mobile-big {
+              h2 {
+                font-size: 1.6rem;
+              }
+              p {
+                font-size: 1.4rem;
+              }
+            }
+          }
+
+          @include media-tablet {
+            width: 8rem;
+          }
+        }
+      }
+    }
+  }
+
+  &__team_members {
+    &__card {
+      max-width: 350px;
+      transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        box-shadow:
+          0 3px 3px -2px rgba(0, 0, 0, 0.2),
+          0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+          0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      }
+
+      .btn__card_image {
+        border: none;
+        background: transparent;
+      }
+    }
+
+    &__card_image {
+      max-width: 25vh;
+      max-height: 25vh;
+    }
+
+    &__contacts {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      a {
+        width: 24px;
+        height: 24px;
+        background: round;
+      }
+
+      .ic_gh {
+        background-image: url('../../assets/images/technology/Github-Dark.svg');
+      }
+
+      .ic_in {
+        background-image: url('../../assets/images/social-media/LinkedIn.svg');
+      }
+
+      .ic_gm {
+        background-image: url('../../assets/images/social-media/Gmail.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      .ic_cv {
+        background-image: url('https://ievgeniiaabdulina.github.io/rsschool-cv/img/programming_icon-color.svg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      .ic_pf {
+        border-radius: 8px;
+        border: 1px solid #74777f;
+        background-image: url('https://avatars.githubusercontent.com/u/54798162?v=4');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+
+    .btn__read_more {
+      border: 1px solid #74777f;
+    }
+  }
+
+  &__development_life_cycle {
+    p {
+      width: 80%;
+      text-align: center;
+      padding: 2rem 0;
+      line-height: 3rem;
+
+      @include media-laptop-tablet {
+        width: 100%;
+      }
+    }
+
+    &__card {
+      max-width: 250px;
+      display: flex;
+      text-align: center;
+      background-color: #ffffff;
+
+      &_header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      &_image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        position: relative;
+        background: round;
+        filter: brightness(0) saturate(100%) invert(15%) sepia(53%) saturate(5685%) hue-rotate(230deg) brightness(75%) contrast(108%);
+
+        &.ic_layout {
+          background-image: url('../../assets/images/dev-proccess/layout.png');
+        }
+
+        &.ic_coding {
+          background-image: url('../../assets/images/dev-proccess/coding.png');
+        }
+
+        &.ic_bug {
+          background-image: url('../../assets/images/dev-proccess/bug.png');
+        }
+      }
+    }
+  }
+
+  &__conclusion {
+    p {
+      text-align: center;
+    }
+
+    &_list {
+      width: 80%;
+
+      li::marker {
+        color: $color-additional;
+      }
+
+      b {
+        color: $color-additional;
+      }
+    }
+  }
+}
+
+.scrollable {
+  width: fit-content;
+  display: flex;
+  gap: 1rem;
+  overflow-x: hidden;
+}
+
+.ic_name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  background: round;
+
+  &__Angular {
+    background-image: url('../../assets/images/technology/Angular-Dark.svg');
+  }
+
+  &__TypeScript {
+    background-image: url('../../assets/images/technology/TypeScript.svg');
+  }
+
+  &__Sass {
+    background-image: url('../../assets/images/technology/Sass.svg');
+  }
+
+  &__Jest {
+    background-image: url('../../assets/images/technology/Jest.svg');
+  }
+
+  &__Postman {
+    background-image: url('../../assets/images/technology/Postman.svg');
+  }
+
+  &__Npm {
+    background-image: url('../../assets/images/technology/Npm-Dark.svg');
+  }
+
+  &__Webpack {
+    background-image: url('../../assets/images/technology/Webpack-Dark.svg');
+  }
+
+  &__Git {
+    background-image: url('../../assets/images/technology/Git.svg');
+  }
+
+  &__GitHub {
+    background-image: url('../../assets/images/technology/Github-Dark.svg');
+  }
+
+  &__VSCode {
+    background-image: url('../../assets/images/technology/VSCode-Dark.svg');
+  }
+
+  &__WebStorm {
+    background-image: url('../../assets/images/technology/WebStorm-Dark.svg');
+  }
+
+  &__Commercetools {
+    border-radius: 1.2rem;
+    border: 1px solid #000000;
+    background-image: url('../../assets/images/technology/Commercetools.png');
+  }
+
+  &__Diagrams {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/technology/Diagrams.svg');
+  }
+
+  &__Discord {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/social-media/Discord.svg');
+  }
+
+  &__Telegram {
+    border-radius: 1.2rem;
+    background-image: url('../../assets/images/social-media/Telegram.jpeg');
+  }
+}
+
+/* mat-card custom style */
+.mat-mdc-card-content {
+  margin: 1rem 0;
+}
+
+.mat-mdc-card-header {
+  align-items: center;
+  justify-content: center;
+
+  & > img {
+    border-radius: 6px;
+  }
+}
+
+.mat-mdc-card-title {
+  margin: 2rem 0 1rem;
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: $color-additional;
+
+  &.about__section__development_life_cycle__card_header__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.mat-mdc-card-subtitle {
+  font-size: 1.4rem;
+  color: #545978;
+}
+
+.mat-mdc-card-actions {
+  justify-content: flex-end;
+
+  .mat-icon {
+    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+    order: 1;
+    margin-right: -4px;
+    margin-left: 8px;
+  }
+
+  button {
+    font-size: 1.4rem;
+  }
+}
+
+.image-attribution {
+  text-align: center;
+  font-size: 1rem;
+  margin: 1rem 0;
+  color: #999999;
+
+  a {
+    margin: 0 0.5rem;
+    color: #999999;
+  }
+}

@@ -1,0 +1,4 @@
+<button type="button" (click)="handleAddToCart($event)" [disabled]="isDisabled()">
+  <mat-spinner *ngIf="isLoading()" class="loading-spinner" strokeWidth="4" [diameter]="20"></mat-spinner>
+  <span class="material-symbols-outlined">shopping_cart</span>Add{{ isDisabled() ? 'ed' : '' }} to cart
+</button>

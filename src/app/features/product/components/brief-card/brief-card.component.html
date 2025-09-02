@@ -1,0 +1,9 @@
+<div class="card__img">
+  <img src="{{ imgUrl }}" alt="product card image" />
+</div>
+<div class="card__info">
+  <div class="card__title" [innerHTML]="title | highlightSearchTerm: searchTerm"></div>
+  <div class="card__description" [innerHTML]="description | highlightSearchTerm: searchTerm"></div>
+</div>
+<app-product-price [product]="product"></app-product-price>
+<app-add-to-cart-button [productId]="product.id" [productTitle]="title" />

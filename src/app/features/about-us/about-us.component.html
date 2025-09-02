@@ -1,0 +1,162 @@
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="about__container about__section__hero">
+      <div class="hero__content__wrapper">
+        <div class="about__section__hero_header">
+          <h1>About <span>CUDO-SHOP</span> team</h1>
+          <p>
+            We are a passionate team of developers who built an Angular-based e-commerce application powered by the Commercetools API. Our
+            mission is to create seamless, scalable, and user-friendly digital shopping experiences.
+          </p>
+        </div>
+        <div class="about__section__hero_image"></div>
+      </div>
+    </section>
+
+    <section class="about__container about__section__school_link">
+      <div class="about__section__content">
+        <a href="https://rs.school/">
+          <div class="rs-information">
+            <div class="logo-rs"></div>
+            <div class="logo-rs__message">
+              <h2>This project was created as part of the RS School learning course</h2>
+              <p>Learn more about RS School</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="about__container about__section__team_members">
+      <h2 class="about__section__header">Meet the team</h2>
+      <div class="about__section__content">
+        @for (member of teamMembers; track member.name) {
+          <mat-card class="about__section__team_members__card" appearance="outlined">
+            <mat-card-header>
+              <button class="btn__card_image" (click)="openDialog(member)">
+                <img
+                  mat-card-image
+                  ngSrc="{{ member.image }}"
+                  width="300"
+                  height="300"
+                  class="about__section__team_members__card_image"
+                  alt="member image"
+                  priority
+                />
+              </button>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="about__section__team_members__contacts">
+                @if (member.contactGitHub) {
+                  <a href="{{ member.contactGitHub }}" target="_blank" class="ic_gh" matTooltip="GitHub">
+                    <div></div>
+                  </a>
+                }
+                @if (member.contactLinkedIn) {
+                  <a href="{{ member.contactLinkedIn }}" target="_blank" class="ic_in" matTooltip="LinkedIn">
+                    <div></div>
+                  </a>
+                }
+                @if (member.contactEmail) {
+                  <a href="mailto:{{ member.contactEmail }}" target="_blank" class="ic_gm" matTooltip="Gmail">
+                    <div></div>
+                  </a>
+                }
+                @if (member.resume) {
+                  <a href="{{ member.resume }}" target="_blank" class="ic_cv" matTooltip="Resume">
+                    <div></div>
+                  </a>
+                }
+                @if (member.portfolio) {
+                  <a href="{{ member.portfolio }}" target="_blank" class="ic_pf" matTooltip="Portfolio">
+                    <div></div>
+                  </a>
+                }
+              </div>
+              <mat-card-title>{{ member.name }}</mat-card-title>
+              <mat-card-subtitle>{{ member.role }}</mat-card-subtitle>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button="outlined" class="btn__read_more" (click)="openDialog(member)">
+                Read more
+                <mat-icon>arrow_right_alt</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+    </section>
+
+    <section class="about__container about__section__technology">
+      <h2 class="about__section__header">Technology what we use</h2>
+      <div class="about__section__content technology scrollable">
+        @for (item of technology; track item.name) {
+          <div class="ic_name ic_name__{{ item.name }}"></div>
+        }
+      </div>
+    </section>
+
+    <section class="about__container about__section__development_life_cycle">
+      <div class="col_wrap">
+        <h2 class="about__section__header">Utilizing an agile software development approach</h2>
+        <p>
+          Our Software Development Life Cycle follows an Agile methodology, ensuring flexibility, rapid iterations, and continuous feedback.
+          Here’s how we structure our workflow:
+        </p>
+      </div>
+      <div class="about__section__content">
+        @for (item of developmentLifeCycle; track item) {
+          <mat-card class="about__section__development_life_cycle__card" appearance="outlined">
+            <mat-card-header class="about__section__development_life_cycle__card_header">
+              <mat-card-title class="about__section__development_life_cycle__card_header__title">
+                <div class="about__section__development_life_cycle__card_image ic_{{ item.img }}"></div>
+                {{ item.title }}
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card-subtitle>{{ item.td1 }}</mat-card-subtitle>
+              <mat-card-subtitle>{{ item.td2 }}</mat-card-subtitle>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </section>
+
+    <section class="about__container about__section__collaboration">
+      <h2 class="about__section__header">Collaboration and Communication</h2>
+      <div class="about__section__content collaboration scrollable">
+        @for (item of collaboration; track item.name) {
+          <div class="ic_name ic_name__{{ item.name }}"></div>
+        }
+      </div>
+    </section>
+
+    <section class="about__container about__section__conclusion">
+      <h2 class="about__section__header">Why Our Process Works</h2>
+      <div class="about__section__content">
+        <div class="about__section__content about__section__conclusion_list">
+          <ul>
+            <li><b>Agile & Adaptive</b> – We pivot based on feedback.</li>
+            <br />
+            <li><b>Transparent & Collaborative</b> – Everyone has a voice.</li>
+          </ul>
+          <ul>
+            <li><b>Quality-Focused</b> – Reviews & testing ensure robustness.</li>
+            <br />
+            <li><b>Continuous Improvement</b> – Retrospectives refine our workflow.</li>
+          </ul>
+        </div>
+        <p>
+          By following these principles, we build scalable, maintainable, and user-friendly e-commerce solutions with efficiency and pride.
+        </p>
+      </div>
+    </section>
+  </div>
+  <p class="image-attribution">
+    <a href="https://storyset.com/online">Online illustrations by Storyset</a>
+    <a href="https://www.flaticon.com/free-icons/mockup" title="mockup icons">Mockup icons</a>
+    <a href="https://www.flaticon.com/free-icons/software-development" title="software development icons">Software development icons</a>
+    <a href="https://www.flaticon.com/free-icons/fix" title="fix icons">Fix icons</a>
+    created by Freepik - Flaticon
+  </p>
+</div>

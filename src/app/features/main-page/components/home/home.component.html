@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <div class="content">
+    <article class="content__hero">
+      <app-button (buttonClicked)="selectCatalog('books')" class="category__button">
+        <div class="category">
+          <div class="category__image category__image-books"></div>
+          <p class="category__name">books</p>
+        </div>
+        <app-promotion-teaser [customClass]="'promo__secondary promo__exclusion'">
+          SALE: up to -30% off on selected products.
+        </app-promotion-teaser>
+      </app-button>
+      <app-button (buttonClicked)="selectCatalog('cosmetics')" class="category__button">
+        <div class="category">
+          <p class="category__name">Cosmetics</p>
+          <div class="category__image category__image-category"></div>
+        </div>
+        <app-promotion-teaser [customClass]="'promo__primary promo__exclusion'">
+          -10% Off on products brand: "Sadoer".
+        </app-promotion-teaser>
+      </app-button>
+    </article>
+    <article class="content__categories">
+      <div class="content__categories-name">
+        <h2>Books</h2>
+      </div>
+      <div class="content__book-wrapper">
+        @for (book of books; track $index) {
+          @if (book.key) {
+            <div [routerLink]="['/books', book.key]" class="product-list__item-link">
+              <app-brief-card [product]="book"></app-brief-card>
+            </div>
+          }
+        }
+      </div>
+      <!--<section>
+      <app-product-list></app-product-list>
+      </section>-->
+    </article>
+    <article class="content__categories">
+      <div class="content__categories-name">
+        <h2>Cosmetics</h2>
+      </div>
+      <div class="content__book-wrapper">
+        @for (cosmetic of cosmetics; track $index) {
+          @if (cosmetic.key) {
+            <div [routerLink]="['/cosmetics', cosmetic.key]" class="product-list__item-link">
+              <app-brief-card [product]="cosmetic"></app-brief-card>
+            </div>
+          }
+        }
+      </div>
+    </article>
+  </div>
+</div>

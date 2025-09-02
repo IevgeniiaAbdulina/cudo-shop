@@ -1,0 +1,134 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { ButtonComponent } from '../../../shared/ui/button/button.component';
+import { NavigateToSpecificRouteService } from '../../../shared/services/navigate-to-specific-route/navigate-to-specific-route.service';
+import { CartListItemComponent } from '../components/cart-list-item/cart-list-item.component';
+import { RouterLink } from '@angular/router';
+import { CartService } from '../services/cart.service';
+import { CartResponse } from '../interfaces/cart-response';
+import { CurrencyPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+@Component({
+  selector: 'app-cart-page',
+  imports: [ButtonComponent, CartListItemComponent, RouterLink, CurrencyPipe, FormsModule],
+  templateUrl: './cart-page.component.html',
+  styleUrl: './cart-page.component.scss',
+})
+export class CartPageComponent implements OnInit {
+  public navigateToSpecificRouteService = inject(NavigateToSpecificRouteService);
+  public cartService = inject(CartService);
+  public showCode: boolean = false;
+  public showCodeMassage: boolean = false;
+  public isCodeSuccess: boolean = false;
+  public couponCode: string = '';
+
+  private _snackBar = inject(MatSnackBar);
+
+  public ngOnInit(): void {
+    this.cartService.handleCart();
+  }
+
+  public openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      horizontalPosition: 'right',
+      verticalPosition: 'bottom',
+    });
+  }
+
+  private getSelectedCartItem(productId: string | undefined) {
+    return this.cartService.cart()?.lineItems?.find((item) => item.productId === productId);
+  }
+
+  public increment($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity: number | undefined = (selectedItem?.quantity ?? 0) + 1;
+
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.cartService.updateCartModel(response);
+      });
+  }
+
+  public decrement($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity: number | undefined = (selectedItem?.quantity ?? 0) - 1;
+
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.cartService.updateCartModel(response);
+      });
+  }
+
+  public delete($event: string | undefined): void {
+    const selectedItem = this.getSelectedCartItem($event);
+    const quantity = 0;
+
+    this.cartService
+      .changeLineItemQuantity(this.cartService.cart()?.id, this.cartService.cart()?.version, selectedItem?.id, quantity)
+      .subscribe((response) => {
+        this.openSnackBar('Item has been deleted successfully.', 'Close');
+        this.cartService.updateCartModel(response);
+      });
+  }
+
+  public buttonGoToCatalog(): void {
+    this.navigateToSpecificRouteService.setRoute('main');
+  }
+
+  public proceedCheckout(): void {
+    console.log('Checkout');
+  }
+
+  public showCouponCodeInput(): void {
+    this.showCode = !this.showCode;
+  }
+
+  public handleCouponCodeErrorMessage(): string {
+    if (this.isCodeSuccess) {
+      return 'Coupon code applied successfully.';
+    } else {
+      return "Hm, that code doesn't seem to work.";
+    }
+  }
+
+  public applyCode(): void {
+    this.showCodeMassage = true;
+    this.isCodeSuccess = true;
+    this.handleCouponCodeErrorMessage();
+
+    this.cartService.addDiscountCode(this.cartService.cart()?.id, this.cartService.cart()?.version, this.couponCode).subscribe({
+      next: (response: CartResponse) => {
+        this.isCodeSuccess = true;
+        this.handleCouponCodeErrorMessage();
+        this.cartService.updateCartModel(response);
+      },
+      error: (error) => {
+        console.error('[cart apply code error]', error);
+        this.isCodeSuccess = false;
+        this.handleCouponCodeErrorMessage();
+      },
+    });
+  }
+
+  public clearShoppingCart(cartId: string | undefined, cartVersion: number | undefined): void {
+    const confirmation = confirm('Are you sure you want to empty this cart?');
+
+    if (cartId) {
+      if (confirmation) {
+        this.cartService.deleteCartById(cartId, cartVersion).subscribe({
+          next: () => {
+            this.cartService.updateCartModel(null);
+            this.openSnackBar('The basket has been cleaned successfully.', 'Close');
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      }
+    }
+  }
+}

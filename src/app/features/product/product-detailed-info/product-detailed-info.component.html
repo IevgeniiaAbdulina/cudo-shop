@@ -1,0 +1,51 @@
+<div class="wrapper">
+  @for (product of products; track product.id) {
+    <div class="product__wrapper">
+      <div class="product-image">
+        <app-button (buttonClicked)="onClickLeft()" class="image__button">
+          <div class="arrow arrow__left"></div>
+        </app-button>
+        <div *ngIf="getCurrentImage() as currentImage">
+          <img
+            [src]="currentImage.url"
+            [alt]="currentImage.label"
+            (click)="openImageInModal()"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="openImageInModal()"
+            (keydown.space)="openImageInModal()"
+          />
+          <app-modal
+            [isModalOpen]="isModalOpen"
+            [images]="productImages"
+            [src]="currentImage.url"
+            [alt]="currentImage.label"
+            [currentIndex]="currentImageIndex"
+            (closeModalWindow)="onCloseModal($event)"
+          ></app-modal>
+        </div>
+        <app-button (buttonClicked)="onClickRight()" class="image__button">
+          <div class="arrow arrow__right"></div>
+        </app-button>
+      </div>
+      <div class="product-information">
+        <h2 class="product-title">{{ getProductName(product) }}</h2>
+        <div class="product-price__container">
+          <p class="product-currency">{{ getProductCurrency(product) }}</p>
+          <p [ngClass]="{ 'product-old-price': hasDiscount(product), 'product-price': !hasDiscount(product) }">
+            {{ getProductPrice(product) }}
+          </p>
+          <ng-container *ngIf="hasDiscount(product)">
+            <p class="product-discount">{{ getProductDiscount(product) }}</p>
+            <p class="product-discount-value">{{ getDiscountValue(product) }}% off</p>
+          </ng-container>
+        </div>
+        <div class="buttons-container">
+          <app-add-to-cart-button [productId]="product.id" [productTitle]="getProductName(product)" />
+          <app-remove-from-cart-button [productId]="product.id" [productTitle]="getProductName(product)" />
+        </div>
+        <p class="product-description">{{ getProductDescription(product) }}</p>
+      </div>
+    </div>
+  }
+</div>

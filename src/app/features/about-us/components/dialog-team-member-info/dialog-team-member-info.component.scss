@@ -1,0 +1,83 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
+
+.mat-mdc-dialog-container {
+  font-size: 16px;
+  line-height: 1.4em;
+}
+
+.mat-mdc-dialog-title {
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 500;
+}
+
+.mat-mdc-dialog-actions {
+  border-top: 1px solid rgba(153, 153, 153, 0.25);
+
+  button {
+    font-size: 1.4rem;
+  }
+}
+
+h3 {
+  padding: 2em 0 1em;
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.6em;
+  line-height: 1.4em;
+}
+
+ol,
+ul {
+  padding: 0 2em;
+
+  li {
+    line-height: 1.4em;
+    margin: 1em 0;
+
+    span {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.mat-divider {
+  margin: 3em 0;
+}
+
+.sub-header {
+  margin-bottom: 1em;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: flex-end;
+
+  .mat-icon {
+    font-size: 2rem;
+    height: 2rem;
+    width: 2rem;
+    order: 1;
+    margin-right: -4px;
+    margin-left: 8px;
+  }
+
+  button {
+    font-size: 1.4rem;
+  }
+}
+
+.containing_list {
+  list-style: none;
+}
+
+.nested_list {
+  list-style: disc;
+
+  & li::marker {
+    font-size: 2em;
+  }
+}

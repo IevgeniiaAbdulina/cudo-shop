@@ -1,0 +1,268 @@
+@use '../../../../style/abstract/constant' as *;
+@use '../../../../style/abstract/placeholders' as *;
+@use '../../../../style/abstract/mixins' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 290px);
+
+  @include media-laptop-tablet {
+    column-gap: 1.5rem;
+    min-height: calc(100vh - 305px);
+  }
+
+  @include media-mobile-big {
+    flex-direction: column;
+    min-height: calc(100vh - 543px);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  row-gap: 1.5rem;
+  font-size: 1.6rem;
+
+  & * {
+    max-width: 35rem;
+  }
+
+  @include media-tablet {
+    max-width: 50rem;
+  }
+
+  @include media-mobile {
+    max-width: 35rem;
+  }
+}
+
+h2 {
+  text-align: center;
+  color: $color-primary;
+
+  @include media-tablet {
+    font-size: 1.8rem;
+  }
+}
+
+input:not(input[type='checkbox']) {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  box-shadow: 0px 2px $color-additional;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.ng-invalid.ng-touched,
+  &.ng-invalid.ng-touched {
+    outline: 1px solid $color-error;
+  }
+}
+
+.addresses {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+
+  @media screen and (max-width: $tablet-width) {
+    flex-direction: column;
+  }
+}
+
+div[formGroupName='billingAddress'],
+div[formGroupName='shippingAddress'] {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  min-width: 26rem;
+}
+
+h3 {
+  margin-top: 1.6rem;
+  text-align: center;
+}
+
+div[formGroupName='billingAddress'] > h3 {
+  margin-bottom: 1.6rem;
+}
+
+div[formGroupName='shippingAddress'] > h3 {
+  margin-bottom: calc(7.5rem + 2 * 2px);
+
+  @media screen and (max-width: $tablet-width) {
+    margin-bottom: 1.6rem;
+  }
+}
+
+.field.field_checkbox {
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border: 2px solid transparent;
+
+  &_highlighted {
+    border-radius: 1rem;
+    border: 2px solid $color-primary;
+    background-color: $color-input-search;
+  }
+
+  label {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  /* Position the tooltip */
+  position: absolute;
+  bottom: 0.5rem;
+  left: 3rem;
+  z-index: 1;
+
+  padding: 5px 0;
+  width: 80%;
+  text-align: center;
+  font-size: 1rem;
+  color: #fff;
+  background-color: black;
+  border-radius: 6px;
+
+  transition: bottom 0.5s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  bottom: 3rem;
+}
+
+.field {
+  padding: 5px 0;
+
+  &_checkbox input {
+    margin-right: 0.5rem;
+  }
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.error__container {
+  height: max-content;
+  padding: 0 10px;
+}
+
+.toggler {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.error-line {
+  font-size: 1rem;
+  color: $color-error;
+}
+
+.error__message {
+  color: $color-error;
+  background-color: $color-background-error;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: center;
+}
+
+.error__input input {
+  border-left: 5px solid $color-error;
+}
+
+.select__wrapper {
+  position: relative;
+  width: 100%;
+  border: 2px solid $color-additional;
+}
+
+.select__wrapper select {
+  width: 100%;
+  height: 28px;
+  padding: 0 10px;
+  background: transparent;
+  border: 0;
+  color: $color-overlay;
+
+  &:checked {
+    border: none;
+  }
+}
+
+select option:active {
+  background-color: $color-additional;
+}
+
+.login-redirection {
+  margin: 2rem 0 3rem 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid $color-primary;
+  background-color: $color-input-search;
+}
+
+.login-redirection a {
+  color: $color-additional;
+  text-decoration: none;
+  @extend %transition;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.form__button {
+  align-self: center;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  @extend %transition;
+
+  &_visible {
+    color: $color-input-search;
+    background: $color-additional;
+
+    &:hover {
+      background: $color-button-hover;
+      box-shadow: 0 1px 3px $color-input-search;
+    }
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+    color: $color-input-search;
+    background-color: $color-button-disable;
+  }
+}

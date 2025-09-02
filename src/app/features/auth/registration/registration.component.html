@@ -1,0 +1,222 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div class="wrapper">
+  <div class="content-wrapper">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+      <h2>Hello! Register to get started</h2>
+      <div *ngIf="registrationError">
+        <p class="error__message">{{ registrationError }}</p>
+      </div>
+      <div class="field">
+        <label for="email"></label>
+        <div class="input-container" [class]="registrationError ? 'error__input' : ''">
+          <input id="email" formControlName="email" placeholder="Email *" />
+          <div class="error__container">
+            <div *ngIf="isFieldInvalid('email')">
+              <span class="error-line">
+                {{ `${ getFieldError('email') === 'pattern' ? `${ errMsg.EMAIL}` : `email ${ errMsg.REQUIRED}`}` }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="password"></label>
+        <div class="input-container">
+          <input id="password" [type]="passwordFieldType" formControlName="password" placeholder="Password *" />
+          <button type="button" class="toggler" (click)="togglePasswordVisibility()">{{ isPasswordVisible ? '🙈' : '👁️‍🗨️' }}</button>
+          <div class="error__container">
+            <div *ngIf="isFieldInvalid('password')">
+              <span class="error-line">
+                {{ `password ${ getFieldError('password') === 'pattern' ? `${ errMsg.PASSWORD}` : `${ errMsg.REQUIRED}`}` }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="firstName"></label>
+        <div class="input-container">
+          <input id="firstName" formControlName="firstName" placeholder="First Name *" />
+          <div class="error__container">
+            <div *ngIf="isFieldInvalid('firstName')">
+              <span class="error-line">
+                {{ `first name ${ getFieldError('firstName') === 'pattern' ? `${ errMsg.NAME}` : `${ errMsg.REQUIRED}`}` }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="lastName"></label>
+        <div class="input-container">
+          <input id="lastName" formControlName="lastName" placeholder="Last Name *" />
+          <div class="error__container">
+            <div *ngIf="isFieldInvalid('lastName')">
+              <span class="error-line">
+                {{ `last name ${ getFieldError('lastName') === 'pattern' ? `${ errMsg.NAME}` : `${ errMsg.REQUIRED}`}` }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="dob"></label>
+        <div class="input-container input-container_bod">
+          <input id="dob" type="date" formControlName="dob" placeholder="mm/dd/yyyy" />
+          <div class="error__container">
+            <div *ngIf="isFieldInvalid('dob')">
+              <span class="error-line">
+                {{ `${ getFieldError('dob') === 'dob' ? registrationForm.get('dob')?.errors?.['dob'].message : `date of birth ${ errMsg.REQUIRED}`}` }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="addresses">
+        <div formGroupName="billingAddress">
+          <h3>Billing Address</h3>
+
+          <div class="field field_checkbox tooltip" [ngClass]="{ field_checkbox_highlighted: isBillingAddressValid() }">
+            <span class="tooltiptext">Check it if your billing and shipping addresses are the same</span>
+            <input type="checkbox" id="shippingAddressCheckbox" formControlName="useAsShippingAddress" (change)="copyBillingToShipping()" />
+            <label class="label_checkbox" for="shippingAddressCheckbox">Use the same as Shipping Address</label>
+          </div>
+
+          <div class="field">
+            <label for="billing-street"></label>
+            <div class="input-container">
+              <input id="billing-street" formControlName="street" placeholder="Street *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('billingAddress.street')">
+                  <span class="error-line">{{ `street ${ errMsg.REQUIRED}` }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="billing-city"></label>
+            <div class="input-container">
+              <input id="billing-city" formControlName="city" placeholder="City *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('billingAddress.city')">
+                  <span class="error-line">
+                    {{ `city ${ getFieldError('billingAddress.city') === 'pattern' ? `${ errMsg.NAME}` : `${ errMsg.REQUIRED}`}` }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="billing-postalCode"></label>
+            <div class="input-container">
+              <input id="billing-postalCode" formControlName="postalCode" placeholder="Postal Code *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('billingAddress.postalCode')">
+                  <span class="error-line">
+                    {{ `${ getFieldError('billingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage('billingAddress.postalCode') : `postal code ${ errMsg.REQUIRED}`}` }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="billing-country"></label>
+            <div class="input-container">
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('billingAddress.country')">
+                  <span class="error-line">{{ `country ${ errMsg.REQUIRED}` }}</span>
+                </div>
+              </div>
+              <div class="select__wrapper">
+                <select id="billing-country" formControlName="country">
+                  <option value="" disabled>Select a country *</option>
+                  <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div formGroupName="shippingAddress">
+          <h3>Shipping Address</h3>
+          <div class="field">
+            <label for="shipping-street"></label>
+            <div class="input-container">
+              <input id="shipping-street" formControlName="street" placeholder="Street *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('shippingAddress.street')">
+                  <span class="error-line">{{ `street ${ errMsg.REQUIRED}` }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="shipping-city"></label>
+            <div class="input-container">
+              <input id="shipping-city" formControlName="city" placeholder="City *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('shippingAddress.city')">
+                  <span class="error-line">
+                    {{ `city ${ getFieldError('shippingAddress.city') === 'pattern' ? `${ errMsg.NAME}` : `${ errMsg.REQUIRED}`}` }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="shipping-postalCode"></label>
+            <div class="input-container">
+              <input id="shipping-postalCode" formControlName="postalCode" placeholder="Postal Code *" />
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('shippingAddress.postalCode')">
+                  <span class="error-line">
+                    {{ `${ getFieldError('shippingAddress.postalCode') === 'message' ? getPostalCodeErrorMessage('shippingAddress.postalCode') : `postal code ${ errMsg.REQUIRED}`}` }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="shipping-country"></label>
+            <div class="input-container">
+              <div class="error__container">
+                <div *ngIf="isFieldInvalid('shippingAddress.country')">
+                  <span class="error-line">{{ `country ${ errMsg.REQUIRED}` }}</span>
+                </div>
+              </div>
+              <div class="select__wrapper">
+                <select id="shipping-country" formControlName="country">
+                  <option value="" disabled>Select a country *</option>
+                  <option *ngFor="let country of validCountries" [value]="country">{{ country }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-button
+        label="Register"
+        [disabled]="registrationForm.invalid"
+        class="form__button"
+        [ngClass]="{
+          form__button_disabled: registrationForm.invalid,
+          form__button_visible: !registrationForm.invalid,
+        }"
+      />
+    </form>
+
+    <span class="login-redirection">Already have an account? <a routerLink="/login">Login</a></span>
+  </div>
+</div>

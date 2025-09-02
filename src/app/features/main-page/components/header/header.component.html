@@ -1,0 +1,75 @@
+<header class="header">
+  <div class="wrapper">
+    <app-button label="Cudo-shop" (buttonClicked)="buttonClickedGoToHome.emit()" class="header__name" />
+    <div class="header__nav__wrapper">
+      <div class="header__nav__item__categories">
+        <app-button
+          label="Books"
+          (buttonClicked)="buttonClickedBooks.emit()"
+          class="header__navigation__button header__button"
+          routerLink="books"
+          routerLinkActive="active"
+        />
+        <app-button
+          label="Cosmetics"
+          (buttonClicked)="buttonClickedCosmetics.emit()"
+          class="header__navigation__button header__button"
+          routerLink="cosmetics"
+          routerLinkActive="active"
+        />
+      </div>
+
+      <app-product-search class="header__nav__item__search" />
+
+      <div class="header__buttons header__nav__item__navigation">
+        <app-button
+          label="About Us"
+          (buttonClicked)="buttonClickedAboutUs.emit()"
+          class="header__button"
+          routerLink="about-us"
+          routerLinkActive="active"
+        />
+
+        <div class="btn__cart__container">
+          <app-button
+            label=""
+            (buttonClicked)="buttonClickedCart.emit()"
+            class="header__button btn__cart"
+            routerLink="cart"
+            routerLinkActive="active"
+            ><span class="btn__cart__icon"></span
+          ></app-button>
+          @if (cartService.cartItemsCount()) {
+            <app-badge [label]="cartService.cartItemsCount().toString()" [isActive]="true"></app-badge>
+          }
+        </div>
+
+        @if ((isLogin$ | async) === false) {
+          <app-button
+            label="Register"
+            (buttonClicked)="buttonClickedRegister.emit()"
+            class="header__button"
+            routerLink="registration"
+            routerLinkActive="active"
+          />
+          <app-button
+            label="Log in"
+            (buttonClicked)="buttonClickedLogIn.emit()"
+            class="header__button"
+            routerLink="login"
+            routerLinkActive="active"
+          />
+        } @else {
+          <app-button
+            label="Profile"
+            (buttonClicked)="buttonClickedProfile.emit()"
+            class="header__button"
+            routerLink="profile"
+            routerLinkActive="active"
+          />
+          <app-button label="Logout" (buttonClicked)="buttonClickedLogOut.emit()" class="header__button btn__logout" />
+        }
+      </div>
+    </div>
+  </div>
+</header>

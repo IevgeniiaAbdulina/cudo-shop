@@ -1,0 +1,50 @@
+@use '../../../../../style/abstract/constant' as *;
+@use '../../../../../style/abstract/placeholders' as *;
+@use '../../../../../style/abstract/mixins' as *;
+
+button {
+  @extend %transition;
+  padding: 1rem;
+  width: 100%;
+  font-size: inherit;
+  font-weight: bold;
+  color: $color-input-search;
+  border-radius: 1rem;
+  border: 2px solid transparent;
+  background-color: $color-additional;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background-color: $color-button-hover;
+  }
+
+  &:disabled {
+    background-color: $color-button-disable;
+    cursor: not-allowed;
+  }
+}
+
+.filter-button {
+  margin-top: 3rem;
+  width: unset;
+
+  @include media-mobile-big {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+.add-to-cart {
+  background-image: url('../../../../../app/assets/icons/shopping_cart_24dp_white.svg');
+  background-position-x: 1rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  &:hover:not(:disabled) {
+    background-position-x: 89%;
+  }
+
+  &:disabled {
+    background-image: unset;
+  }
+}
